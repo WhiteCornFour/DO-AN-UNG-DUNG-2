@@ -2,24 +2,52 @@ name: Android CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    permissions: # Thiết lập quyền truy cập (read) cho job trong GitHub Actions workflow
+      contents: read
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v4 # Lấy mã nguồn từ repository.
 
-    - name: Set up JDK
+    # Thiết lập môi trường JDK 11 để có thể build dự án Android. Vì phiên bản gradle là 7.4.1 nên sử dụng JDK 11 hoặc 17 thay vì 22 (mới nhất)
+    - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
-        distribution: 'adopt'
         java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
 
+    # Thiết lập môi trường Android SDK cho quá trình build (Failed vãi l)
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+
+    # Cấp quyền thực thi cho file gradlew
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    # Thực hiện build dự án, bao gồm: Tải các phụ thuộc cần thiết, Compile mã nguồn, Chạy các test (nếu có), Tạo ra các file APK hoặc AAR (Android Archive) cần thiết.
     - name: Build with Gradle
       run: ./gradlew build
+
+    # Chạy các unit test, giúp phát hiện lỗi lập trình ngay khi chúng được thêm vào mã nguồn.
+    # Cần phải viết test cases riêng cho project khi sử dụng unit test
+    # - name: Run unit tests
+    #   run: ./gradlew test
+
+    # Kiểm tra phong cách code (cách xuống dòng, định dạng tên biến, tên hàm, ...). Kiểm tra các lỗi lập trình (lỗi biến, hàm không đc sử dụng, sử dụng các API không an toàn, ...)
+    - name: Run lint checks
+      run: ./gradlew lint
+
+    # Tải lên các báo cáo kết quả kiểm thử từ thư mục app/build/reports/tests. Các báo cáo sẽ được tải lên kho lưu trữ artifacts của GitHub Actions.
+    # - name: Upload test results
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: test-results
+    #     path: app/build/reports/tests
