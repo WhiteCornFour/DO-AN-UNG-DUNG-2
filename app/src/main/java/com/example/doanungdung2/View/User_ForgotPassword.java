@@ -67,6 +67,12 @@ public class User_ForgotPassword extends AppCompatActivity {
                 }
             }
         });
+        tvSignInForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
     @SuppressLint("MissingSuperCall")
     @Override
