@@ -3,14 +3,13 @@ package com.example.doanungdung2.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.doanungdung2.R;
 
-public class Act_ForgotPassword extends AppCompatActivity {
+public class User_ForgotPassword extends AppCompatActivity {
 
     EditText edtMailForgotPass;
     TextView tvSignInForgotPass;
@@ -19,7 +18,7 @@ public class Act_ForgotPassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_act_forgot_password);
+        setContentView(R.layout.activity_user_forgotpassword);
         addControl();
 
         addEvent();

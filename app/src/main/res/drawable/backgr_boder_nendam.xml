@@ -1,6 +1,6 @@
 <!-- res/drawable/border_rounded.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/background_phu" />
+    <solid android:color="@color/green" />
     <corners
         android:topLeftRadius="120dp"
         android:topRightRadius="120dp"
