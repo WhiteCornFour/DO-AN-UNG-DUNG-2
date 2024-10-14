@@ -22,6 +22,7 @@ public class UserHandler extends SQLiteOpenHelper {
     private static final String matKhau = "MatKhau";
     private static final String soDienThoai = "SoDienThoai";
     private static final String email = "Email";
+
     private static final String anhNguoiDung = "AnhNguoiDung";
     private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
 
@@ -71,6 +72,47 @@ public class UserHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
     }
+    //Hàm kiểm tra xem soo điện thoại người dùng nhập vào có tồn tại trong db hay ko
+    public boolean checkEnterPhoneNumberMatchPhoneDB(String enterPhoneNumber) {
+        SQLiteDatabase sqLiteDatabase = null;
+        Cursor cursor = null;
+        boolean isMatch = false;
+        try {
+            // Mở cơ sở dữ liệu
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
 
+            // Truy vấn để kiểm tra sự tồn tại của số điện thoại
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + soDienThoai + " = ?";
+            cursor = sqLiteDatabase.rawQuery(sql, new String[]{enterPhoneNumber});
+
+            // Nếu cursor trả về ít nhất một bản ghi, nghĩa là số điện thoại tồn tại trong DB
+            if (cursor != null && cursor.getCount() > 0) {
+                isMatch = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Đảm bảo đóng cursor và database sau khi sử dụng
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return isMatch;
+    }
+    //Hàm trả về mật khẩu khi người dùng nhập đúng OTP
+    public String returnPasswordForUser(String phoneNumber)
+    {
+        String passwordReturn = "";
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String sql = "SELECT " + matKhau + " FROM " + TABLE_NAME + " WHERE " + soDienThoai + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{phoneNumber});
+        if (cursor != null && cursor.moveToFirst()) {
+            passwordReturn = cursor.getString(0); // Lấy giá trị cột đầu tiên (mật khẩu)
+        }
+        return  passwordReturn;
+    }
 
 }
