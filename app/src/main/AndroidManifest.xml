@@ -17,13 +17,13 @@
             android:name=".View.User_Enter_OTP"
             android:exported="false" />
         <activity
-            android:name=".View.User_Register"
+            android:name=".View.User_ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".View.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".View.User_ForgotPassword"
+            android:name=".View.User_Register"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
