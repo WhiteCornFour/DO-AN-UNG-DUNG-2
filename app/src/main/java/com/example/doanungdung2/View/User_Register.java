@@ -2,10 +2,13 @@ package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +41,7 @@ public class User_Register extends AppCompatActivity {
 
     EditText edtRegisterNameUser, edtRegisterAccount, edtRegisterPassword, edtRegisterRewritePassword, edtRegisterPhone, edtRegisterEmail;
     Button btnRegisterUser;
-    TextView tvRegisterSignIn;
+    TextView tvSignInRegister;
 
     UserHandler userHandler;
 
@@ -62,18 +65,19 @@ public class User_Register extends AppCompatActivity {
         edtRegisterPhone = (EditText) findViewById(R.id.edtRegisterPhone);
         edtRegisterEmail = (EditText) findViewById(R.id.edtRegisterEmail);
         btnRegisterUser = (Button) findViewById(R.id.btnRegisterUser);
-        tvRegisterSignIn = (TextView) findViewById(R.id.tvSignInForgotPass);
+        tvSignInRegister = (TextView) findViewById(R.id.tvSignInRegister);
+
     }
 
     void addEvent() {
-//        tvRegisterSignIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent intent = new Intent(User_Register.this, User_SignIn.class);
-////                startActivity(intent);
-////                finish();
-//            }
-//        });
+        tvSignInRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(User_Register.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         btnRegisterUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,22 +91,58 @@ public class User_Register extends AppCompatActivity {
                 String emailUser = edtRegisterEmail.getText().toString();
                 Boolean variateResult = validateInputs(nameUser, accountUser, passUser, passConfirm, phoneUser, emailUser);
 
-                if (variateResult.equals(true)) {
-                    for (int i = 0; i < userArrayList.size(); i++) {
-                        if (userArrayList.get(i).getSoDienThoai().equals(phoneUser) || userArrayList.get(i).getEmail().equals(emailUser)) {
-                            Toast.makeText(User_Register.this, "This phone or email have been used !!! Please try another one.", Toast.LENGTH_SHORT).show();
+                if (variateResult) {
+                    // Kiểm tra số điện thoại hoặc email có tồn tại không trước khi thêm mới
+                    boolean isDuplicate = false;
+
+                    for (User user : userArrayList) {
+                        if (user.getSoDienThoai().equals(phoneUser)) {
+                            Toast.makeText(User_Register.this, "This phone number has already been used!", Toast.LENGTH_SHORT).show();
+                            isDuplicate = true;
                             break;
-                        } else {
-                            User user = new User(idUser, nameUser, accountUser, passUser, phoneUser, emailUser, null);
-                            userHandler.registerNewUserAccount(user);
-                            resetEditText();
-                            AlertDialog alertDialog = createAlertDialogRegister();
-                            alertDialog.show();
+                        }
+                        if (user.getEmail().equals(emailUser)) {
+                            Toast.makeText(User_Register.this, "This email has already been used!", Toast.LENGTH_SHORT).show();
+                            isDuplicate = true;
+                            break;
+                        }
                     }
+
+                    // Nếu không trùng lặp, thực hiện thêm người dùng
+                    if (!isDuplicate) {
+                        User user = new User(idUser, nameUser, accountUser, passUser, phoneUser, emailUser, null);
+                        userHandler.registerNewUserAccount(user);
+                        resetEditText();
+                        showSuccessRegisterDialog();
                     }
                 }
             }
         });
+    }
+
+    private void showSuccessRegisterDialog() {
+        ConstraintLayout successConstraintLayout = findViewById(R.id.successConstraintLayout);
+        View view = LayoutInflater.from(User_Register.this).inflate(R.layout.custom_register_success_dialog, successConstraintLayout);
+        Button successDone = view.findViewById(R.id.successDone);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(User_Register.this);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        successDone.findViewById(R.id.successDone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(User_Register.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(User_Register.this, "Success!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
     }
 
     void resetEditText() {
@@ -166,19 +206,5 @@ public class User_Register extends AppCompatActivity {
         return mkh;
     }
 
-    AlertDialog createAlertDialogRegister() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(User_Register.this);
-        builder.setTitle("Register account successfully !!!");
-        builder.setMessage("Please sign in your account !");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-//                Intent intent = new Intent(User_Register.this, User_Login.class);
-//                startActivity(intent);
-//                finish();
-            }
-        });
-        return builder.create();
-    }
 
 }
