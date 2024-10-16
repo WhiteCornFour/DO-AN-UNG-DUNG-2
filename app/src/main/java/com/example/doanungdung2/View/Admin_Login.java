@@ -75,12 +75,12 @@ public class Admin_Login extends AppCompatActivity {
         });
     }
     public boolean validateInputs(String account, String pass) {
-        if (account.trim().isEmpty() || account.trim().length() <= 8) {
-            Toast.makeText(this, "Account must have at least 8 letters", Toast.LENGTH_SHORT).show();
+        if (account.trim().isEmpty()) {
+            Toast.makeText(this, "You must input something in the account box!", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (pass.trim().isEmpty() || pass.trim().length() <= 8) {
-            Toast.makeText(this, "Password must have at least 8 letters", Toast.LENGTH_SHORT).show();
+        if (pass.trim().isEmpty()) {
+            Toast.makeText(this, "You must input something in the password box!", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
