@@ -2,6 +2,7 @@ package com.example.doanungdung2.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.doanungdung2.R;
 import com.google.android.material.navigation.NavigationView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -73,13 +75,23 @@ public class Admin_MainPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
-                    case R.id.logoutAD:
-                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
+                    case R.id.qLDangBaiTap:
+                        Admin_DangBaiTap_Fragment admin_dangBaiTap_fragment = new Admin_DangBaiTap_Fragment();
+                        replaceFragment(admin_dangBaiTap_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
-                        finish();
                         return true;
+
+                    case R.id.logoutAD:
+//                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        finish();
+                        createDialog();
+                        return true;
+
+                    default:
+                        return false;
                 }
-                return false;
+
             }
         });
     }
@@ -89,4 +101,32 @@ public class Admin_MainPage extends AppCompatActivity {
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
     }
+    void createDialog() {
+        // Tạo đối tượng AlertDialog.Builder để xây dựng hộp thoại
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Thiết lập tiêu đề cho hộp thoại
+        builder.setTitle("Xác nhận");
+        // Thiết lập thông báo cho hộp thoại
+        builder.setMessage("Bạn có chắc muốn đăng xuất tài khoản?");
+        //Thiết lập nút "OK" để đóng hộp thoại
+        builder.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); // Đóng hộp thoại khi người dùng nhấn "OK"
+                // Chuyển về trang login
+                startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
+                finish();
+            }
+        });
+        // Thiết lập nút "Hủy" để đóng hộp thoại mà không thực hiện hành động gì
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); // Đóng hộp thoại khi người dùng nhấn "Hủy"
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }
