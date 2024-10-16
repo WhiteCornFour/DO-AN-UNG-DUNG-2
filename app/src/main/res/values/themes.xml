@@ -15,7 +15,7 @@
     </style>
 
     <!-- Base application theme. -->
-    <style name="Theme.DoAnUngDung2.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.DoAnUngDung2.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/brown</item>
         <item name="colorPrimaryVariant">@color/brown</item>

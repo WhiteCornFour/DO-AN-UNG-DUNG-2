@@ -23,6 +23,10 @@
             android:name=".View.User_Login"
             android:exported="false" />
         <activity
+            android:name=".View.User_ForgotPassword"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"/>
+        <activity
             android:name=".View.MainActivity"
             android:exported="false" />
         <activity
@@ -34,7 +38,7 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.User_ForgotPassword"
+            android:name=".View.Admin_MainPage"
             android:exported="true"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar">
             <intent-filter>
