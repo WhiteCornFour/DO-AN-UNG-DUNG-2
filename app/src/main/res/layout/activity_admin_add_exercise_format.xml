@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dp"
-        android:background="@drawable/backgr_admin_blue"
+        android:background="@drawable/dark_blue"
         android:orientation="vertical">
 
     </LinearLayout>
