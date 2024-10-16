@@ -1,9 +1,11 @@
 package com.example.doanungdung2.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -40,8 +42,7 @@ public class UserHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<User> loadAllDataOfUser()
-    {
+    public ArrayList<User> loadAllDataOfUser() {
         ArrayList<User> userArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         Cursor cursor = sqLiteDatabase.rawQuery("Select * from " + TABLE_NAME, null);
@@ -62,16 +63,16 @@ public class UserHandler extends SQLiteOpenHelper {
         return userArrayList;
     }
 
-    public void registerNewUserAccount(User user)
-    {
+    public void registerNewUserAccount(User user) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
-                + maNguoiDung + ", " + tenNguoiDung + ", "+ taiKhoan +", "+ matKhau +", "+ soDienThoai +", "+ email + ") " +
+                + maNguoiDung + ", " + tenNguoiDung + ", " + taiKhoan + ", " + matKhau + ", " + soDienThoai + ", " + email + ") " +
                 "Values "
-                + "('" + user.getMaNguoiDung() + "','" + user.getTenNguoiDung() + "', '"+ user.getTaiKhoan() +"','"+ user.getMatKhau() +"', '"+ user.getSoDienThoai() +"', '"+ user.getEmail() + "')";
+                + "('" + user.getMaNguoiDung() + "','" + user.getTenNguoiDung() + "', '" + user.getTaiKhoan() + "','" + user.getMatKhau() + "', '" + user.getSoDienThoai() + "', '" + user.getEmail() + "')";
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
     }
+
     //Hàm kiểm tra xem soo điện thoại người dùng nhập vào có tồn tại trong db hay ko
     public boolean checkEnterPhoneNumberMatchPhoneDB(String enterPhoneNumber) {
         SQLiteDatabase sqLiteDatabase = null;
@@ -102,9 +103,9 @@ public class UserHandler extends SQLiteOpenHelper {
         }
         return isMatch;
     }
+
     //Hàm trả về mật khẩu khi người dùng nhập đúng OTP
-    public String returnPasswordForUser(String phoneNumber)
-    {
+    public String returnPasswordForUser(String phoneNumber) {
         String passwordReturn = "";
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "SELECT " + matKhau + " FROM " + TABLE_NAME + " WHERE " + soDienThoai + " = ?";
@@ -112,7 +113,38 @@ public class UserHandler extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             passwordReturn = cursor.getString(0); // Lấy giá trị cột đầu tiên (mật khẩu)
         }
-        return  passwordReturn;
+        return passwordReturn;
     }
 
+    public boolean validateLogin(String account, String password) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String sql = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[]{account, password});
+
+        boolean isValid = false;
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            isValid = (count > 0);
+        }
+        cursor.close();
+        db.close();
+
+        return isValid;
+    }
+    @SuppressLint("Range")
+    public String getIdUserr(String account, String pass) {
+        String result = "";
+
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+            String sql = "SELECT maNguoiDung FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+
+
+        if (cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(maNguoiDung));
+        }
+        cursor.close();
+        sqLiteDatabase.close();
+        return result;
+    }
 }

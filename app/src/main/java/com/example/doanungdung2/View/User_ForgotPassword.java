@@ -70,7 +70,8 @@ public class User_ForgotPassword extends AppCompatActivity {
         tvSignInForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(User_ForgotPassword.this, User_Login.class);
+                startActivity(intent);
             }
         });
     }
