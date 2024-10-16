@@ -6,7 +6,6 @@ public class Admin {
     private String taiKhoan;
     private String matKhau;
     private String email;
-    private byte[] anhAdmin;
 
     public String getMaAdmin() {
         return maAdmin;
@@ -48,21 +47,12 @@ public class Admin {
         this.email = email;
     }
 
-    public byte[] getAnhAdmin() {
-        return anhAdmin;
-    }
-
-    public void setAnhAdmin(byte[] anhAdmin) {
-        this.anhAdmin = anhAdmin;
-    }
-
-    public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email, byte[] anhAdmin) {
+    public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email) {
         this.maAdmin = maAdmin;
         this.tenAdmin = tenAdmin;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
         this.email = email;
-        this.anhAdmin = anhAdmin;
     }
 
     public Admin() {
