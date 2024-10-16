@@ -12,7 +12,7 @@
         android:orientation="vertical"
         android:padding="20dp"
         android:gravity="bottom"
-        android:background="@color/blue_bgr"
+        android:background="@color/blue"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.imageview.ShapeableImageView
