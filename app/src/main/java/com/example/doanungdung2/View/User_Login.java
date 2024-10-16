@@ -60,7 +60,7 @@ public class User_Login extends AppCompatActivity {
                 boolean isValid = UserHandler.validateLogin(account, password);
                 if (isValid) {
                     Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(User_Login.this, MainActivity.class);
+                    Intent intent = new Intent(User_Login.this, User_MainPage.class);
                     intent.putExtra("account", account);
                     intent.putExtra("password", password);
 
