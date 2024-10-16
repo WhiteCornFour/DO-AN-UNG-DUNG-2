@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/yellow"
-    tools:context=".View.Fragment_Dictionary">
+    tools:context=".View.User_Dictionary_MainPage_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

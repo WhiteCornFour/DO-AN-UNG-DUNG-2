@@ -15,10 +15,10 @@ import com.example.doanungdung2.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Admin_DangBaiTap_Fragment#newInstance} factory method to
+ * Use the {@link Admin_ExercisesCategory_MainPage_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Admin_DangBaiTap_Fragment extends Fragment {
+public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
 
     LinearLayout lnThemDBT, lnSuaDBT, lnXoaDBT;
     ListView lvDSDangBTFragment;
@@ -31,7 +31,7 @@ public class Admin_DangBaiTap_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Admin_DangBaiTap_Fragment() {
+    public Admin_ExercisesCategory_MainPage_Fragment() {
         // Required empty public constructor
     }
 
@@ -44,8 +44,8 @@ public class Admin_DangBaiTap_Fragment extends Fragment {
      * @return A new instance of fragment Admin_DangBaiTap_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Admin_DangBaiTap_Fragment newInstance(String param1, String param2) {
-        Admin_DangBaiTap_Fragment fragment = new Admin_DangBaiTap_Fragment();
+    public static Admin_ExercisesCategory_MainPage_Fragment newInstance(String param1, String param2) {
+        Admin_ExercisesCategory_MainPage_Fragment fragment = new Admin_ExercisesCategory_MainPage_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -97,7 +97,7 @@ public class Admin_DangBaiTap_Fragment extends Fragment {
         lnXoaDBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Xoa_DangBaiTap.class));
+                startActivity(new Intent(getActivity(), Admin_Delete_ExercisesCategory.class));
             }
         });
     }

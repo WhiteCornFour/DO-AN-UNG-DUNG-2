@@ -55,7 +55,7 @@ public class Admin_MainPage extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_drawer);
-        Admin_DanhMucQuanLy_Fragment fragment = new Admin_DanhMucQuanLy_Fragment();
+        Admin_ManagementCategory_MainPage_Fragment fragment = new Admin_ManagementCategory_MainPage_Fragment();
         replaceFragment(fragment);
         drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -76,7 +76,7 @@ public class Admin_MainPage extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.qLDangBaiTap:
-                        Admin_DangBaiTap_Fragment admin_dangBaiTap_fragment = new Admin_DangBaiTap_Fragment();
+                        Admin_ExercisesCategory_MainPage_Fragment admin_dangBaiTap_fragment = new Admin_ExercisesCategory_MainPage_Fragment();
                         replaceFragment(admin_dangBaiTap_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;

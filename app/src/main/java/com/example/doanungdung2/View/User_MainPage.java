@@ -45,34 +45,34 @@ public class User_MainPage extends AppCompatActivity {
 
     void addEvent() {
         // Hiển thị Fragment đầu tiên là Quiz
-        displayFragment(Fragment_Quiz.class, 1);
+        displayFragment(User_Quiz_MainPage_Fragment.class, 1);
 
         // Cài đặt sự kiện click cho các tab
         quizLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayFragment(Fragment_Quiz.class, 1);
+                displayFragment(User_Quiz_MainPage_Fragment.class, 1);
             }
         });
 
         dictionaryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayFragment(Fragment_Dictionary.class, 2);
+                displayFragment(User_Dictionary_MainPage_Fragment.class, 2);
             }
         });
 
         grammarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayFragment(Fragment_Grammar.class, 3);
+                displayFragment(User_Grammar_MainPage_Fragment.class, 3);
             }
         });
 
         sentencesLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayFragment(Fragment_Sentences.class, 4);
+                displayFragment(User_Sentences_MainPage_Fragment.class, 4);
             }
         });
     }
