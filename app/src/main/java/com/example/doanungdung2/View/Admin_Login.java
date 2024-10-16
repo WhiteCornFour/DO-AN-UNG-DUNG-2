@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.AdminHandler;
+import com.example.doanungdung2.Model.Admin;
 import com.example.doanungdung2.R;
+
+import java.util.ArrayList;
 
 public class Admin_Login extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class Admin_Login extends AppCompatActivity {
     AdminHandler adminHandler;
     SQLiteDatabase sqLiteDatabase;
 
+    String tenAdmin, emailAdmin;
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
 
@@ -61,10 +66,17 @@ public class Admin_Login extends AppCompatActivity {
                 boolean isValid = adminHandler.validateLoginAdmin(account, pass);
                 if (isValid) {
                     Toast.makeText(Admin_Login.this, "Login success", Toast.LENGTH_LONG).show();
+                    ArrayList<Admin> adminArrayList = adminHandler.getNameAndEmailOfAdmin(account, pass);
+                    for (Admin n : adminArrayList) {
+                        tenAdmin = n.getTenAdmin();
+                        emailAdmin = n.getEmail();
+                    }
                     Intent intent = new Intent(Admin_Login.this,
-                           MainActivity.class);
-                    intent.putExtra("account", account);
-                    intent.putExtra("pass", pass);
+                           Admin_MainPage.class);
+//                    Log.d("tenAdmin", tenAdmin);
+//                    Log.d("emailAdmin", emailAdmin);
+                    intent.putExtra("tenAdmin", tenAdmin);
+                    intent.putExtra("emailAdmin", emailAdmin);
                     startActivity(intent);
                     finish();
                 } else {

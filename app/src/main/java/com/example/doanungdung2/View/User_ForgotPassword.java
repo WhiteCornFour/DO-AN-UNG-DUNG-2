@@ -72,6 +72,7 @@ public class User_ForgotPassword extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(User_ForgotPassword.this, User_Login.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -107,6 +108,7 @@ public class User_ForgotPassword extends AppCompatActivity {
         intent.putExtra("otp", otp);
         intent.putExtra("phoneNumber", phoneNumber);
         startActivity(intent);
+        finish();
     }
     //Hàm tạo mã tự động với mã là 5 chữ số
     public static String generateCode() {

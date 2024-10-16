@@ -37,28 +37,8 @@ public class AdminHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
-//    public ArrayList<Admin> loadAllDataOfAdmin() {
-//        ArrayList<Admin> userArrayList = new ArrayList<>();
-//        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-//        Cursor cursor = sqLiteDatabase.rawQuery("Select * from " + TABLE_NAME, null);
-//        if (cursor.moveToFirst()) {
-//            do {
-//                Admin admin = new Admin();
-//                admin.setMaAdmin(cursor.getString(0));
-//                admin.setTenAdmin(cursor.getString(1));
-//                admin.setTaiKhoan(cursor.getString(2));
-//                admin.setMatKhau(cursor.getString(3));
-//                admin.setEmail(cursor.getString(4));
-//                userArrayList.add(admin);
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
-//        sqLiteDatabase.close();
-//        return adminArrayList;
-//    }
     public boolean validateLoginAdmin(String account, String password) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
@@ -76,15 +56,18 @@ public class AdminHandler extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public String getADName(String account, String pass)
+    public ArrayList<Admin> getNameAndEmailOfAdmin(String account, String pass)
     {
-        String result = "";
+        ArrayList<Admin> result = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "SELECT maAdmin FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        String sql = "SELECT tenAdmin, EmailAdmin FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{account, pass});
 
         if (cursor.moveToFirst()) {
-            result = cursor.getString(cursor.getColumnIndex(maAdmin));
+            Admin ad = new Admin();
+            ad.setTenAdmin(cursor.getString(cursor.getColumnIndex(tenAdmin)));
+            ad.setEmail(cursor.getString(cursor.getColumnIndex(email)));
+            result.add(ad);
         }
 
         cursor.close();

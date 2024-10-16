@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.doanungdung2.R;
 import com.google.android.material.navigation.NavigationView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,8 +38,12 @@ public class Admin_MainPage extends AppCompatActivity {
         tvTenAD = headerView.findViewById(R.id.tvTenAD);
         tvTKAD = headerView.findViewById(R.id.tvTKAD);
 
-        tvTenAD.setText("Ngô Hoàng Nam");
-        tvTKAD.setText("hoangnam@gmail.com");
+        //Lấy thông tin đăng nhập của admin để hiển thị ở header
+        Intent intent = getIntent();
+        String tenAdmin = intent.getStringExtra("tenAdmin");
+        tvTenAD.setText(tenAdmin);
+        String emailAdmin = intent.getStringExtra("emailAdmin");
+        tvTKAD.setText(emailAdmin);
 
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -49,6 +56,8 @@ public class Admin_MainPage extends AppCompatActivity {
         Admin_DanhMucQuanLy_Fragment fragment = new Admin_DanhMucQuanLy_Fragment();
         replaceFragment(fragment);
         drawerLayout.closeDrawer(GravityCompat.START);
+
+        addEvent();
     }
 
     void addControl()
@@ -56,8 +65,23 @@ public class Admin_MainPage extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_drawer);
-        tvTenAD = (TextView) findViewById(R.id.tvTenAD);
-        tvTKAD = (TextView) findViewById(R.id.tvTKAD);
+    }
+    void addEvent()
+    {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.logoutAD:
+                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        finish();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

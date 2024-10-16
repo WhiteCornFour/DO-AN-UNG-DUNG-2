@@ -15,12 +15,15 @@
         tools:targetApi="31">
         <activity
             android:name=".View.Admin_Add_Exercise_Format"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".View.Admin_Login"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
             android:exported="false" />
         <activity
-            android:name=".View.User_Login"
+            android:name=".View.Admin_MainPage"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".View.User_ForgotPassword"
@@ -38,7 +41,7 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.Admin_MainPage"
+            android:name=".View.User_Login"
             android:exported="true"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar">
             <intent-filter>

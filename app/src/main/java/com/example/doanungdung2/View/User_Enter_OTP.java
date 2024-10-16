@@ -58,6 +58,7 @@ public class User_Enter_OTP extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(User_Enter_OTP.this, User_ForgotPassword.class));
+                finish();
             }
         });
         
