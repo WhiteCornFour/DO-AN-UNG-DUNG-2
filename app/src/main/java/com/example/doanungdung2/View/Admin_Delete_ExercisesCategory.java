@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doanungdung2.R;
 import android.os.Bundle;
 
-public class Admin_Delete_ExercisesCategory extends AppCompatActivity {
+public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
