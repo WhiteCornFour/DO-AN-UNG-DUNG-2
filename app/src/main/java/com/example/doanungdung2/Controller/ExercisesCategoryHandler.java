@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.doanungdung2.Model.Admin;
 import com.example.doanungdung2.Model.ExercisesCategory;
 
 import java.util.ArrayList;
@@ -35,6 +36,34 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
+    {
+        ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
+        ExercisesCategory exercisesCategory;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    exercisesCategory = new ExercisesCategory();
+                    exercisesCategory.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    exercisesCategory.setTenDangBaiTap(cursor.getString(cursor.getColumnIndex(tenDangBaiTap)));
+                    exercisesCategory.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                    exercisesCategoryArrayList.add(exercisesCategory);
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        sqLiteDatabase.close();
+
+        return exercisesCategoryArrayList;
     }
 
     @SuppressLint("Range")
@@ -114,4 +143,10 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         return updated;
     }
 
+    public void deleteAExerciseCategory(String maDangBaiTap) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE MaDangBaiTap = ?";
+        sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
+        sqLiteDatabase.close();
+    }
 }
