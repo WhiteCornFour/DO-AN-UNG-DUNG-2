@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Admin_Delete_ExercisesCategory extends AppCompatActivity {
+public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;

@@ -1,9 +1,11 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
@@ -30,12 +32,38 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
 
+    @SuppressLint("Range")
+    public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
+    {
+        ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
+        ExercisesCategory exercisesCategory;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    exercisesCategory = new ExercisesCategory();
+                    exercisesCategory.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    exercisesCategory.setTenDangBaiTap(cursor.getString(cursor.getColumnIndex(tenDangBaiTap)));
+                    exercisesCategory.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                    exercisesCategoryArrayList.add(exercisesCategory);
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        sqLiteDatabase.close();
+
+        return exercisesCategoryArrayList;
     }
 
     @SuppressLint("Range")
@@ -91,6 +119,30 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryArrayList;
     }
+
+    public boolean updateExercises(ExercisesCategory ec) {
+        boolean updated = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(tenDangBaiTap, ec.getTenDangBaiTap());
+            contentValues.put(moTa, ec.getMoTa());
+
+            int kq = sqLiteDatabase.update(TABLE_NAME, contentValues, maDangBaiTap + " = ?", new String[]{ec.getMaDangBaiTap()});
+            updated = kq > 0;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return updated;
+    }
+
     public void deleteAExerciseCategory(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "DELETE FROM " + TABLE_NAME + " WHERE MaDangBaiTap = ?";
