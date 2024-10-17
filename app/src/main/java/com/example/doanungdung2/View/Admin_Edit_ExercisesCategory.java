@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +37,7 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
     EditText edtSuaDBTSearch, edtSuaMaDBT, edtSuaTenDBT,edtSuaMoTaDBT;
     Button btnSuaDBT;
     RecyclerView rvSuaDBTSearch;
-    ImageView imgSuaDBTSearch;
+    ImageView imgSuaDBTSearch, imgBackToMainPage;
     ExercisesCategoryHandler exercisesCategoryHandler;
     ArrayList<ExercisesCategory> exercisesCategoryArrayListSearchResult = new ArrayList<>();
     Admin_Edit_ExercisesCategory_CustomAdapter edit_exercisesCategory_customAdapter;
@@ -62,9 +63,17 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
         btnSuaDBT = (Button) findViewById(R.id.btnSuaDBT);
         rvSuaDBTSearch = (RecyclerView) findViewById(R.id.rvSuaDBTSearch);
         imgSuaDBTSearch = (ImageView) findViewById(R.id.imgSuaDBTSearch);
+        imgBackToMainPage = (ImageView) findViewById(R.id.imgBackToMainPage);
     }
 
     void addEvent() {
+        imgBackToMainPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Admin_Edit_ExercisesCategory.this, Admin_MainPage.class));
+                finish();
+            }
+        });
         imgSuaDBTSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

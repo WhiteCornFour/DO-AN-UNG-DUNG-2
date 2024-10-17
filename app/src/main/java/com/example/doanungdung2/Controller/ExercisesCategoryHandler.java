@@ -67,34 +67,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
-    {
-        ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
-        ExercisesCategory exercisesCategory;
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        if (cursor != null)
-        {
-            if (cursor.moveToFirst())
-            {
-                do {
-                    exercisesCategory = new ExercisesCategory();
-                    exercisesCategory.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
-                    exercisesCategory.setTenDangBaiTap(cursor.getString(cursor.getColumnIndex(tenDangBaiTap)));
-                    exercisesCategory.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
-                    exercisesCategoryArrayList.add(exercisesCategory);
-                }while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-
-        sqLiteDatabase.close();
-
-        return exercisesCategoryArrayList;
-    }
-
-    @SuppressLint("Range")
     public ArrayList<ExercisesCategory> searchResultExercisesCategory(String exercisesCategorySearch) {
         ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
         ExercisesCategory ec = null;

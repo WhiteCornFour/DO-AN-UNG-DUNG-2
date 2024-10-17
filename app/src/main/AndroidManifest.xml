@@ -18,7 +18,7 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar"/>
         <activity
-            android:name=".View.User_Login"
+            android:name=".View.Admin_Edit_ExercisesCategory"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar"/>
         <activity
@@ -53,7 +53,7 @@
             android:name=".View.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".View.Admin_Edit_ExercisesCategory"
+            android:name=".View.User_Login"
             android:exported="true"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar">
             <intent-filter>
