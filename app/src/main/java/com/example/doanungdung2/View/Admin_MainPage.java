@@ -14,8 +14,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.doanungdung2.R;
 import com.google.android.material.navigation.NavigationView;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,13 +42,32 @@ public class Admin_MainPage extends AppCompatActivity {
         tvTenAD = headerView.findViewById(R.id.tvTenAD);
         tvTKAD = headerView.findViewById(R.id.tvTKAD);
 
-        //Lấy thông tin đăng nhập của admin để hiển thị ở header
+        //Lấy thông tin đăng nhập của admin để hiển thị ở header nhận từ admin_login
         Intent intent = getIntent();
         String tenAdmin = intent.getStringExtra("tenAdmin");
-        tvTenAD.setText(tenAdmin);
         String emailAdmin = intent.getStringExtra("emailAdmin");
-        tvTKAD.setText(emailAdmin);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+        //Kiểm tra thông tin của admin đc gửi bằng intent có null hay không, nếu null thì hiển thị thông tin đã đc lưu dưới local trc đó
+        if (tenAdmin != null || emailAdmin != null)
+        {
+            tvTenAD.setText(tenAdmin);
+            tvTKAD.setText(emailAdmin);
+
+            //Lưu trữ thông tin quản trị viên tạm thời vào local tránh mất thông tin để hiển thị
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("tenAdmin", tenAdmin);
+            editor.putString("emailAdmin", emailAdmin);
+            editor.apply();
+        }else
+        {
+            String tenAd= sharedPreferences.getString("tenAdmin", null);
+            String emailAd= sharedPreferences.getString("emailAdmin", null);
+            tvTenAD.setText(tenAd);
+            tvTKAD.setText(emailAd);
+        }
+
+        //Set up cho hamburger menu
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new
@@ -113,6 +134,13 @@ public class Admin_MainPage extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss(); // Đóng hộp thoại khi người dùng nhấn "OK"
+
+                //Xóa thông tin admin trong local để tránh trùng lặp thông tin khi có admin đăng nhập
+                SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear(); // Xóa tất cả các giá trị trong SharedPreferences
+                editor.apply(); // Hoặc editor.commit();
+
                 // Chuyển về trang login
                 startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
                 finish();
