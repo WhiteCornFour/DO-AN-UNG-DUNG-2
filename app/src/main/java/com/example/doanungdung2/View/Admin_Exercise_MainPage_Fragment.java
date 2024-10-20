@@ -12,7 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.doanungdung2.Controller.ExerciseHandler;
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
+import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
@@ -20,21 +22,22 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Admin_ExercisesCategory_MainPage_Fragment#newInstance} factory method to
+ * Use the {@link Admin_Exercise_MainPage_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
+public class Admin_Exercise_MainPage_Fragment extends Fragment {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
 
-    ExercisesCategoryHandler exercisesCategoryHandler;
+    ExerciseHandler exercisesHandler;
 
-    ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
+    ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
 
     ArrayAdapter<String> stringArrayAdapter;
-    LinearLayout lnThemDBT, lnSuaDBT, lnXoaDBT;
-    ListView lvDSDangBTFragment;
+
+    LinearLayout lnThemBT, lnSuaBT, lnXoaBT;
+    ListView lvDSBTFragment;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,7 +47,7 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Admin_ExercisesCategory_MainPage_Fragment() {
+    public Admin_Exercise_MainPage_Fragment() {
         // Required empty public constructor
     }
 
@@ -54,11 +57,11 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Admin_DangBaiTap_Fragment.
+     * @return A new instance of fragment Admin_Exercise_MainPage_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Admin_ExercisesCategory_MainPage_Fragment newInstance(String param1, String param2) {
-        Admin_ExercisesCategory_MainPage_Fragment fragment = new Admin_ExercisesCategory_MainPage_Fragment();
+    public static Admin_Exercise_MainPage_Fragment newInstance(String param1, String param2) {
+        Admin_Exercise_MainPage_Fragment fragment = new Admin_Exercise_MainPage_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,61 +81,58 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin__dang_bai_tap_, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin__exercise__main_page_, container, false);
         addControll(view);
-        exercisesCategoryHandler = new ExercisesCategoryHandler(getActivity(),
+        exercisesHandler = new ExerciseHandler(getActivity(),
                 DB_NAME,null, DB_VERSION);
         loadAllDataToLV();
         addEvent();
         return view;
     }
-
     void addControll(View view)
     {
-        lnThemDBT = view.findViewById(R.id.lnThemDBT);
-        lnSuaDBT = view.findViewById(R.id.lnSuaDBT);
-        lnXoaDBT = view.findViewById(R.id.lnXoaDBT);
-        lvDSDangBTFragment = view.findViewById(R.id.lvDSDangBTFragment);
+        lnThemBT = view.findViewById(R.id.lnThemBT);
+        lnSuaBT = view.findViewById(R.id.lnSuaBT);
+        lnXoaBT = view.findViewById(R.id.lnXoaBT);
+        lvDSBTFragment = view.findViewById(R.id.lvDSBTFragment);
     }
 
     void addEvent()
     {
-        lnThemDBT.setOnClickListener(new View.OnClickListener() {
+        lnThemBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+        lnSuaBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+        lnXoaBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-            }
-        });
-        lnSuaDBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Edit_ExercisesCategory.class));
-            }
-        });
-        lnXoaDBT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Delete_ExercisesCategory.class));
             }
         });
     }
 
     void loadAllDataToLV()
     {
-        exercisesCategoryArrayList = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
-        ArrayList<String> dataLV = stringArrayList(exercisesCategoryArrayList);
+        exerciseArrayList = exercisesHandler.loadAllDataOfExercise();
+        ArrayList<String> dataLV = stringArrayList(exerciseArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);
-        lvDSDangBTFragment.setAdapter(stringArrayAdapter);
+        lvDSBTFragment.setAdapter(stringArrayAdapter);
     }
 
-    ArrayList<String> stringArrayList(ArrayList<ExercisesCategory> exercisesCategoryArrayList)
+    ArrayList<String> stringArrayList(ArrayList<Exercise> exerciseArrayList)
     {
         ArrayList<String> result = new ArrayList<>();
         String getResult;
-        for (ExercisesCategory ex: exercisesCategoryArrayList
-             ) {
-            getResult = ex.getMaDangBaiTap() + " - " +ex.getTenDangBaiTap();
+        for (Exercise ex: exerciseArrayList
+        ) {
+            getResult = ex.getMaBaiTap() + " - " +ex.getTenBaiTap() + " - " + ex.getMucDo();
             result.add(getResult);
         }
         return result;

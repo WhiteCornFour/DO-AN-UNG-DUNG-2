@@ -102,13 +102,18 @@ public class Admin_MainPage extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
+                    case  R.id.qLBaiTap:
+                        Admin_Exercise_MainPage_Fragment admin_exercise_mainPage_fragment = new Admin_Exercise_MainPage_Fragment();
+                        replaceFragment(admin_exercise_mainPage_fragment);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                     case R.id.logoutAD:
 //                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
 //                        drawerLayout.closeDrawer(GravityCompat.START);
 //                        finish();
                         createDialog();
                         return true;
-
                     default:
                         return false;
                 }

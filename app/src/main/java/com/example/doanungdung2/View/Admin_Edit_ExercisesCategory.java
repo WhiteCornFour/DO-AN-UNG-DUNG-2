@@ -1,6 +1,7 @@
 package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,12 +66,16 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
         imgSuaDBTSearch = (ImageView) findViewById(R.id.imgSuaDBTSearch);
         imgBackToMainPage = (ImageView) findViewById(R.id.imgBackToMainPage);
     }
-
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(); // Quay lại Fragment trước đó
+    }
     void addEvent() {
         imgBackToMainPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Admin_Edit_ExercisesCategory.this, Admin_MainPage.class));
+                //startActivity(new Intent(Admin_Edit_ExercisesCategory.this, Admin_MainPage.class));
                 finish();
             }
         });

@@ -1,11 +1,16 @@
 package com.example.doanungdung2.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.example.doanungdung2.Model.Exercise;
+
+import java.util.ArrayList;
 
 public class ExerciseHandler extends SQLiteOpenHelper {
 
@@ -51,5 +56,34 @@ public class ExerciseHandler extends SQLiteOpenHelper {
             cursor.close();
         }
         return checkResult;
+    }
+    @SuppressLint("Range")
+    public ArrayList<Exercise> loadAllDataOfExercise()
+    {
+        ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT * FROM " + TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    Exercise exercise = new Exercise();
+                    exercise.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    exercise.setTenBaiTap(cursor.getString(cursor.getColumnIndex(tenBaiTap)));
+                    exercise.setSoCau(cursor.getInt(cursor.getColumnIndex(soCau)));
+                    exercise.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    exercise.setThoiGian(cursor.getString(cursor.getColumnIndex(thoiGian)));
+                    exercise.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                    exercise.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    exerciseArrayList.add(exercise);
+                }while (cursor.moveToNext());
+
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return exerciseArrayList;
     }
 }
