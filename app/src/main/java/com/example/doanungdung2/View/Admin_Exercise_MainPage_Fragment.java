@@ -112,7 +112,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
         lnXoaBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), Admin_Delete_Exercise.class));
             }
         });
     }

@@ -86,4 +86,34 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exerciseArrayList;
     }
+    @SuppressLint("Range")
+    public ArrayList<Exercise> searchExerciseByNameOrCode(String keyWord)
+    {
+        ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " LIKE '%" + keyWord + "%'" +
+                " OR " + tenBaiTap + " LIKE '%" + keyWord + "%'";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    Exercise exercise = new Exercise();
+                    exercise.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    exercise.setTenBaiTap(cursor.getString(cursor.getColumnIndex(tenBaiTap)));
+                    exercise.setSoCau(cursor.getInt(cursor.getColumnIndex(soCau)));
+                    exercise.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    exercise.setThoiGian(cursor.getString(cursor.getColumnIndex(thoiGian)));
+                    exercise.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                    exercise.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    exerciseArrayList.add(exercise);
+                }while (cursor.moveToNext());
+
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return exerciseArrayList;
+    }
 }

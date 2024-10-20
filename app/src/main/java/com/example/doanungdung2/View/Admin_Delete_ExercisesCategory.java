@@ -11,9 +11,6 @@ import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,7 +45,7 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_xoa_dang_bai_tap);
+        setContentView(R.layout.activity_admin_delete_exercisecategory);
         addControll();
 
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Delete_ExercisesCategory.this,
@@ -89,6 +86,7 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadAllDataForListView();
+                edtSearchForDeleteInDangBT.setText("");
             }
         });
         imgSerchForDeleteInDangBT.setOnClickListener(new View.OnClickListener() {
