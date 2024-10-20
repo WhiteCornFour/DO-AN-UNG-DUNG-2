@@ -2,6 +2,7 @@ package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.doanungdung2.Controller.ExerciseHandler;
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
@@ -68,12 +69,19 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
         imgSerchForDeleteInDangBT = findViewById(R.id.imgSerchForDeleteInDangBT);
         imgBackDeleteToMainPage = findViewById(R.id.imgBackDeleteToMainPage);
     }
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack(); // Quay lại Fragment trước đó
+    }
+
     void addEvent()
     {
         imgBackDeleteToMainPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Admin_Delete_ExercisesCategory.this, Admin_MainPage.class));
+                //startActivity(new Intent(Admin_Delete_ExercisesCategory.this, Admin_MainPage.class));
                 finish();
             }
         });
@@ -110,7 +118,23 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
         btnDeleteAllForLVInDangBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Kiểm tra xem có ít nhất một checkbox được chọn hay không
+                boolean anyChecked = false;
+                for (boolean checked : checkedStates) {
+                    if (checked) {
+                        anyChecked = true;
+                        break;
+                    }
+                }
 
+                if (!anyChecked) {
+                    Toast.makeText(Admin_Delete_ExercisesCategory.this,
+                            "Hãy chọn ít nhất một dạng bài tập!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AlertDialog alertDialog = createAlertDialogDeleteExercisecategory();
+                alertDialog.show();
             }
         });
     }
@@ -165,7 +189,7 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
     void dialogThongBao(String maDBT)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Xác nhận");
+        builder.setTitle("Thông báo");
         builder.setMessage("Dạng bài tập hiện tại đang chứa 1 danh sách bài tập. \n" +
                 "Vui lòng kiểm tra lại các bài tập liên quan đến dạng bài tập có mã: "+ maDBT);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -176,5 +200,44 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    private void deleteSelectedExercisecategory() {
+        ArrayList<ExercisesCategory> exercateToDelete = new ArrayList<>();
+        for (int i = 0; i < checkedStates.length; i++) {
+            if (checkedStates[i]) {
+                exercateToDelete.add(exercisesCategoryArrayList.get(i));
+            }
+        }
+        for (ExercisesCategory excate : exercateToDelete) {
+            boolean rs = exerciseHandler.checkExcerciseCateHaveExcercise(excate.getMaDangBaiTap());
+            if (!rs)
+            {
+                exercisesCategoryHandler.deleteAExerciseCategory(excate.getMaDangBaiTap());
+                exercisesCategoryArrayList.remove(excate);
+            }else
+            {
+                dialogThongBao(excate.getMaDangBaiTap());
+            }
+        }
+        checkedStates = new boolean[exercisesCategoryArrayList.size()];
+        loadAllDataForListView();
+    }
+    AlertDialog createAlertDialogDeleteExercisecategory() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Delete_ExercisesCategory.this);
+        builder.setTitle("Xóa dạng bài tập");
+        builder.setMessage("Bạn có chắc muốn xóa các dạng bài tập đã chọn?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                deleteSelectedExercisecategory();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
     }
 }
