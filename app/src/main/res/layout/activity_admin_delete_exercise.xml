@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imgBackDeleteToMainPage"
+            android:id="@+id/imgBackDeleteExerciseToMainPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,8 +31,8 @@
             android:textColor="@color/blue"
             android:textStyle="bold"
             android:fontFamily="@font/alata"
-            android:layout_marginLeft="50dp"
-            android:text="XÓA DẠNG BÀI TẬP" />
+            android:layout_marginLeft="90dp"
+            android:text="XÓA BÀI TẬP" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +51,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/edtSearchForDeleteInDangBT"
+                android:id="@+id/edtSearchForDeleteInBT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -63,10 +63,10 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/alata"
                 android:layout_marginLeft="30dp"
-                android:hint="Nhập tên dạng bài tập..." />
+                android:hint="Nhập tên hoặc mã bài tập..." />
 
             <ImageView
-                android:id="@+id/imgSerchForDeleteInDangBT"
+                android:id="@+id/imgSerchForDeleteInBT"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -81,7 +81,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnResetForListViewInDangBT"
+                android:id="@+id/btnResetForListViewInBT"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -93,7 +93,7 @@
                 android:text="Reset" />
 
             <Button
-                android:id="@+id/btnDeleteAllForLVInDangBT"
+                android:id="@+id/btnDeleteAllForLVInBT"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -122,10 +122,10 @@
                 android:padding="5dp"
                 android:textStyle="bold"
                 android:fontFamily="@font/alata"
-                android:text="Danh sách các dạng bài tập" />
+                android:text="Danh sách bài tập" />
 
             <ListView
-                android:id="@+id/lvDSDangBTTrongXoa"
+                android:id="@+id/lvDSBTTrongXoa"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"/>
