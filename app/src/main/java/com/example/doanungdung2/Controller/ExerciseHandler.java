@@ -92,7 +92,8 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " LIKE '%" + keyWord + "%'" +
-                " OR " + tenBaiTap + " LIKE '%" + keyWord + "%'";
+                " OR " + tenBaiTap + " LIKE '%" + keyWord + "%'" +
+                " OR " + maDangBaiTap + " LIKE '%" + keyWord + "%'";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         if (cursor != null)
         {
@@ -115,5 +116,12 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
         return exerciseArrayList;
+    }
+    public void deleteExerciseByCode(String maBaiTap)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE maBaiTap = ?";
+        sqLiteDatabase.execSQL(query, new String[]{maBaiTap});
+        sqLiteDatabase.close();
     }
 }
