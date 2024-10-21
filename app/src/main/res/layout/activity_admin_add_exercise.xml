@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".View.Admin_Edit_ExercisesCategory">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgBackFromAddExerciseToMainPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/blue"
+                android:fontFamily="@font/alata"
+                android:textSize="11pt"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="THÊM BÀI TẬP" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgr_admin_blue"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="9pt"
+                android:fontFamily="@font/alata"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textStyle="bold"
+                android:text="Thông tin cần thêm" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/custom_bkg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="20dp"
+                        android:text="Mã bài tập:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtMaBT_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/id_icon_focus"
+                        android:ems="15"
+                        android:enabled="false"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:drawablePadding="10dp"
+                        android:paddingEnd="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="15dp"
+                        android:text="Tên bài tập:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtTenBT_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/custom_name_icon"
+                        android:ems="15"
+                        android:drawablePadding="10dp"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/textView29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Thời gian làm bài:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtThoiGianLamBai_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/custom_name_icon"
+                        android:ems="15"
+                        android:drawablePadding="10dp"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="50dp"
+                        android:layout_weight="1"
+                        android:text="Dạng bài tập:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerDangBT_AddExercise"
+                        android:layout_width="210dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/blue"
+                        android:layout_weight="1"  />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="50dp"
+                        android:layout_weight="1"
+                        android:text="Số câu:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerSoCau_AddExercise"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/blue"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Mô tả:"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtMoTaBT_AddExercise"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:ems="30"
+                        android:paddingStart="10dp"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:text="Mức độ:"
+                    android:textColor="@color/black"
+                    android:textSize="7.5pt"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbBeginner_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Beginner:"
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="38dp"
+                        android:text="Hoàn toàn mới, biết rất ít hoặc không biết tiếng Anh." />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbStarter_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Starter:"
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="55dp"
+                        android:text="Có kiến thức cơ bản, có thể giao tiếp bằng các câu đơn giản." />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbIntermediate_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Intermediate:"
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="14dp"
+                        android:text="Giao tiếp và hiểu các cấu trúc ngữ pháp cơ bản, cần cải thiện thêm." />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbProficient_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Proficient:"
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView36"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="35dp"
+                        android:text="Thành thạo, sử dụng tiếng Anh tự tin trong hầu hết các tình huống." />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbMaster_AddExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Master:"
+                        android:textSize="7pt"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView37"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="55dp"
+                        android:text="Rất thông thạo, sử dụng tiếng Anh một cách lưu loát và chính xác ở mức độ cao." />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Lưu ý: Để có thể cập nhật, thêm, sửa và xóa câu hỏi trong bài hãy chọn mức độ cho bài tập tương ứng.
+Nếu đổi sang mức độ khác, hệ thống sẽ xóa toàn bộ câu hỏi đang có trong bài tập hiện có." />
+
+                <Button
+                    android:id="@+id/btnXacNhan_AddExercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/layout_boder_imge_func_button"
+                    android:backgroundTint="@color/blue"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:text="Xác nhận chọn mức độ trên"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="9pt"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="70dp"
+                android:paddingLeft="70dp"
+                android:paddingBottom="10dp"
+                android:textStyle="bold"
+                android:background="@drawable/layout_backgr_search_delete_exer_cate"
+                android:text="Danh sách bài tập hiện có" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rycAdAddExercise"
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="350dp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

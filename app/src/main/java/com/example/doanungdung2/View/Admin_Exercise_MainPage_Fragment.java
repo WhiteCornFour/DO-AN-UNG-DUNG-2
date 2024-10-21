@@ -106,6 +106,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
         lnThemBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Admin_Add_Exercise.class));
             }
         });
         lnSuaBT.setOnClickListener(new View.OnClickListener() {
