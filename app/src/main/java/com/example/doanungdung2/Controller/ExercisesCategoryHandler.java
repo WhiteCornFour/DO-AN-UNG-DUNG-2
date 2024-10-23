@@ -171,6 +171,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
         return MDBaiTap;
+    }
 
     @SuppressLint("Range")
     public String searchCodeExerciseCategoryByName(String tenDangBaiTap) {
