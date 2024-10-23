@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/backgr_admin_white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
+    tools:context=".View.Admin_Question_Multiple_Choice"
+    android:background="@drawable/backgr_admin_white"
     android:padding="20dp">
-<!--    tools:context="">-->
 
     <TextView
         android:id="@+id/textView33"
@@ -163,14 +163,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:text="Chọn đáp án chính xác cho câu hỏi: "
             android:textColor="@color/black"
             android:textSize="13sp" />
 
         <Spinner
-            android:id="@+id/spinnerDapAnSCH"
+            android:id="@+id/spinnerDapAnTNCH"
             android:layout_width="129dp"
             android:layout_height="35dp" />
     </LinearLayout>
