@@ -29,15 +29,12 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
     public ExercisesCategoryHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, DB_VERSION);
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
     {
@@ -65,7 +62,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
 
         return exercisesCategoryArrayList;
     }
-
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> searchResultExercisesCategory(String exercisesCategorySearch) {
         ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
@@ -91,7 +87,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryArrayList;
     }
-
     public boolean updateExercisesCategory(ExercisesCategory ec) {
         boolean updated = false;
         SQLiteDatabase sqLiteDatabase = null;
@@ -114,14 +109,12 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         return updated;
     }
-
     public void deleteAExerciseCategory(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "DELETE FROM " + TABLE_NAME + " WHERE MaDangBaiTap = ?";
         sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
         sqLiteDatabase.close();
     }
-
     @SuppressLint("Range")
     public ArrayList<String> returnNameOfCategoriesSpinner() {
         ArrayList<String> exercisesCategoryNames = new ArrayList<>();
@@ -140,7 +133,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryNames;
     }
-
     @SuppressLint("Range")
     public String getExerciseCategoryNameByCode(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -156,7 +148,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return TDBaiTap;
     }
-
     @SuppressLint("Range")
     public String getExerciseCategoryCodeByName(String tenDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -172,7 +163,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return MDBaiTap;
     }
-
     @SuppressLint("Range")
     public String searchCodeExerciseCategoryByName(String tenDangBaiTap) {
         String result = null;
@@ -187,8 +177,37 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close(); // Đóng kết nối CSDL
         return result;
-
     }
+    public boolean addExerciseCategory(ExercisesCategory ec) {
+        boolean added = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
 
+
+            String maDangBaiTap = generateMaDangBaiTap();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("MaDangBaiTap", maDangBaiTap);
+            contentValues.put("TenDangBaiTap", ec.getTenDangBaiTap());
+            contentValues.put("MoTa", ec.getMoTa());
+
+            long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+            added = result != -1;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return added;
+    }
+    private String generateMaDangBaiTap() {
+        // Tạo một số ngẫu nhiên trong khoảng từ 10 đến 999
+        int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
+        return "DBT" + String.valueOf(randomNum);
+    }
 }
 
