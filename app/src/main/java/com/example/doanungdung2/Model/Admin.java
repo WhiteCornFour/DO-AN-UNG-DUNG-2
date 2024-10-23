@@ -3,9 +3,9 @@ package com.example.doanungdung2.Model;
 public class Admin {
     private String maAdmin;
     private String tenAdmin;
-    private String taiKhoan;
-    private String matKhau;
-    private String email;
+    private String taiKhoanAdmin;
+    private String matKhauAdmin;
+    private String emailAdmin;
 
     public String getMaAdmin() {
         return maAdmin;
@@ -24,35 +24,36 @@ public class Admin {
     }
 
     public String getTaiKhoan() {
-        return taiKhoan;
+        return taiKhoanAdmin;
     }
 
     public void setTaiKhoan(String taiKhoan) {
-        this.taiKhoan = taiKhoan;
+        this.taiKhoanAdmin = taiKhoan;
     }
 
     public String getMatKhau() {
-        return matKhau;
+        return matKhauAdmin;
     }
 
     public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+        this.matKhauAdmin = matKhau;
     }
 
     public String getEmail() {
-        return email;
+        return emailAdmin;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailAdmin = email;
     }
+
 
     public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email) {
         this.maAdmin = maAdmin;
         this.tenAdmin = tenAdmin;
-        this.taiKhoan = taiKhoan;
-        this.matKhau = matKhau;
-        this.email = email;
+        this.taiKhoanAdmin = taiKhoan;
+        this.matKhauAdmin = matKhau;
+        this.emailAdmin = email;
     }
 
     public Admin() {

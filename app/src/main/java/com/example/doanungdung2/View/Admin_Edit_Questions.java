@@ -60,6 +60,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
 
         spinnerMucDoCHCreate();
         spinnerDangBaiTapCHCreate();
+        spinnerDangBaiTapCH.setEnabled(false);
 
         setUpRecyclerView();
         loadAllQuestions();
@@ -175,7 +176,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
             @Override
             public void onItemClick(Question question) {
                 edtSuaMaCauHoi.setText(question.getMaCauHoi());
-                Log.d("DEBUG", "MaCauHoi: " + question.getMaCauHoi());
                 edtSuaNoiDungCauHoi.setText(question.getNoiDungCauHoi());
 
                 int index = -1;
@@ -188,9 +188,22 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                 if (index != -1) {
                     spinnerMucDoCH.setSelection(index);
                 }
+
+                String maDangBaiTap = question.getMaDangBaiTap();
+                String tenDangBaiTap = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
+                ArrayList<String> dsDangBaiTapString = exercisesCategoryHandler.returnNameOfCategoriesSpinner();
+                int index2 = dsDangBaiTapString.indexOf(tenDangBaiTap);
+                if (index2 != -1) {
+                    spinnerDangBaiTapCH.setSelection(index2);
+                }
+
+                FragmentManager fm = getSupportFragmentManager();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("question", question);
+                fm.setFragmentResult("ch", bundle);
+
             }
         });
         rvSuaCHSearch.setAdapter(admin_edit_questions_customAdapter );
     }
-
 }

@@ -54,6 +54,5 @@ public class Admin_Custom_Add_DBT_Adapter extends ArrayAdapter<ExercisesCategory
 
         return convertView;
     }
-
-
 }
+

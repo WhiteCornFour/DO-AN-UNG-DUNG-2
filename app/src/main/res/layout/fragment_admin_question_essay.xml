@@ -39,7 +39,7 @@
             android:layout_height="70dp"
             android:layout_margin="20dp"
             android:ems="20"
-            android:background="@drawable/custom_admin_unedit_text"
+            android:background="@drawable/custom_admin_edit_text"
             android:layout_gravity="center"
             android:inputType="textPersonName"
             />

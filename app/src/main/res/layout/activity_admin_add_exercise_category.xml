@@ -90,7 +90,6 @@
                     android:drawablePadding="8dp"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
-
             </LinearLayout>
 
             <LinearLayout

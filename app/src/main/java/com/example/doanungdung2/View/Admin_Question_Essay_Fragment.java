@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.doanungdung2.R;
 
@@ -16,6 +18,9 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class Admin_Question_Essay_Fragment extends Fragment {
+
+    EditText edtDapAnDungTuLuan;
+    TextView tvTuLuanVaDBT;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +66,13 @@ public class Admin_Question_Essay_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin__question__essay, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_question_essay, container, false);
+        addControl(view);
+        return view;
+    }
+
+    void addControl(View view) {
+        edtDapAnDungTuLuan = view.findViewById(R.id.edtDapAnDungTuLuan);
+        tvTuLuanVaDBT = view.findViewById(R.id.tvTuLuanVaDBT);
     }
 }
