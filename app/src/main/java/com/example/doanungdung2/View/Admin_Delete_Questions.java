@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.doanungdung2.R;
-
-public class Admin_Add_Exercise_Format extends AppCompatActivity {
+public class Admin_Delete_Questions extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_add_exercise_format);
+        setContentView(R.layout.activity_admin_delete_questions);
     }
 }
