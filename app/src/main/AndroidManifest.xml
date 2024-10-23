@@ -26,10 +26,6 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.Admin_Delete_Exercise"
-            android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
-        <activity
             android:name=".View.Admin_Delete_ExercisesCategory"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
