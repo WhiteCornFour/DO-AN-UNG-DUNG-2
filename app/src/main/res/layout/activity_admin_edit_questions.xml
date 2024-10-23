@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".View.Admin_Edit_ExercisesCategory">
+    tools:context=".View.Admin_Edit_Exercises">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,29 +21,28 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imgBackToMainPageSDBT"
+                android:id="@+id/imgBackToMainPageSCH"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="20dp"
                 android:src="@drawable/baseline_chevron_left_24" />
 
             <TextView
-                android:id="@+id/tvHeaderSuaDangBT"
+                android:id="@+id/tvHeaderSuaCH"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginRight="60dp"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:text="SỬA DẠNG BÀI TẬP"
+                android:text="SỬA CÂU HỎI"
                 android:textColor="@color/blue"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="720dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/backgr_admin_blue"
             android:orientation="vertical">
 
@@ -55,7 +53,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
-                android:text="Tìm kiếm Dạng bài tập"
+                android:text="Tìm kiếm Bài tập"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -74,27 +72,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="5dp"
-                    android:text="Mã dạng bài tập: "
+                    android:text="Mã câu hỏi: "
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/edtSuaDBTSearch"
+                    android:id="@+id/edtSuaCHSearch"
                     android:layout_width="230dp"
                     android:layout_height="40dp"
                     android:background="@drawable/custom_admin_edit_text"
                     android:drawableStart="@drawable/custom_id_icon"
+                    android:drawablePadding="8dp"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:paddingStart="14dp"
+                    android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:drawablePadding="8dp"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <ImageView
-                    android:id="@+id/imgSuaDBTSearch"
+                    android:id="@+id/imgSuaCHSearch"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
@@ -122,16 +120,16 @@
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvSuaDBTSearch"
+                    android:id="@+id/rvSuaCHSearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:background="@drawable/backgr_admin_white"
-                    android:nestedScrollingEnabled="true"/>
+                    android:nestedScrollingEnabled="true" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/textView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -143,7 +141,7 @@
 
             <LinearLayout
                 android:layout_width="380dp"
-                android:layout_height="220dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/backgr_admin_white"
@@ -160,27 +158,26 @@
                         android:id="@+id/textView20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="Mã dạng bài tập: "
+                        android:layout_marginRight="43dp"
+                        android:text="Mã câu hỏi: "
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/edtSuaMaDBT"
-                        android:layout_width="230dp"
+                        android:id="@+id/edtSuaMaCauHoi"
+                        android:layout_width="220dp"
                         android:layout_height="40dp"
                         android:background="@drawable/custom_admin_unedit_text"
                         android:drawableStart="@drawable/id_icon_focus"
+                        android:drawablePadding="8dp"
                         android:ems="10"
                         android:enabled="false"
                         android:inputType="textPersonName"
                         android:paddingStart="14dp"
                         android:paddingEnd="12dp"
-                        android:drawablePadding="8dp"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -190,28 +187,45 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView21"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView35"
+                        android:layout_width="107dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:text="Tên dạng bài tập: "
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6dp"
+                        android:text="Dạng câu hỏi: "
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtSuaTenDBT"
-                        android:layout_width="230dp"
+                    <Spinner
+                        android:id="@+id/spinnerDangBaiTapCH"
+                        android:layout_width="223dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/custom_admin_edit_text"
-                        android:drawableStart="@drawable/custom_name_icon"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:drawablePadding="8dp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="107dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6dp"
+                        android:text="Mức độ: "
                         android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerMucDoCH"
+                        android:layout_width="223dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -220,17 +234,17 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/textView24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
-                        android:text="Mô tả: "
+                        android:text="Câu hỏi: "
                         android:textColor="@color/black"
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/edtSuaMoTaDBT"
+                        android:id="@+id/edtSuaNoiDungCauHoi"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:background="@drawable/custom_admin_edit_text"
@@ -244,17 +258,28 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/frameLayoutCauHoiSDBT"
+                android:layout_width="380dp"
+                android:layout_height="300dp"
+                android:background="@color/blue"
+                android:layout_gravity="center">
+            </FrameLayout>
+
             <Button
-                android:id="@+id/btnSuaDBT"
+                android:id="@+id/btnSuaCH"
                 android:background="@drawable/backgr_admin_white"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:text="Sửa"
                 android:textStyle="bold"
                 android:textSize="15sp"
+                android:gravity="center"
                 android:textColor="@color/blue" />
         </LinearLayout>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

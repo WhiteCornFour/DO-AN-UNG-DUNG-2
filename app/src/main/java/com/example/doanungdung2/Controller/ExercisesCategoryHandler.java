@@ -92,7 +92,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         return exercisesCategoryArrayList;
     }
 
-    public boolean updateExercises(ExercisesCategory ec) {
+    public boolean updateExercisesCategory(ExercisesCategory ec) {
         boolean updated = false;
         SQLiteDatabase sqLiteDatabase = null;
         try {
@@ -121,4 +121,57 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
         sqLiteDatabase.close();
     }
+
+    @SuppressLint("Range")
+    public ArrayList<String> returnNameOfCategoriesSpinner() {
+        ArrayList<String> exercisesCategoryNames = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
+                    exercisesCategoryNames.add(TDBaiTap);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return exercisesCategoryNames;
+    }
+
+    @SuppressLint("Range")
+    public String getExerciseCategoryNameByCode(String maDangBaiTap) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME + " WHERE maDangBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maDangBaiTap});
+        String TDBaiTap = "";
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return TDBaiTap;
+    }
+
+    @SuppressLint("Range")
+    public String getExerciseCategoryCodeByName(String tenDangBaiTap) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + maDangBaiTap + " FROM " + TABLE_NAME + " WHERE tenDangBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTap});
+        String MDBaiTap = "";
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                MDBaiTap = cursor.getString(cursor.getColumnIndex(maDangBaiTap));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return MDBaiTap;
+    }
+
 }
+
