@@ -14,7 +14,7 @@ import com.example.doanungdung2.R;
 import java.util.ArrayList;
 
 public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Adapter<Admin_Edit_ExercisesCategory_CustomAdapter.MyViewHolder> {
-    private ArrayList<ExercisesCategory> exercisesCategoryArrayList;
+    private ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
     private ItemClickListener itemClickListener;
 
     public Admin_Edit_ExercisesCategory_CustomAdapter(ArrayList<ExercisesCategory> exercisesCategoryArrayList, ItemClickListener itemClickListener) {

@@ -16,9 +16,6 @@
         <activity
             android:name=".View.Admin_Delete_Questions"
             android:exported="false" />
-        <activity
-            android:name=".View.Admin_Custom_Add_DBT_Adapter"
-            android:exported="false" />
        <activity
             android:name=".View.Admin_Edit_Exercises"
             android:exported="false"
@@ -74,7 +71,6 @@
             android:name=".View.Admin_Add_Exercise_Category"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar"/>
-
         <activity
             android:name=".View.User_Login"
             android:exported="true"
