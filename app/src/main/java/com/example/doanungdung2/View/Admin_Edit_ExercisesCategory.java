@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
+import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
@@ -27,18 +30,10 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-
-    private static final String TABLE_NAME = "DangBaiTap";
-    private static final String maDangBaiTap = "MaDangBaiTap";
-    private static final String tenDangBaiTap = "TenDangBaiTap";
-    private static final String moTa = "MoTa";
-
-    private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
-
     EditText edtSuaDBTSearch, edtSuaMaDBT, edtSuaTenDBT,edtSuaMoTaDBT;
     Button btnSuaDBT;
     RecyclerView rvSuaDBTSearch;
-    ImageView imgSuaDBTSearch, imgBackToMainPage;
+    ImageView imgSuaDBTSearch, imgBackToMainPageSDBT;
     ExercisesCategoryHandler exercisesCategoryHandler;
     ArrayList<ExercisesCategory> exercisesCategoryArrayListSearchResult = new ArrayList<>();
     Admin_Edit_ExercisesCategory_CustomAdapter edit_exercisesCategory_customAdapter;
@@ -64,7 +59,7 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
         btnSuaDBT = (Button) findViewById(R.id.btnSuaDBT);
         rvSuaDBTSearch = (RecyclerView) findViewById(R.id.rvSuaDBTSearch);
         imgSuaDBTSearch = (ImageView) findViewById(R.id.imgSuaDBTSearch);
-        imgBackToMainPage = (ImageView) findViewById(R.id.imgBackToMainPage);
+        imgBackToMainPageSDBT = (ImageView) findViewById(R.id.imgBackToMainPageSDBT);
     }
     @Override
     public void onBackPressed() {
@@ -72,7 +67,7 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
         fragmentManager.popBackStack(); // Quay lại Fragment trước đó
     }
     void addEvent() {
-        imgBackToMainPage.setOnClickListener(new View.OnClickListener() {
+        imgBackToMainPageSDBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //startActivity(new Intent(Admin_Edit_ExercisesCategory.this, Admin_MainPage.class));
@@ -84,6 +79,7 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
             public void onClick(View v) {
                 String exercisesCategorySearch = edtSuaDBTSearch.getText().toString().trim();
                 if (exercisesCategorySearch.isEmpty()) {
+                    edtSuaDBTSearch.setText("");
                     loadAllExercisesCategories();
                 } else {
                     searchExercisesCategories(exercisesCategorySearch);
@@ -99,21 +95,14 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
                 String moTaDBT = edtSuaMoTaDBT.getText().toString().trim();
 
                 if (maDBT.isEmpty() || tenDBT.isEmpty() || moTaDBT.isEmpty()) {
-                    Toast.makeText(Admin_Edit_ExercisesCategory.this, "Vui lòng chọn một danh mục bài tập để sửa.", Toast.LENGTH_SHORT).show();
-                } else {
-                    ExercisesCategory exercisesCategory = new ExercisesCategory();
-                    exercisesCategory.setMaDangBaiTap(maDBT);
-                    exercisesCategory.setTenDangBaiTap(tenDBT);
-                    exercisesCategory.setMoTa(moTaDBT);
-
-                    boolean isUpdated = exercisesCategoryHandler.updateExercises(exercisesCategory);
-                    if (isUpdated) {
-                        Toast.makeText(Admin_Edit_ExercisesCategory.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-                        loadAllExercisesCategories();
-                    } else {
-                        Toast.makeText(Admin_Edit_ExercisesCategory.this, "Cập nhật thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(Admin_Edit_ExercisesCategory.this, "Vui lòng chọn một danh mục bài tập để sửa hoặc vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                ExercisesCategory exercisesCategory = new ExercisesCategory();
+                exercisesCategory.setMaDangBaiTap(maDBT);
+                exercisesCategory.setTenDangBaiTap(tenDBT);
+                exercisesCategory.setMoTa(moTaDBT);
+                createAlertDialogEditExercisesCategory(exercisesCategory);
             }
         });
 
@@ -147,6 +136,34 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
             }
         });
         rvSuaDBTSearch.setAdapter(edit_exercisesCategory_customAdapter);
+    }
+
+    private AlertDialog createAlertDialogEditExercisesCategory(ExercisesCategory exercisesCategory) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Edit_ExercisesCategory.this);
+        builder.setTitle("Edit Exercises Category");
+        builder.setMessage("Bạn có muốn cập nhật dạng bài tập này không ?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                exercisesCategoryHandler.updateExercisesCategory(exercisesCategory);
+                loadAllExercisesCategories();
+                Toast.makeText(Admin_Edit_ExercisesCategory.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
+                clearInputFields();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
+    }
+
+    private void clearInputFields() {
+        edtSuaMaDBT.setText("");
+        edtSuaTenDBT.setText("");
+        edtSuaMoTaDBT.setText("");
     }
 
 

@@ -1,14 +1,17 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import com.example.doanungdung2.Model.Exercise;
+import com.example.doanungdung2.Model.ExercisesCategory;
 
 import java.util.ArrayList;
 
@@ -117,6 +120,41 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exerciseArrayList;
     }
+
+    public boolean updateExercises(Exercise e) {
+        boolean updated = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(tenBaiTap, e.getTenBaiTap());
+            contentValues.put(soCau, e.getTenBaiTap());
+            contentValues.put(mucDo, e.getMucDo());
+            contentValues.put(thoiGian, e.getThoiGian());
+            contentValues.put(moTa, e.getMoTa());
+            contentValues.put(maDangBaiTap, e.getMaDangBaiTap());
+
+            int kq = sqLiteDatabase.update(TABLE_NAME, contentValues, maBaiTap + " = ?", new String[]{e.getMaBaiTap()});
+            updated = kq > 0;
+
+        } catch (SQLiteException exception) {
+            exception.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return updated;
+    }
+
+    public boolean isExerciseNameExists(String tenBaiTap) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Exercises WHERE tenBaiTap = ?", new String[]{tenBaiTap});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+=======
     public void deleteExerciseByCode(String maBaiTap)
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);

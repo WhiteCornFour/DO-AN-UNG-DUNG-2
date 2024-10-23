@@ -17,7 +17,6 @@ public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Ada
     private ArrayList<ExercisesCategory> exercisesCategoryArrayList;
     private ItemClickListener itemClickListener;
 
-    // Constructor
     public Admin_Edit_ExercisesCategory_CustomAdapter(ArrayList<ExercisesCategory> exercisesCategoryArrayList, ItemClickListener itemClickListener) {
         this.exercisesCategoryArrayList = exercisesCategoryArrayList;
         this.itemClickListener = itemClickListener;
@@ -26,7 +25,7 @@ public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Ada
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_custom_adapter_for_search_bar, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_admin_edit_exercises_custom_adapter_recyclerview, parent, false);
         return new MyViewHolder(itemView);
     }
 
