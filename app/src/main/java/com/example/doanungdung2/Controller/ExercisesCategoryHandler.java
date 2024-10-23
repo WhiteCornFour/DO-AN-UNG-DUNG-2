@@ -29,15 +29,12 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
     public ExercisesCategoryHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, DB_VERSION);
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
     {
@@ -65,7 +62,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
 
         return exercisesCategoryArrayList;
     }
-
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> searchResultExercisesCategory(String exercisesCategorySearch) {
         ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
@@ -91,7 +87,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryArrayList;
     }
-
     public boolean updateExercisesCategory(ExercisesCategory ec) {
         boolean updated = false;
         SQLiteDatabase sqLiteDatabase = null;
@@ -114,12 +109,74 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         return updated;
     }
-
     public void deleteAExerciseCategory(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "DELETE FROM " + TABLE_NAME + " WHERE MaDangBaiTap = ?";
         sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
         sqLiteDatabase.close();
+    }
+    @SuppressLint("Range")
+    public ArrayList<String> returnNameOfCategoriesSpinner() {
+        ArrayList<String> exercisesCategoryNames = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
+                    exercisesCategoryNames.add(TDBaiTap);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return exercisesCategoryNames;
+    }
+    @SuppressLint("Range")
+    public String getExerciseCategoryNameByCode(String maDangBaiTap) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME + " WHERE maDangBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maDangBaiTap});
+        String TDBaiTap = "";
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return TDBaiTap;
+    }
+    @SuppressLint("Range")
+    public String getExerciseCategoryCodeByName(String tenDangBaiTap) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + maDangBaiTap + " FROM " + TABLE_NAME + " WHERE tenDangBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTap});
+        String MDBaiTap = "";
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                MDBaiTap = cursor.getString(cursor.getColumnIndex(maDangBaiTap));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return MDBaiTap;
+    }
+    @SuppressLint("Range")
+    public String searchCodeExerciseCategoryByName(String tenDangBaiTap) {
+        String result = null;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT " + maDangBaiTap + " FROM " + TABLE_NAME + " WHERE tenDangBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTap});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(maDangBaiTap));
+            }
+            cursor.close(); // Đóng cursor
+        }
+        sqLiteDatabase.close(); // Đóng kết nối CSDL
+        return result;
     }
     public boolean addExerciseCategory(ExercisesCategory ec) {
         boolean added = false;
@@ -147,80 +204,11 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         return added;
     }
-        private String generateMaDangBaiTap() {
-            // Tạo một số ngẫu nhiên trong khoảng từ 10 đến 999
-            int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
-            return "DBT" + String.valueOf(randomNum);
-        }
-
-    @SuppressLint("Range")
-    public ArrayList<String> returnNameOfCategoriesSpinner() {
-        ArrayList<String> exercisesCategoryNames = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME;
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    String TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
-                    exercisesCategoryNames.add(TDBaiTap);
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-        }
-        sqLiteDatabase.close();
-        return exercisesCategoryNames;
+    private String generateMaDangBaiTap() {
+        // Tạo một số ngẫu nhiên trong khoảng từ 10 đến 999
+        int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
+        return "DBT" + String.valueOf(randomNum);
     }
-
-    @SuppressLint("Range")
-    public String getExerciseCategoryNameByCode(String maDangBaiTap) {
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT " + tenDangBaiTap + " FROM " + TABLE_NAME + " WHERE maDangBaiTap = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maDangBaiTap});
-        String TDBaiTap = "";
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                TDBaiTap = cursor.getString(cursor.getColumnIndex(tenDangBaiTap));
-            }
-            cursor.close();
-        }
-        sqLiteDatabase.close();
-        return TDBaiTap;
-    }
-
-    @SuppressLint("Range")
-    public String getExerciseCategoryCodeByName(String tenDangBaiTap) {
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT " + maDangBaiTap + " FROM " + TABLE_NAME + " WHERE tenDangBaiTap = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTap});
-        String MDBaiTap = "";
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                MDBaiTap = cursor.getString(cursor.getColumnIndex(maDangBaiTap));
-            }
-            cursor.close();
-        }
-        sqLiteDatabase.close();
-        return MDBaiTap;
-    }
-
-    @SuppressLint("Range")
-    public String searchCodeExerciseCategoryByName(String tenDangBaiTap) {
-        String result = null;
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT " + maDangBaiTap + " FROM " + TABLE_NAME + " WHERE tenDangBaiTap = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTap});
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                result = cursor.getString(cursor.getColumnIndex(maDangBaiTap));
-            }
-            cursor.close(); // Đóng cursor
-        }
-        sqLiteDatabase.close(); // Đóng kết nối CSDL
-        return result;
-
-    }
-
 }
 
 
