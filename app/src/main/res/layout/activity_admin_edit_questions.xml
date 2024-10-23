@@ -261,7 +261,7 @@
             <FrameLayout
                 android:id="@+id/frameLayoutCauHoiSDBT"
                 android:layout_width="380dp"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:background="@color/blue"
                 android:layout_gravity="center">
             </FrameLayout>

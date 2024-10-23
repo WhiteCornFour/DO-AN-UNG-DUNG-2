@@ -7,16 +7,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.example.doanungdung2.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Admin_Question_True_False#newInstance} factory method to
+ * Use the {@link Admin_Question_Multiple_Choice_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Admin_Question_True_False extends Fragment {
+public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
 
+    String [] dsDA = new String[]{"A", "B", "C", "D"};
+    Spinner spinnerDapAnTNCH;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,7 +31,7 @@ public class Admin_Question_True_False extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Admin_Question_True_False() {
+    public Admin_Question_Multiple_Choice_Fragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +41,11 @@ public class Admin_Question_True_False extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Admin_Question_True_False.
+     * @return A new instance of fragment Admin_Question_Multiple_Choice.
      */
     // TODO: Rename and change types and number of parameters
-    public static Admin_Question_True_False newInstance(String param1, String param2) {
-        Admin_Question_True_False fragment = new Admin_Question_True_False();
+    public static Admin_Question_Multiple_Choice_Fragment newInstance(String param1, String param2) {
+        Admin_Question_Multiple_Choice_Fragment fragment = new Admin_Question_Multiple_Choice_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +66,23 @@ public class Admin_Question_True_False extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_question_true_false, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_question_multiple_choice, container, false);
+        addControl(view);
+        spinnerDapAn();
+        return view;
+    }
+
+    void addControl(View view)
+    {
+        spinnerDapAnTNCH = view.findViewById(R.id.spinnerDapAnTNCH);
+    }
+    void spinnerDapAn() {
+        String[] dsDapAn = new String[dsDA.length];
+        for (int i = 0; i < dsDapAn.length; i++) {
+            dsDapAn[i] = String.valueOf(dsDA[i]);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, dsDA);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDapAnTNCH.setAdapter(adapter);
     }
 }

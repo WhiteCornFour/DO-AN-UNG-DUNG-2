@@ -1,7 +1,9 @@
 package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,12 +40,12 @@ public class Admin_Edit_Questions extends AppCompatActivity {
     FrameLayout frameLayoutCauHoiSDBT;
     Button btnSuaCH;
     String [] dsMucDo = new String[]{"Beginner", "Starter", "Intermediate", "Proficient", "Master"};
-
     QuestionHandler questionHandler;
     ExercisesCategoryHandler exercisesCategoryHandler;
     ArrayList<Question> questionArrayListResult = new ArrayList<>();
     ArrayList<ExercisesCategory> dsDangBaiTap = new ArrayList<>();
     Admin_Edit_Questions_CustomAdapter admin_edit_questions_customAdapter;
+    ExercisesCategory exercisesCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +105,40 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                 }
             }
         });
-    }
+        spinnerDangBaiTapCH.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                exercisesCategory = dsDangBaiTap.get(i);
+                String tenDBT = exercisesCategory.getTenDangBaiTap();
+                String tracNghiem = "Trắc nghiệm";
+                String dungSai = "Nối câu";
+                if (tenDBT.equals(tracNghiem))
+                {
+                    Admin_Question_Multiple_Choice_Fragment f1 = new Admin_Question_Multiple_Choice_Fragment();
+                    replaceFragment(f1);
+                }else if (tenDBT.equals(dungSai))
+                {
+                    Admin_Question_True_False_Fragment f2 = new Admin_Question_True_False_Fragment();
+                    replaceFragment(f2);
+                }else
+                {
+                    Admin_Question_Essay_Fragment f3 = new Admin_Question_Essay_Fragment();
+                    replaceFragment(f3);
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayoutCauHoiSDBT, fragment);
+        fragmentTransaction.commit();
+    }
     //Chuc nang
     void loadAllQuestions() {
         questionArrayListResult.clear();
