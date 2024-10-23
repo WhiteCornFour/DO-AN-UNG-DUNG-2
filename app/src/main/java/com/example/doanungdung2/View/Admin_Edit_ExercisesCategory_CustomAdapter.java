@@ -34,7 +34,6 @@ public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Ada
         ExercisesCategory ec = exercisesCategoryArrayList.get(position);
         holder.tvRecyclerViewMaDBT.setText(ec.getMaDangBaiTap());
         holder.tvRecyclerViewTenDBT.setText(ec.getTenDangBaiTap());
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

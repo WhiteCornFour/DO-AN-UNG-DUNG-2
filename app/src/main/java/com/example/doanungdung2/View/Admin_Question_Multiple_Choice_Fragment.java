@@ -2,15 +2,20 @@ package com.example.doanungdung2.View;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 /**
@@ -21,6 +26,7 @@ import com.example.doanungdung2.R;
 public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
 
     String [] dsDA = new String[]{"A", "B", "C", "D"};
+    EditText edtCauASuaCauHoi, edtCauBSuaCauHoi, edtCauCSuaCauHoi, edtCauDSuaCauHoi;
     Spinner spinnerDapAnTNCH;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,13 +75,29 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_admin_question_multiple_choice, container, false);
         addControl(view);
         spinnerDapAn();
+
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("ch", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                Question question = (Question) result.getSerializable("question");
+                if (question != null) {
+                    updateQuestionDetails(question);
+                }
+            }
+        });
         return view;
     }
 
     void addControl(View view)
     {
+        edtCauASuaCauHoi = view.findViewById(R.id.edtCauASuaCauHoi);
+        edtCauBSuaCauHoi = view.findViewById(R.id.edtCauBSuaCauHoi);
+        edtCauCSuaCauHoi = view.findViewById(R.id.edtCauCSuaCauHoi);
+        edtCauDSuaCauHoi = view.findViewById(R.id.edtCauDSuaCauHoi);
         spinnerDapAnTNCH = view.findViewById(R.id.spinnerDapAnTNCH);
     }
+
     void spinnerDapAn() {
         String[] dsDapAn = new String[dsDA.length];
         for (int i = 0; i < dsDapAn.length; i++) {
@@ -84,5 +106,20 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, dsDA);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDapAnTNCH.setAdapter(adapter);
+    }
+
+    public void updateQuestionDetails(Question question) {
+        edtCauASuaCauHoi.setText(question.getCauA());
+        edtCauBSuaCauHoi.setText(question.getCauB());
+        edtCauCSuaCauHoi.setText(question.getCauC());
+        edtCauDSuaCauHoi.setText(question.getCauD());
+
+        if (spinnerDapAnTNCH != null) {
+            ArrayAdapter<String> spinnerAdapter = (ArrayAdapter<String>) spinnerDapAnTNCH.getAdapter();
+            int index = spinnerAdapter.getPosition(question.getDapAn());
+            if (index != -1) {
+                spinnerDapAnTNCH.setSelection(index);
+            }
+        }
     }
 }

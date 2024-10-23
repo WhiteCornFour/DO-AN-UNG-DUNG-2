@@ -152,8 +152,6 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
             int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
             return "DBT" + String.valueOf(randomNum);
         }
-    }
-
 
     @SuppressLint("Range")
     public ArrayList<String> returnNameOfCategoriesSpinner() {
