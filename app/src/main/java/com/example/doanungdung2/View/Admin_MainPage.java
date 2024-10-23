@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.doanungdung2.R;
 import com.google.android.material.navigation.NavigationView;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -92,6 +93,7 @@ public class Admin_MainPage extends AppCompatActivity {
     void addEvent()
     {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
@@ -105,6 +107,12 @@ public class Admin_MainPage extends AppCompatActivity {
                     case  R.id.qLBaiTap:
                         Admin_Exercise_MainPage_Fragment admin_exercise_mainPage_fragment = new Admin_Exercise_MainPage_Fragment();
                         replaceFragment(admin_exercise_mainPage_fragment);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
+                    case  R.id.qLCauHoi:
+                        Admin_Question_Mainpage_Fragment admin_question_mainpage_fragment = new Admin_Question_Mainpage_Fragment();
+                        replaceFragment(admin_question_mainpage_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
