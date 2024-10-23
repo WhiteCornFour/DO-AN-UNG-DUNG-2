@@ -14,7 +14,7 @@ import com.example.doanungdung2.R;
 import java.util.ArrayList;
 
 public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Adapter<Admin_Edit_ExercisesCategory_CustomAdapter.MyViewHolder> {
-    private ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
+    private ArrayList<ExercisesCategory> exercisesCategoryArrayList;
     private ItemClickListener itemClickListener;
 
     public Admin_Edit_ExercisesCategory_CustomAdapter(ArrayList<ExercisesCategory> exercisesCategoryArrayList, ItemClickListener itemClickListener) {
@@ -25,7 +25,7 @@ public class Admin_Edit_ExercisesCategory_CustomAdapter extends RecyclerView.Ada
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_admin_edit_exercises_custom_adapter_recyclerview, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_admin_edit_exercises_category_custom_adapter_recyclerview, parent, false);
         return new MyViewHolder(itemView);
     }
 

@@ -21,7 +21,7 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.Admin_Edit_Questions"
+            android:name=".View.User_Login"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
@@ -72,7 +72,7 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar"/>
         <activity
-            android:name=".View.User_Login"
+            android:name=".View.Admin_Edit_Questions"
             android:exported="true"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar">
             <intent-filter>
