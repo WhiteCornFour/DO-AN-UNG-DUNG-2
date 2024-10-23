@@ -67,7 +67,7 @@ public class Admin_Add_Exercise extends AppCompatActivity {
         //load data cho recycler view
         loadAllDataExercise();
 
-        maBaiTap = createAutoExerciseCode();
+        maBaiTap = createAutoExerciseCode("BT");
         edtMaBT_AddExercise.setText(maBaiTap);
 
         addEvent();
@@ -333,11 +333,11 @@ public class Admin_Add_Exercise extends AppCompatActivity {
         }
         return stringArrayList1;
     }
-    String createAutoExerciseCode()
+    public static String createAutoExerciseCode(String kyTuDau)
     {
         Random random = new Random();
         // Tạo chuỗi số ngẫu nhiên 9 chữ số
-        StringBuilder code = new StringBuilder("BT");
+        StringBuilder code = new StringBuilder(kyTuDau);
         for (int i = 0; i < 9; i++) {
             int digit = random.nextInt(10); // Tạo số ngẫu nhiên từ 0 đến 9
             code.append(digit);
@@ -374,7 +374,7 @@ public class Admin_Add_Exercise extends AppCompatActivity {
     }
     void resetActivity()
     {
-        edtMaBT_AddExercise.setText(createAutoExerciseCode());
+        edtMaBT_AddExercise.setText(createAutoExerciseCode("BT"));
         edtTenBT_AddExercise.setText("");
         edtMoTaBT_AddExercise.setText("");
         edtThoiGianLamBai_AddExercise.setText("");

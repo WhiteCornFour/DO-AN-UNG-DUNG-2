@@ -76,14 +76,12 @@ public class Admin_Add_Exercise_Category extends AppCompatActivity {
                 finish();
             }
         });
-
         btnThemDBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addExerciseCategory();
             }
         });
-
         lvDBT.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
