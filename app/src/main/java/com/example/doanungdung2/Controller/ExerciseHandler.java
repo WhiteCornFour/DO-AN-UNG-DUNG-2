@@ -154,7 +154,8 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
-=======
+    }
+
     public void deleteExerciseByCode(String maBaiTap)
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
