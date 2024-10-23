@@ -51,9 +51,9 @@ public class Admin {
     public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email) {
         this.maAdmin = maAdmin;
         this.tenAdmin = tenAdmin;
-        this.taiKhoan = taiKhoan;
-        this.matKhau = matKhau;
-        this.email = email;
+        this.taiKhoanAdmin = taiKhoan;
+        this.matKhauAdmin = matKhau;
+        this.emailAdmin = email;
     }
 
     public Admin() {

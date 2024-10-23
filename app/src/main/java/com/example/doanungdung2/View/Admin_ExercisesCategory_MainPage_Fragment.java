@@ -104,7 +104,7 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
         lnThemDBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), Admin_Add_Exercise_Category.class));
             }
         });
         lnSuaDBT.setOnClickListener(new View.OnClickListener() {

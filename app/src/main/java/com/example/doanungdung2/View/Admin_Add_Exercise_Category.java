@@ -73,10 +73,6 @@ public class Admin_Add_Exercise_Category extends AppCompatActivity {
         imgBackDBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Admin_Add_Exercise_Category.this,
-                       Admin_Login.class);
-                //test//
-                startActivity(intent);
                 finish();
             }
         });

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.doanungdung2.R;
+
 public class Admin_Delete_Questions extends AppCompatActivity {
 
     @Override
