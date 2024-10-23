@@ -19,20 +19,25 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import androidx.lifecycle.ViewModelProvider;
+
 
 public class Admin_Edit_Questions extends AppCompatActivity {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
 
+    SharedViewModel sharedViewModel;
     EditText edtSuaCHSearch, edtSuaMaCauHoi, edtSuaNoiDungCauHoi;
     ImageView imgBackToMainPageSCH,imgSuaCHSearch;
     RecyclerView rvSuaCHSearch;
@@ -57,7 +62,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Edit_Questions.this, DB_NAME, null, DB_VERSION);
 
         dsDangBaiTap = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
-
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         spinnerMucDoCHCreate();
         spinnerDangBaiTapCHCreate();
         spinnerDangBaiTapCH.setEnabled(false);
@@ -111,8 +116,8 @@ public class Admin_Edit_Questions extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 exercisesCategory = dsDangBaiTap.get(i);
                 String tenDBT = exercisesCategory.getTenDangBaiTap();
-                String tracNghiem = "Trắc nghiệm";
-                String dungSai = "Nối câu";
+                String tracNghiem = "Multiple Choice";
+                String dungSai = "True/False";
                 if (tenDBT.equals(tracNghiem))
                 {
                     Admin_Question_Multiple_Choice_Fragment f1 = new Admin_Question_Multiple_Choice_Fragment();
@@ -130,7 +135,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
@@ -140,6 +144,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayoutCauHoiSDBT, fragment);
         fragmentTransaction.commit();
     }
+
     //Chuc nang
     void loadAllQuestions() {
         questionArrayListResult.clear();
@@ -172,15 +177,20 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         rvSuaCHSearch.addItemDecoration(new DividerItemDecoration(Admin_Edit_Questions.this, DividerItemDecoration.VERTICAL));
         rvSuaCHSearch.setLayoutManager(layoutManager);
         rvSuaCHSearch.setItemAnimator(new DefaultItemAnimator());
-        admin_edit_questions_customAdapter = new Admin_Edit_Questions_CustomAdapter(questionArrayListResult,new Admin_Edit_Questions_CustomAdapter.ItemClickListener() {
+        admin_edit_questions_customAdapter = new Admin_Edit_Questions_CustomAdapter(questionArrayListResult, new Admin_Edit_Questions_CustomAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Question question) {
+                // Gửi dữ liệu vào SharedViewModel
+                sharedViewModel.select(question);
+
+                // Hiển thị thông tin bài tập trên các EditText
                 edtSuaMaCauHoi.setText(question.getMaCauHoi());
                 edtSuaNoiDungCauHoi.setText(question.getNoiDungCauHoi());
 
+                // Cập nhật Spinner cho mức độ
                 int index = -1;
                 for (int i = 0; i < dsMucDo.length; i++) {
-                    if (dsMucDo[i] == question.getMucDo()) {
+                    if (dsMucDo[i].equals(question.getMucDo())) {
                         index = i;
                         break;
                     }
@@ -189,6 +199,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     spinnerMucDoCH.setSelection(index);
                 }
 
+                // Cập nhật Spinner cho dạng bài tập
                 String maDangBaiTap = question.getMaDangBaiTap();
                 String tenDangBaiTap = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
                 ArrayList<String> dsDangBaiTapString = exercisesCategoryHandler.returnNameOfCategoriesSpinner();
@@ -197,13 +208,21 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     spinnerDangBaiTapCH.setSelection(index2);
                 }
 
-                FragmentManager fm = getSupportFragmentManager();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("question", question);
-                fm.setFragmentResult("ch", bundle);
-
+                // Hiển thị Fragment tương ứng với dạng bài tập
+                String tenDBT = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
+                if (tenDBT.equals("Multiple Choice")) {
+                    Admin_Question_Multiple_Choice_Fragment f1 = new Admin_Question_Multiple_Choice_Fragment();
+                    replaceFragment(f1);
+                } else if (tenDBT.equals("True/False")) {
+                    Admin_Question_True_False_Fragment f2 = new Admin_Question_True_False_Fragment();
+                    replaceFragment(f2);
+                } else {
+                    Admin_Question_Essay_Fragment f3 = new Admin_Question_Essay_Fragment();
+                    replaceFragment(f3);
+                }
             }
         });
         rvSuaCHSearch.setAdapter(admin_edit_questions_customAdapter );
     }
+
 }

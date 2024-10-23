@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -53,13 +54,12 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
                     exercisesCategory.setTenDangBaiTap(cursor.getString(cursor.getColumnIndex(tenDangBaiTap)));
                     exercisesCategory.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
                     exercisesCategoryArrayList.add(exercisesCategory);
+                    Log.d("DEBUG", exercisesCategory.getMaDangBaiTap());
                 }while (cursor.moveToNext());
             }
             cursor.close();
         }
-
         sqLiteDatabase.close();
-
         return exercisesCategoryArrayList;
     }
     @SuppressLint("Range")
