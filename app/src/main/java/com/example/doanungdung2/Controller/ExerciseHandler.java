@@ -95,7 +95,8 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " LIKE '%" + keyWord + "%'" +
-                " OR " + tenBaiTap + " LIKE '%" + keyWord + "%'";
+                " OR " + tenBaiTap + " LIKE '%" + keyWord + "%'" +
+                " OR " + maDangBaiTap + " LIKE '%" + keyWord + "%'";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
         if (cursor != null)
         {
@@ -153,5 +154,37 @@ public class ExerciseHandler extends SQLiteOpenHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
+=======
+    public void deleteExerciseByCode(String maBaiTap)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE maBaiTap = ?";
+        sqLiteDatabase.execSQL(query, new String[]{maBaiTap});
+        sqLiteDatabase.close();
+    }
+    public void insertNewExercise(Exercise exercise)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "INSERT INTO " + TABLE_NAME + " (maBaiTap, tenBaiTap, soCau, mucDo, thoiGian," +
+                "moTa, maDangBaiTap) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        sqLiteDatabase.execSQL(query, new String[]{exercise.getMaBaiTap(), exercise.getTenBaiTap(),
+                String.valueOf(exercise.getSoCau()), exercise.getMucDo(), exercise.getThoiGian(),
+                exercise.getMoTa(), exercise.getMaDangBaiTap()});
+        sqLiteDatabase.close();
+    }
+    public boolean checkCodeAndNameExercise(String maBaiTap, String tenBaiTap)
+    {
+        boolean checked = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * from " + TABLE_NAME + " Where maBaiTap = ? Or tenBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiTap, tenBaiTap});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                checked = true;
+            }
+        }
+        return checked;
     }
 }

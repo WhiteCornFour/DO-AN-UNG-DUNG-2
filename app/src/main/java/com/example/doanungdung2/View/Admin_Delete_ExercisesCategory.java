@@ -11,6 +11,7 @@ import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,8 +37,6 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
     ExercisesCategoryHandler exercisesCategoryHandler;
     ExerciseHandler exerciseHandler;
     Admin_Delete_ExercisesCategory_CustomAdapter_LV customAdapterLv;
-
-    Exercise exercise;
     ExercisesCategory exercisesCategory;
     boolean[] checkedStates;
 
@@ -190,10 +189,18 @@ public class    Admin_Delete_ExercisesCategory extends AppCompatActivity {
         builder.setTitle("Thông báo");
         builder.setMessage("Dạng bài tập hiện tại đang chứa 1 danh sách bài tập. \n" +
                 "Vui lòng kiểm tra lại các bài tập liên quan đến dạng bài tập có mã: "+ maDBT);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Chuyển tiếp", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Admin_Delete_ExercisesCategory.this, Admin_Delete_Exercise.class);
+                intent.putExtra("maDBT", maDBT);
+                startActivity(intent);
             }
         });
         AlertDialog alertDialog = builder.create();
