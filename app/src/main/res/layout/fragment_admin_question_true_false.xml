@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/backgr_admin_white"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".View.Admin_Question_True_False_Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dạng câu True/False"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:text="Chọn đáp án chính xác cho câu hỏi: "
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+
+        <Spinner
+            android:id="@+id/spinnerDapAnTFCH"
+            android:layout_width="129dp"
+            android:layout_height="35dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -48,12 +48,12 @@ public class Admin {
     }
 
 
-    public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email, byte[] anhAdmin) {
+    public Admin(String maAdmin, String tenAdmin, String taiKhoan, String matKhau, String email) {
         this.maAdmin = maAdmin;
         this.tenAdmin = tenAdmin;
-        this.taiKhoanAdmin = taiKhoan;
-        this.matKhauAdmin = matKhau;
-        this.emailAdmin = email;
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
+        this.email = email;
     }
 
     public Admin() {

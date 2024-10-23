@@ -58,6 +58,7 @@ public class User_Enter_OTP extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(User_Enter_OTP.this, User_ForgotPassword.class));
+                finish();
             }
         });
         
@@ -100,23 +101,6 @@ public class User_Enter_OTP extends AppCompatActivity {
         if (alertDialog.getWindow() != null) {
             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         }
-        alertDialog.show();
-    }
-    void createDialog()
-    {
-        // Tạo dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Nút "OK" để đóng dialog
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); // Đóng dialog khi người dùng nhấn OK
-
-            }
-        });
-        // Hiển thị dialog
-        AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 }

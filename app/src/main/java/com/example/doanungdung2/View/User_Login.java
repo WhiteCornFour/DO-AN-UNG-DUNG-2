@@ -60,7 +60,7 @@ public class User_Login extends AppCompatActivity {
                 boolean isValid = UserHandler.validateLogin(account, password);
                 if (isValid) {
                     Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(User_Login.this, MainActivity.class);
+                    Intent intent = new Intent(User_Login.this, User_MainPage.class);
                     intent.putExtra("account", account);
                     intent.putExtra("password", password);
 
@@ -73,13 +73,12 @@ public class User_Login extends AppCompatActivity {
 
                     startActivity(intent);
                     resetEdt();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid account or password", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-
         tvRegisterNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +87,6 @@ public class User_Login extends AppCompatActivity {
                 finish();
             }
         });
-
         tvForgetPasswordLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +104,6 @@ public class User_Login extends AppCompatActivity {
             }
         });
     }
-
     public boolean validateInputs(String account, String password) {
         if (account.trim().isEmpty() || account.trim().length() <= 8) {
             Toast.makeText(this, "Username must have at least 8 letters", Toast.LENGTH_SHORT).show();
