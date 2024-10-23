@@ -14,11 +14,17 @@
         android:theme="@style/Theme.DoAnUngDung2"
         tools:targetApi="31">
         <activity
+            android:name=".View.Admin_Delete_Questions"
+            android:exported="false" />
+        <activity
+            android:name=".View.Admin_Custom_Add_DBT_Adapter"
+            android:exported="false" />
+       <activity
             android:name=".View.Admin_Edit_Exercises"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.User_Login"
+            android:name=".View.Admin_Edit_Questions"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
@@ -38,10 +44,6 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.Admin_Add_Exercise_Format"
-            android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
-        <activity
             android:name=".View.User_MainPage"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
@@ -54,6 +56,9 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
+            android:name=".View.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.User_Enter_OTP"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
@@ -62,10 +67,10 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
-            android:name=".View.MainActivity"
+            android:name=".View.Admin_Add_Exercise_Category"
             android:exported="false" />
-        <activity
-            android:name=".View.Admin_Edit_Questions"
+        <activit
+            android:name=".View.User_Login"
             android:exported="true"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar">
             <intent-filter>

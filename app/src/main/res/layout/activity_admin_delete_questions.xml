@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".View.Admin_Delete_Questions">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgBackDeleteToMainPage_Question"
+            android:layout_width="51dp"
+            android:layout_height="39dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/baseline_chevron_left_24" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="10pt"
+            android:text="XÓA CÂU HỎI"
+            android:layout_marginRight="40dp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_marginLeft="60dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/backgr_admin_blue"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/backgr_radius_chochu"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtSearchForDelete_Question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/alata"
+                android:hint="Nhập nội dung hoặc mã câu hỏi..."
+                android:inputType="textPersonName"
+                android:textColorHint="@color/mist"
+                android:textSize="7.5pt"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:id="@+id/imgSerchForDelete_Question"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/baseline_search_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnResetForLV_Question"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="165dp"
+                android:layout_weight="1"
+                android:background="@drawable/backgr_radius_chochu"
+                android:backgroundTint="@color/white"
+                android:text="Reset"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnDeleteAll_Question"
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/layout_boder_imge_func_button"
+                android:backgroundTint="@color/white"
+                android:text="Xóa tất cả"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10pt"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:text="Danh sách các câu hỏi"
+                android:background="@color/white" />
+
+            <ListView
+                android:id="@+id/lvDSDelete_Question"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

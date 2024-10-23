@@ -121,6 +121,39 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
         sqLiteDatabase.close();
     }
+    public boolean addExerciseCategory(ExercisesCategory ec) {
+        boolean added = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+
+
+            String maDangBaiTap = generateMaDangBaiTap();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("MaDangBaiTap", maDangBaiTap);
+            contentValues.put("TenDangBaiTap", ec.getTenDangBaiTap());
+            contentValues.put("MoTa", ec.getMoTa());
+
+            long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+            added = result != -1;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return added;
+    }
+        private String generateMaDangBaiTap() {
+            // Tạo một số ngẫu nhiên trong khoảng từ 10 đến 999
+            int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
+            return "DBT" + String.valueOf(randomNum);
+        }
+    }
+
 
     @SuppressLint("Range")
     public ArrayList<String> returnNameOfCategoriesSpinner() {
@@ -191,4 +224,5 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
     }
 
 }
+
 
