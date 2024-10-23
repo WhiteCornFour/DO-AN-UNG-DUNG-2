@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".View.Admin_Question_Essay" >
+    tools:context=".View.Admin_Question_Essay_Fragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView41"
+            android:id="@+id/tvTuLuanVaDBT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="10pt"

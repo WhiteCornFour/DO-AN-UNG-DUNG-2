@@ -12,10 +12,10 @@ import com.example.doanungdung2.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Admin_Question_Multiple_Choice#newInstance} factory method to
+ * Use the {@link Admin_Question_Essay_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Admin_Question_Multiple_Choice extends Fragment {
+public class Admin_Question_Essay_Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Admin_Question_Multiple_Choice extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Admin_Question_Multiple_Choice() {
+    public Admin_Question_Essay_Fragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class Admin_Question_Multiple_Choice extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Admin_Question_Multiple_Choice.
+     * @return A new instance of fragment Admin_Question_Essay.
      */
     // TODO: Rename and change types and number of parameters
-    public static Admin_Question_Multiple_Choice newInstance(String param1, String param2) {
-        Admin_Question_Multiple_Choice fragment = new Admin_Question_Multiple_Choice();
+    public static Admin_Question_Essay_Fragment newInstance(String param1, String param2) {
+        Admin_Question_Essay_Fragment fragment = new Admin_Question_Essay_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class Admin_Question_Multiple_Choice extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_question_multiple_choice, container, false);
+        return inflater.inflate(R.layout.fragment_admin__question__essay, container, false);
     }
 }
