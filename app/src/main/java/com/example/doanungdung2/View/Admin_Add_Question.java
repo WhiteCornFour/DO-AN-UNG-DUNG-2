@@ -47,13 +47,18 @@ public class Admin_Add_Question extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_question);
         addControl();
+
         questionHandler = new QuestionHandler(Admin_Add_Question.this, DB_NAME, null, DB_VERSION);
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Add_Question.this, DB_NAME, null, DB_VERSION);
+
         dsDangBaiTap = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
+
         maCauHoi = Admin_Add_Exercise.createAutoExerciseCode("CH");
         edtThemMaCauHoi.setText(maCauHoi);
         spinnerMucDoCHCreate();
+
         spinnerDangBaiTapCHCreate();
+
         addEvent();
     }
     @Override
