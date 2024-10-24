@@ -30,12 +30,15 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
     public ExercisesCategoryHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, DB_VERSION);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
+
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> loadAllDataOfExercisesCategory()
     {
@@ -62,6 +65,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryArrayList;
     }
+
     @SuppressLint("Range")
     public ArrayList<ExercisesCategory> searchResultExercisesCategory(String exercisesCategorySearch) {
         ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
@@ -87,6 +91,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryArrayList;
     }
+
     public boolean updateExercisesCategory(ExercisesCategory ec) {
         boolean updated = false;
         SQLiteDatabase sqLiteDatabase = null;
@@ -109,12 +114,14 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         return updated;
     }
+
     public void deleteAExerciseCategory(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "DELETE FROM " + TABLE_NAME + " WHERE MaDangBaiTap = ?";
         sqLiteDatabase.execSQL(query, new String[]{maDangBaiTap});
         sqLiteDatabase.close();
     }
+
     @SuppressLint("Range")
     public ArrayList<String> returnNameOfCategoriesSpinner() {
         ArrayList<String> exercisesCategoryNames = new ArrayList<>();
@@ -204,6 +211,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         }
         return added;
     }
+
     private String generateMaDangBaiTap() {
         // Tạo một số ngẫu nhiên trong khoảng từ 10 đến 999
         int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;

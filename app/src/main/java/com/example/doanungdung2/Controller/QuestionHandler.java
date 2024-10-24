@@ -1,13 +1,16 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
 
 import java.util.ArrayList;
@@ -76,5 +79,32 @@ public class QuestionHandler extends SQLiteOpenHelper {
         return questionArrayList;
     }
 
+    public boolean updateQuestions(Question q) {
+        boolean updated = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(noiDungCauHoi, q.getNoiDungCauHoi());
+            contentValues.put(cauA, q.getCauA());
+            contentValues.put(cauB, q.getCauB());
+            contentValues.put(cauC, q.getCauC());
+            contentValues.put(cauD, q.getCauD());
+            contentValues.put(dapAn, q.getDapAn());
+            contentValues.put(mucDo, q.getMucDo());
+
+            int kq = sqLiteDatabase.update(TABLE_NAME, contentValues, maCauHoi + " = ?", new String[]{q.getMaCauHoi()});
+            updated = kq > 0;
+
+        } catch (SQLiteException exception) {
+            exception.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return updated;
+    }
 
 }

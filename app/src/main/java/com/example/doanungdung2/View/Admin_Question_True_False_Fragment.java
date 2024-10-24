@@ -14,6 +14,8 @@ import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
+import java.util.ArrayList;
+
 public class Admin_Question_True_False_Fragment extends Fragment {
 
     private static final String[] ANSWER_OPTIONS = {"True", "False"};
@@ -72,5 +74,9 @@ public class Admin_Question_True_False_Fragment extends Fragment {
             int position = question.getDapAn().equals("True") ? 0 : 1;
             spinnerCorrectAnswer.setSelection(position);
         }
+    }
+
+    public String getTrueFalseData() {
+        return spinnerCorrectAnswer.getSelectedItem().toString();
     }
 }

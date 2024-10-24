@@ -1,16 +1,12 @@
 package com.example.doanungdung2.View;
 
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,9 +15,12 @@ import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 import com.example.doanungdung2.Model.SharedViewModel;
 
+import java.util.ArrayList;
+
 public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
 
     private static final String[] dsDA = new String[]{"A", "B", "C", "D"};
+
     private EditText edtCauASuaCauHoi, edtCauBSuaCauHoi, edtCauCSuaCauHoi, edtCauDSuaCauHoi;
     private Spinner spinnerDapAnTNCH;
     private SharedViewModel sharedViewModel;
@@ -48,14 +47,16 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_question_multiple_choice, container, false);
-        initializeViews(view);
+        addControl(view);
         setupSpinner();
+
         // Quan sát thay đổi từ ViewModel
         sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateQuestionDetails);
 
         return view;
     }
-    private void initializeViews(View view) {
+
+    private void addControl(View view) {
         edtCauASuaCauHoi = view.findViewById(R.id.edtCauASuaCauHoi);
         edtCauBSuaCauHoi = view.findViewById(R.id.edtCauBSuaCauHoi);
         edtCauCSuaCauHoi = view.findViewById(R.id.edtCauCSuaCauHoi);
@@ -84,4 +85,16 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
             }
         }
     }
+
+    public ArrayList<String> getMultipleChoiceData() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(edtCauASuaCauHoi.getText().toString().trim());
+        data.add(edtCauBSuaCauHoi.getText().toString().trim());
+        data.add(edtCauCSuaCauHoi.getText().toString().trim());
+        data.add(edtCauDSuaCauHoi.getText().toString().trim());
+        data.add(spinnerDapAnTNCH.getSelectedItem().toString());
+
+        return data;
+    }
+
 }
