@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:elevation="2dp"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRecyclerViewTuTiengAnhXTD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvRecyclerViewCachPhatAmXTD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="/jdahda/"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRecyclerViewTuTiengVietXTD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="Tìm kiếm"
+            android:layout_gravity="right"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/tvRecyclerViewNone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cbRecyclerViewXTD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:paddingStart="8dp" />
+</LinearLayout>

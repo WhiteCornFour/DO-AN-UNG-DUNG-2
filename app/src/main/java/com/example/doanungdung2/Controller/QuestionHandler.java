@@ -1,13 +1,16 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
 
 import java.util.ArrayList;
@@ -76,5 +79,100 @@ public class QuestionHandler extends SQLiteOpenHelper {
         return questionArrayList;
     }
 
+    public boolean updateQuestions(Question q) {
+        boolean updated = false;
+        SQLiteDatabase sqLiteDatabase = null;
+        try {
+            sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(noiDungCauHoi, q.getNoiDungCauHoi());
+            contentValues.put(cauA, q.getCauA());
+            contentValues.put(cauB, q.getCauB());
+            contentValues.put(cauC, q.getCauC());
+            contentValues.put(cauD, q.getCauD());
+            contentValues.put(dapAn, q.getDapAn());
+            contentValues.put(mucDo, q.getMucDo());
+            contentValues.put(maBaiTap, q.getMaBaiTap());
+            contentValues.put(maDangBaiTap, q.getMaDangBaiTap());
+
+            int kq = sqLiteDatabase.update(TABLE_NAME, contentValues, maCauHoi + " = ?", new String[]{q.getMaCauHoi()});
+            updated = kq > 0;
+
+        } catch (SQLiteException exception) {
+            exception.printStackTrace();
+        } finally {
+            if (sqLiteDatabase != null) {
+                sqLiteDatabase.close();
+            }
+        }
+        return updated;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<Question> loadAllDataOfNotAddingQuestion(String mucDoCHBT, String maDangBaiTapCHBT) {
+        ArrayList<Question> questionArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
+        //Khong null va cung muc do
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " IS NULL AND " + mucDo + " = ?" + " AND " + maDangBaiTap + " = ?";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{mucDoCHBT, maDangBaiTapCHBT});
+
+        if (cursor != null && cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Question question = new Question();
+                    question.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    question.setNoiDungCauHoi(cursor.getString(cursor.getColumnIndex(noiDungCauHoi)));
+                    question.setCauA(cursor.getString(cursor.getColumnIndex(cauA)));
+                    question.setCauB(cursor.getString(cursor.getColumnIndex(cauB)));
+                    question.setCauC(cursor.getString(cursor.getColumnIndex(cauC)));
+                    question.setCauD(cursor.getString(cursor.getColumnIndex(cauD)));
+                    question.setDapAn(cursor.getString(cursor.getColumnIndex(dapAn)));
+                    question.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    question.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    question.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    questionArrayList.add(question);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return questionArrayList;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<Question> loadAllDataOfAddingQuestion(String mucDoCHBT, String maDangBaiTapCHBT, String maBaiTapCHBT) {
+        ArrayList<Question> questionArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
+        //Khong null va cung muc do
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " IS NOT NULL AND " + mucDo + " = ?" + " AND " + maDangBaiTap + " = ?" + " AND " + maBaiTap + " = ?";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{mucDoCHBT, maDangBaiTapCHBT, maBaiTapCHBT});
+
+        if (cursor != null && cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Question question = new Question();
+                    question.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    question.setNoiDungCauHoi(cursor.getString(cursor.getColumnIndex(noiDungCauHoi)));
+                    question.setCauA(cursor.getString(cursor.getColumnIndex(cauA)));
+                    question.setCauB(cursor.getString(cursor.getColumnIndex(cauB)));
+                    question.setCauC(cursor.getString(cursor.getColumnIndex(cauC)));
+                    question.setCauD(cursor.getString(cursor.getColumnIndex(cauD)));
+                    question.setDapAn(cursor.getString(cursor.getColumnIndex(dapAn)));
+                    question.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    question.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    question.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    questionArrayList.add(question);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return questionArrayList;
+    }
 
 }

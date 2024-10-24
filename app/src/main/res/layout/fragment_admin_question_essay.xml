@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/backgr_admin_white"
+    android:padding="20dp"
     tools:context=".View.Admin_Question_Essay_Fragment" >
 
     <LinearLayout
@@ -16,28 +18,26 @@
             android:id="@+id/tvTuLuanVaDBT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10pt"
+            android:text="Dạng câu hỏi tự luận"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:padding="20dp"
-            android:fontFamily="@font/alata"
-            android:text="Dạng câu hỏi tự luận" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView42"
+            android:id="@+id/textView34"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:layout_marginTop="10dp"
+            android:text="Chỉnh sửa đáp án"
             android:textColor="@color/black"
-            android:fontFamily="@font/alata"
-            android:paddingStart="20dp"
-            android:text="Thêm đáp án đúng" />
+            android:textSize="13sp"/>
 
         <EditText
             android:id="@+id/edtDapAnDungTuLuan"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
+            android:padding="10dp"
             android:ems="20"
             android:background="@drawable/custom_admin_edit_text"
             android:layout_gravity="center"

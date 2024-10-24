@@ -1,5 +1,7 @@
 package com.example.doanungdung2.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
+import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.SharedViewModel;
@@ -36,7 +41,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-
     SharedViewModel sharedViewModel;
     EditText edtSuaCHSearch, edtSuaMaCauHoi, edtSuaNoiDungCauHoi;
     ImageView imgBackToMainPageSCH,imgSuaCHSearch;
@@ -137,6 +141,78 @@ public class Admin_Edit_Questions extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        btnSuaCH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String maCauHoi = edtSuaMaCauHoi.getText().toString().trim();
+
+                String mucDo = spinnerMucDoCH.getSelectedItem().toString();
+
+                String noiDungCauHoi = edtSuaNoiDungCauHoi.getText().toString().trim();
+
+                if (maCauHoi.isEmpty() || noiDungCauHoi.isEmpty()) {
+                    Toast.makeText(Admin_Edit_Questions.this, "Vui lòng chọn một câu hỏi để sửa hoặc vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String tenDangBaiTap = spinnerDangBaiTapCH.getSelectedItem().toString();
+                String maDangBaiTap = exercisesCategoryHandler.getExerciseCategoryCodeByName(tenDangBaiTap);
+
+                //Lay fragment moi
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutCauHoiSDBT);
+
+                //Tao chuoi lay data tu Fragment day len Activity
+                //So sanh Fragmetn hien tai voi cac dang Fragment khac, neu dung thi lam
+                ArrayList<String> questionData = new ArrayList<>();
+                String questionData2 = "";
+                if (fragment instanceof Admin_Question_Multiple_Choice_Fragment) {
+                    questionData = ((Admin_Question_Multiple_Choice_Fragment) fragment).getMultipleChoiceData();
+                    String cauA = questionData.get(0);
+                    String cauB = questionData.get(1);
+                    String cauC = questionData.get(2);
+                    String cauD = questionData.get(3);
+                    String dapAn = questionData.get(4);
+                    if (cauA.isEmpty() || cauB.isEmpty() || cauC.isEmpty() || cauD.isEmpty())
+                    {
+                        Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Question question = new Question();
+                    question.setMaCauHoi(maCauHoi);
+                    question.setNoiDungCauHoi(noiDungCauHoi);
+                    question.setCauA(cauA);
+                    question.setCauB(cauB);
+                    question.setCauC(cauC);
+                    question.setCauD(cauD);
+                    question.setDapAn(dapAn);
+                    question.setMucDo(mucDo);
+                    question.setMaBaiTap(null);
+                    question.setMaDangBaiTap(maDangBaiTap);
+                    createAlertDialogEditQuestions(question).show();
+                } else if (fragment instanceof Admin_Question_True_False_Fragment) {
+                    questionData2 = ((Admin_Question_True_False_Fragment) fragment).getTrueFalseData();
+                    if (questionData2.isEmpty())
+                    {
+                        Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Question question = new Question(maCauHoi, noiDungCauHoi, null, null, null, null, questionData2, mucDo, null, maDangBaiTap);
+                    createAlertDialogEditQuestions(question).show();
+                } else if (fragment instanceof Admin_Question_Essay_Fragment) {
+                    questionData2 = ((Admin_Question_Essay_Fragment) fragment).getEssayData();
+                    if (questionData2.isEmpty())
+                    {
+                        Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Question question = new Question(maCauHoi, noiDungCauHoi, null, null, null, null, questionData2, mucDo, null, maDangBaiTap);
+                    createAlertDialogEditQuestions(question).show();
+                }
+            }
+        });
     }
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -149,7 +225,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
     void loadAllQuestions() {
         questionArrayListResult.clear();
         questionArrayListResult = questionHandler.loadAllDataOfQuestion();
-        Log.d("DEBUG", "Size of questionArrayListResult: " + questionArrayListResult.size());
         admin_edit_questions_customAdapter.setQuestionsList(questionArrayListResult);
     }
 
@@ -180,17 +255,14 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         admin_edit_questions_customAdapter = new Admin_Edit_Questions_CustomAdapter(questionArrayListResult, new Admin_Edit_Questions_CustomAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Question question) {
-                // Gửi dữ liệu vào SharedViewModel
                 sharedViewModel.select(question);
-
-                // Hiển thị thông tin bài tập trên các EditText
                 edtSuaMaCauHoi.setText(question.getMaCauHoi());
                 edtSuaNoiDungCauHoi.setText(question.getNoiDungCauHoi());
 
-                // Cập nhật Spinner cho mức độ
                 int index = -1;
                 for (int i = 0; i < dsMucDo.length; i++) {
                     if (dsMucDo[i].equals(question.getMucDo())) {
+                        Log.d("muc do spinner", String.valueOf(i));
                         index = i;
                         break;
                     }
@@ -199,7 +271,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     spinnerMucDoCH.setSelection(index);
                 }
 
-                // Cập nhật Spinner cho dạng bài tập
                 String maDangBaiTap = question.getMaDangBaiTap();
                 String tenDangBaiTap = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
                 ArrayList<String> dsDangBaiTapString = exercisesCategoryHandler.returnNameOfCategoriesSpinner();
@@ -208,7 +279,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     spinnerDangBaiTapCH.setSelection(index2);
                 }
 
-                // Hiển thị Fragment tương ứng với dạng bài tập
                 String tenDBT = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
                 if (tenDBT.equals("Multiple Choice")) {
                     Admin_Question_Multiple_Choice_Fragment f1 = new Admin_Question_Multiple_Choice_Fragment();
@@ -225,4 +295,41 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         rvSuaCHSearch.setAdapter(admin_edit_questions_customAdapter );
     }
 
+    private void clearInputFields() {
+        edtSuaMaCauHoi.setText("");
+        edtSuaNoiDungCauHoi.setText("");
+
+        spinnerMucDoCH.setSelection(0);
+        spinnerDangBaiTapCH.setSelection(0);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.frameLayoutCauHoiSDBT);
+        if (currentFragment != null) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.remove(currentFragment);
+            transaction.commit();
+        }
+    }
+    //Gui warning dialog
+    private AlertDialog createAlertDialogEditQuestions(Question question) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Edit_Questions.this);
+        builder.setTitle("Edit Questions");
+        builder.setMessage("Bạn có muốn cập nhật câu hỏi này không ?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                questionHandler.updateQuestions(question);
+                loadAllQuestions();
+                Toast.makeText(Admin_Edit_Questions.this, "Cập nhật thành công.", Toast.LENGTH_SHORT).show();
+                clearInputFields();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
+    }
 }

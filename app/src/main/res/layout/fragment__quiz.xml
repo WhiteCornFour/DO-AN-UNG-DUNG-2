@@ -1,19 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="@color/lime"
     tools:context=".View.User_Quiz_MainPage_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Quiz Fragment"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/lime_white_back_gr"
+            android:gravity="right"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alata"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="Hi, Le Thanh Phat"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvWelcomeBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alata"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="Welcome back"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imgUserAccount"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:contentDescription="User Profile Icon"
+                android:src="@drawable/baseline_account_circle_24_focus" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/logo_no_background" />
+
+        <TextView
+            android:id="@+id/textView52"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:gravity="center"
+            android:paddingRight="5dp"
+            android:text="Master English, Master Your World"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgr_admin_white"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="Ready for some quiz ?"
+                android:textColor="@android:color/black"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="Choose your level !!!"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="italic|normal" />
+
+            <Button
+                android:id="@+id/btnBeginnerQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgr_button_brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"
+                android:text="Beginner" />
+
+            <Button
+                android:id="@+id/btnStarterQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgr_button_brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"
+                android:text="Starter" />
+
+            <Button
+                android:id="@+id/btnIntermediateQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgr_button_brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"
+                android:text="Intermediate" />
+
+            <Button
+                android:id="@+id/btnProficientQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgr_button_brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"
+                android:text="Proficient" />
+
+            <Button
+                android:id="@+id/btnMasterQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/backgr_button_brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="bold"
+                android:text="Master" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>

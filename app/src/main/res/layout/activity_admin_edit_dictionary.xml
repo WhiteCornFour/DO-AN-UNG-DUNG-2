@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".View.Admin_Edit_Dictionary">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgBackToMainPageSTD"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/baseline_chevron_left_24" />
+
+            <TextView
+                android:id="@+id/tvHeaderSuaTuDien"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginRight="60dp"
+                android:layout_weight="5"
+                android:gravity="center"
+                android:text="SỬA TỪ ĐIỂN"
+                android:textColor="@color/blue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgr_admin_blue"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Tìm kiếm Từ vựng"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/backgr_admin_white"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Mã từ vựng: "
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtSuaTDSearch"
+                    android:layout_width="230dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/custom_admin_edit_text"
+                    android:drawableStart="@drawable/custom_id_icon"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/imgSuaTDSearch"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/search_fill_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:background="@drawable/backgr_admin_white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Danh sách từ điển hiện có: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvSuaTuVungCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:text="0 từ" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSuaTuDienHienCo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/backgr_admin_white"
+                    android:nestedScrollingEnabled="true" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:text="Thông tin cập nhật"
+                android:textColor="@color/white"
+                android:layout_marginTop="40dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/backgr_admin_white"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaMaTuVungTD"
+                        android:layout_width="101dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:text="Mã từ vựng: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText android:id="@+id/edtSuaMaTuVungTD"
+                        android:layout_width="230dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/id_icon_focus"
+                        android:drawablePadding="8dp"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:inputType="textPersonName"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaTuTiengAnhTD"
+                        android:layout_width="103dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Từ tiếng Anh: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaTuTATD"
+                        android:layout_width="232dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:drawablePadding="8dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="337dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaTuTiengVietTD"
+                        android:layout_width="102dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Từ tiếng Việt: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaTuTVTD"
+                        android:layout_width="230dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:drawablePadding="8dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaCachPhatAmTD"
+                        android:layout_width="102dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:text="Cách phát âm: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaCachPhatAmTD"
+                        android:layout_width="230dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaLoaiTuTD"
+                        android:layout_width="102dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6dp"
+                        android:text="Loại từ: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerSuaLoaiTuTD"
+                        android:layout_width="228dp"
+                        android:layout_height="40dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSuaGioiTuDiKemTD"
+                        android:layout_width="105dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Giới từ đi kèm: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaGioiTuDiKemTD"
+                        android:layout_width="230dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSuaMTSDTD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Ví dụ sử dụng: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaViDuSDTD"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:lineSpacingMultiplier="4"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSuaTV"
+                android:background="@drawable/backgr_admin_white"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="40dp"
+                android:text="Sửa"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/blue" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

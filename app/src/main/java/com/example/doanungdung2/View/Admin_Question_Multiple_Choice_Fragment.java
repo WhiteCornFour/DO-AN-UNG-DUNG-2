@@ -15,6 +15,8 @@ import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 import com.example.doanungdung2.Model.SharedViewModel;
 
+import java.util.ArrayList;
+
 public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
 
     private static final String[] dsDA = new String[]{"A", "B", "C", "D"};
@@ -45,7 +47,7 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_question_multiple_choice, container, false);
-        initializeViews(view);
+        addControl(view);
         setupSpinner();
 
         // Quan sát thay đổi từ ViewModel
@@ -54,7 +56,7 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
         return view;
     }
 
-    private void initializeViews(View view) {
+    private void addControl(View view) {
         edtCauASuaCauHoi = view.findViewById(R.id.edtCauASuaCauHoi);
         edtCauBSuaCauHoi = view.findViewById(R.id.edtCauBSuaCauHoi);
         edtCauCSuaCauHoi = view.findViewById(R.id.edtCauCSuaCauHoi);
@@ -83,4 +85,16 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
             }
         }
     }
+
+    public ArrayList<String> getMultipleChoiceData() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add(edtCauASuaCauHoi.getText().toString().trim());
+        data.add(edtCauBSuaCauHoi.getText().toString().trim());
+        data.add(edtCauCSuaCauHoi.getText().toString().trim());
+        data.add(edtCauDSuaCauHoi.getText().toString().trim());
+        data.add(spinnerDapAnTNCH.getSelectedItem().toString());
+
+        return data;
+    }
+
 }

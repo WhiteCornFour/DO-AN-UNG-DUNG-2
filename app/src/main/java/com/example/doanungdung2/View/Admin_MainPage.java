@@ -116,6 +116,12 @@ public class Admin_MainPage extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
+                    case  R.id.qLTuDien:
+                        Admin_Dictionary_MainPage_Fragment admin_dictionary_mainPage_fragment = new Admin_Dictionary_MainPage_Fragment();
+                        replaceFragment(admin_dictionary_mainPage_fragment);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                     case R.id.logoutAD:
 //                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
 //                        drawerLayout.closeDrawer(GravityCompat.START);

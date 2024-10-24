@@ -84,8 +84,8 @@ public class Admin_Add_Question extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 exercisesCategory = dsDangBaiTap.get(i);
                 String tenDBT = exercisesCategory.getTenDangBaiTap();
-                String tracNghiem = "Trắc nghiệm";
-                String dungSai = "Nối câu";
+                String tracNghiem = "Multiple Choice";
+                String dungSai = "True/False";
                 if (tenDBT.equals(tracNghiem))
                 {
                     Admin_Question_Multiple_Choice_Fragment f1 = new Admin_Question_Multiple_Choice_Fragment();

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Admin_ExercisesCategory_MainPage_Fragment">
+    tools:context=".View.Admin_Dictionary_MainPage_Fragment">
 
+    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/alata"
-            android:text="QUẢN LÝ BÀI TẬP"
+            android:text="QUẢN LÝ TỪ ĐIỂN"
             android:textColor="@color/black"
             android:textSize="12pt"
             android:textStyle="bold" />
@@ -32,7 +32,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/lnThemBT"
+                android:id="@+id/lnThemTD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -65,7 +65,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lnSuaBT"
+                android:id="@+id/lnSuaTD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -102,7 +102,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/lnXoaBT"
+                android:id="@+id/lnXoaTD"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -147,23 +147,17 @@
                 android:textSize="10pt"
                 android:fontFamily="@font/alata"
                 android:textColor="@color/black"
-                android:layout_marginBottom="5dp"
-                android:text="Danh sách bài tập" />
-
-            <TextView
-                android:id="@+id/textView41"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alata"
-                android:layout_marginBottom="10dp"
-                android:text="Để có thể thêm câu hỏi vào bài tập, hãy nhấn vào bài tập mà bạn muốn chỉnh sửa." />
+                android:layout_marginBottom="15dp"
+                android:text="Danh sách từ vựng" />
 
             <ListView
-                android:id="@+id/lvDSBTFragment"
+                android:id="@+id/lvDSTDFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 </FrameLayout>
