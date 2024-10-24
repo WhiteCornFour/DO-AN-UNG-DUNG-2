@@ -296,25 +296,25 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
 
 
     //Alert
-    private void showWarningDialog(CheckBox changedCheckBox, String level) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Cảnh báo");
-        builder.setMessage("Bạn đang thay đổi mức độ bài tập sang " + level + ". Tất cả câu hỏi trong bài tập sẽ bị xóa.");
-        builder.setPositiveButton("Tiếp tục", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Nếu người dùng hủy, bỏ chọn CheckBox
-                changedCheckBox.setChecked(false);
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
+//    private void showWarningDialog(CheckBox changedCheckBox, String level) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Cảnh báo");
+//        builder.setMessage("Bạn đang thay đổi mức độ bài tập sang " + level + ". Tất cả câu hỏi trong bài tập sẽ bị xóa.");
+//        builder.setPositiveButton("Tiếp tục", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//            }
+//        });
+//        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // Nếu người dùng hủy, bỏ chọn CheckBox
+//                changedCheckBox.setChecked(false);
+//                dialog.cancel();
+//            }
+//        });
+//        builder.show();
+//    }
 
     private AlertDialog createAlertDialogEditExercises(Exercise exercise) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Edit_Exercises.this);

@@ -67,4 +67,8 @@ public class Admin_Question_Essay_Fragment extends Fragment {
             edtDapAnDungTuLuan.setText(question.getDapAn());
         }
     }
+
+    public String getEssayData() {
+        return edtDapAnDungTuLuan.getText().toString().trim();
+    }
 }
