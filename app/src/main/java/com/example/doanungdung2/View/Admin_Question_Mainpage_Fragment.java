@@ -17,6 +17,9 @@ import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,7 +124,7 @@ public class Admin_Question_Mainpage_Fragment extends Fragment {
 
     void loadAllDataLV()
     {
-        questionArrayList = questionHandler.loadAllDataOfQuestion();
+        Collections.reverse(questionArrayList = questionHandler.loadAllDataOfQuestion());;
         ArrayList<String> data = stringArrayList(questionArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 data);

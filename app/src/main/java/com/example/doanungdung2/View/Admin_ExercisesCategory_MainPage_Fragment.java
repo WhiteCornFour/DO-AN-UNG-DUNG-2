@@ -17,6 +17,7 @@ import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -123,7 +124,7 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
 
     void loadAllDataToLV()
     {
-        exercisesCategoryArrayList = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
+        Collections.reverse(exercisesCategoryArrayList = exercisesCategoryHandler.loadAllDataOfExercisesCategory());
         ArrayList<String> dataLV = stringArrayList(exercisesCategoryArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);
