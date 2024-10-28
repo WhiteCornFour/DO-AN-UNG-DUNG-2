@@ -82,7 +82,7 @@ public class User_Register extends AppCompatActivity {
         btnRegisterUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String idUser = generateUserID();
+                String idUser = createAutoUserCode("ND");
                 String nameUser = edtRegisterNameUser.getText().toString();
                 String accountUser = edtRegisterAccount.getText().toString();
                 String passUser = edtRegisterPassword.getText().toString();
@@ -133,7 +133,7 @@ public class User_Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                Intent intent = new Intent(User_Register.this, MainActivity.class);
+                Intent intent = new Intent(User_Register.this, User_Login.class);
                 startActivity(intent);
                 finish();
                 Toast.makeText(User_Register.this, "Success!", Toast.LENGTH_SHORT).show();
@@ -188,23 +188,18 @@ public class User_Register extends AppCompatActivity {
         return true;
     }
 
-    public static String generateUserID() {
-        // Lấy ngày và giờ hiện tại
-        LocalDateTime now = LocalDateTime.now();
-
-        // Định dạng ngày giờ
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String formattedDateTime = now.format(formatter);
-
-        // Tạo số ngẫu nhiên từ 1000 đến 9999
+    public static String createAutoUserCode(String kyTuDau)
+    {
         Random random = new Random();
-        int randomNumber = random.nextInt(9000) + 1000;
-
-        // Kết hợp ngày giờ và số ngẫu nhiên để tạo mã MKH
-        String mkh = formattedDateTime + randomNumber;
-
-        return mkh;
+        // Tạo chuỗi số ngẫu nhiên 9 chữ số
+        StringBuilder code = new StringBuilder(kyTuDau);
+        for (int i = 0; i < 9; i++) {
+            int digit = random.nextInt(10); // Tạo số ngẫu nhiên từ 0 đến 9
+            code.append(digit);
+        }
+        return code.toString();
     }
+
 
 
 }

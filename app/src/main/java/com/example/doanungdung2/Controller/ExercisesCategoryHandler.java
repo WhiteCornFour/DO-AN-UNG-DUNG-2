@@ -217,6 +217,25 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         int randomNum = (int)(Math.random() * (999 - 10 + 1)) + 10;
         return "DBT" + String.valueOf(randomNum);
     }
+
+    public boolean checkExercisesCategoryByNameAndCode(String tenDangBaiTapInput, String maDangBaiTapInput) {
+        boolean exists = false;
+
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + tenDangBaiTap + " = ? AND " + maDangBaiTap + " != ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenDangBaiTapInput, maDangBaiTapInput});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            exists = true;
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+
+        return exists;
+    }
 }
 
 

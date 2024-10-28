@@ -98,11 +98,17 @@ public class Admin_Edit_ExercisesCategory extends AppCompatActivity {
                     Toast.makeText(Admin_Edit_ExercisesCategory.this, "Vui lòng chọn một danh mục bài tập để sửa hoặc vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (exercisesCategoryHandler.checkExercisesCategoryByNameAndCode(tenDBT, maDBT)) {
+                    Toast.makeText(Admin_Edit_ExercisesCategory.this, "Tên dạng bài tập đã tồn tại. Vui lòng chọn tên khác.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 ExercisesCategory exercisesCategory = new ExercisesCategory();
                 exercisesCategory.setMaDangBaiTap(maDBT);
                 exercisesCategory.setTenDangBaiTap(tenDBT);
                 exercisesCategory.setMoTa(moTaDBT);
-                createAlertDialogEditExercisesCategory(exercisesCategory);
+                createAlertDialogEditExercisesCategory(exercisesCategory).show();
             }
         });
 
