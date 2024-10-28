@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_bkg"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp">
+
+    <!-- Layout cho TextView và CheckBox -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <!-- Layout cho 2 TextView -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
+
+            <!-- TextView Tên -->
+            <TextView
+                android:id="@+id/tvXoaTenDNP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:fontFamily="@font/alata"
+                android:text="Tên DNP"
+                android:textColor="@color/black"
+                android:textSize="7.5pt"
+                android:textStyle="bold" />
+
+            <!-- TextView Mã -->
+            <TextView
+                android:id="@+id/tvXoaMaDNP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Mã DNP"
+                android:textColor="@color/black"
+                android:textSize="6pt"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <!-- CheckBox -->
+        <CheckBox
+            android:id="@+id/cbXoaDNP"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center_vertical"
+            android:focusable="false"
+            android:layout_marginRight="15dp" />
+    </LinearLayout>
+
+    <!-- TextView mô tả -->
+    <TextView
+        android:id="@+id/tvXoaMoTaDNP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="Mô tả DNP"
+        android:textColor="@color/black"
+        android:textSize="6pt" />
+
+</LinearLayout>

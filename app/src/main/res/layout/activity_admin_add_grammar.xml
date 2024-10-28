@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".View.Admin_Add_Grammar">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgBackToMainPageNP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12pt"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:fontFamily="@font/alata"
+                android:text="THÊM NGỮ PHÁP" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgr_admin_blue"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="10pt"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/alata"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Thông tin ngữ pháp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_admin_edit_text"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView53"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:text="Mã ngữ pháp" />
+
+                    <EditText
+                        android:id="@+id/edtMNP_Add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="8pt"
+                        android:enabled="false"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/id_icon_focus"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView52"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:text="Tên ngữ pháp" />
+
+                    <EditText
+                        android:id="@+id/edtTNP_Add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:paddingEnd="10dp"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:textSize="8pt"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        android:drawableStart="@drawable/custom_name_icon"
+                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView59"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:text="Dạng ngữ pháp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerDNP_Add"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/blue"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView54"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:text="Nội dung ngữ pháp" />
+
+                    <EditText
+                        android:id="@+id/edtNoiDungNP_Add"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:layout_gravity="center"
+                        android:textSize="7.5pt"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:text="Công thức" />
+
+                    <EditText
+                        android:id="@+id/edtCT_Add"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:layout_gravity="center"
+                        android:textSize="7.5pt"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView56"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="7.5pt"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:text="Ví dụ" />
+
+                    <EditText
+                        android:id="@+id/edtVD_Add"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:layout_gravity="center"
+                        android:textSize="7.5pt"
+                        android:paddingStart="10dp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/custom_admin_unedit_text"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnNP_Add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:background="@drawable/layout_boder_imge_func_button"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/blue"
+                android:textStyle="bold"
+                android:text="Thêm" />
+
+            <TextView
+                android:id="@+id/textView57"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="10pt"
+                android:fontFamily="@font/alata"
+                android:text="Danh sách ngữ pháp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewNP_Add"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="350dp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
