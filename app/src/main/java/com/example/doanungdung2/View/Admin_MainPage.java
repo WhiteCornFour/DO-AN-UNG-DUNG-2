@@ -98,6 +98,12 @@ public class Admin_MainPage extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
+                    case R.id.danhMucQuanLy:
+                        Admin_ManagementCategory_MainPage_Fragment fm = new Admin_ManagementCategory_MainPage_Fragment();
+                        replaceFragment(fm);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                     case R.id.qLDangBaiTap:
                         Admin_ExercisesCategory_MainPage_Fragment admin_dangBaiTap_fragment = new Admin_ExercisesCategory_MainPage_Fragment();
                         replaceFragment(admin_dangBaiTap_fragment);

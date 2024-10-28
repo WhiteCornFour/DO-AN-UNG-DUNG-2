@@ -159,12 +159,9 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                 String tenDangBaiTap = spinnerDangBaiTapCH.getSelectedItem().toString();
                 String maDangBaiTap = exercisesCategoryHandler.getExerciseCategoryCodeByName(tenDangBaiTap);
 
-                //Lay fragment moi
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutCauHoiSDBT);
 
-                //Tao chuoi lay data tu Fragment day len Activity
-                //So sanh Fragmetn hien tai voi cac dang Fragment khac, neu dung thi lam
                 ArrayList<String> questionData = new ArrayList<>();
                 String questionData2 = "";
                 if (fragment instanceof Admin_Question_Multiple_Choice_Fragment) {
@@ -174,6 +171,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     String cauC = questionData.get(2);
                     String cauD = questionData.get(3);
                     String dapAn = questionData.get(4);
+
                     if (cauA.isEmpty() || cauB.isEmpty() || cauC.isEmpty() || cauD.isEmpty())
                     {
                         Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
@@ -256,6 +254,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
             @Override
             public void onItemClick(Question question) {
                 sharedViewModel.select(question);
+
                 edtSuaMaCauHoi.setText(question.getMaCauHoi());
                 edtSuaNoiDungCauHoi.setText(question.getNoiDungCauHoi());
 

@@ -175,4 +175,30 @@ public class QuestionHandler extends SQLiteOpenHelper {
         return questionArrayList;
     }
 
+         
+    public boolean checkQuestionCode(String maCauHoi, String noiDungCauHoi)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * From " + TABLE_NAME + " Where MaCauHoi = ? OR NoiDungCauHoi = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maCauHoi, noiDungCauHoi});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+        }
+        return check;
+    }
+    public void addNewQuestion(Question question)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String query = "Insert Into " + TABLE_NAME + " (maCauHoi, noiDungCauHoi, A, B, " +
+                "C, D, dapAn, mucDo, maBaiTap, maDangBaiTap) Values (?, ?, ?, ?, ? ,?, ?, ?, ?, ?)";
+        sqLiteDatabase.execSQL(query, new String[]{question.getMaCauHoi(), question.getNoiDungCauHoi(),
+            question.getCauA(), question.getCauB(), question.getCauC(), question.getCauD(), question.getDapAn(),
+            question.getMucDo(), question.getMaBaiTap(), question.getMaDangBaiTap()});
+        sqLiteDatabase.close();
+    }
 }

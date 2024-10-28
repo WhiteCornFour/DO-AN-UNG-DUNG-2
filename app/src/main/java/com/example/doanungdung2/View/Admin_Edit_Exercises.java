@@ -365,6 +365,7 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
         return builder.create();
     }
 
+
     private AlertDialog createAlertDialogEditExercises(Exercise exercise) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Edit_Exercises.this);
         builder.setTitle("Edit Exercises");

@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,6 +13,7 @@ import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,13 +50,18 @@ public class Admin_Add_Question extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_question);
         addControl();
+
         questionHandler = new QuestionHandler(Admin_Add_Question.this, DB_NAME, null, DB_VERSION);
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Add_Question.this, DB_NAME, null, DB_VERSION);
+
         dsDangBaiTap = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
+
         maCauHoi = Admin_Add_Exercise.createAutoExerciseCode("CH");
         edtThemMaCauHoi.setText(maCauHoi);
         spinnerMucDoCHCreate();
+
         spinnerDangBaiTapCHCreate();
+
         addEvent();
     }
     @Override
@@ -100,10 +108,82 @@ public class Admin_Add_Question extends AppCompatActivity {
                     replaceFragment(f3);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+        btnThemCH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mucDo = spinnerMucDoThemCH.getSelectedItem().toString();
+                String noiDungCH = edtThemNoiDungCauHoi.getText().toString();
+                String tenDangBaiTap = spinnerDangBaiTapThemCH.getSelectedItem().toString();
+                String maDangBaiTap = exercisesCategoryHandler.getExerciseCategoryCodeByName(tenDangBaiTap);
+                boolean checkCode = questionHandler.checkQuestionCode(maCauHoi, noiDungCH);
+                if (maCauHoi.isEmpty() || noiDungCH.isEmpty())
+                {
+                    Toast.makeText(Admin_Add_Question.this, "Vui lòng nhập đầy đủ thông tin!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }else
+                {
+                    if (checkCode)
+                    {
+                        Toast.makeText(Admin_Add_Question.this,
+                                "Mã câu hỏi hoặc nội dung câu hỏi này đã tồn tại!", Toast.LENGTH_SHORT).show();
+                        maCauHoi = Admin_Add_Exercise.createAutoExerciseCode("CH");
+                        edtThemMaCauHoi.setText(maCauHoi);
+                        edtThemNoiDungCauHoi.setText("");
+                        return;
+                    }else
+                    {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutCauHoiTDBT);
+                        ArrayList<String> data = new ArrayList<>();
+                        String dapAnDung = "";
+                        if (fragment instanceof Admin_Question_Multiple_Choice_Fragment)
+                        {
+                            data = ((Admin_Question_Multiple_Choice_Fragment) fragment).getMultipleChoiceData();
+                            if(data == null)
+                            {
+                                Log.d("Không nhận được data trả về từ fragment!", null);
+
+                            }else {
+                                String cauA = data.get(0);
+                                String cauB = data.get(1);
+                                String cauC = data.get(2);
+                                String cauD = data.get(3);
+                                String dapAn = data.get(4);
+                                Question question = new Question(maCauHoi, noiDungCH, cauA, cauB, cauC,
+                                        cauD, dapAn, mucDo, null, maDangBaiTap);
+                                createAlertDialogEditQuestions(question).show();
+                            }
+                        }else if (fragment instanceof Admin_Question_Essay_Fragment)
+                        {
+                            dapAnDung = ((Admin_Question_Essay_Fragment) fragment).getEssayData();
+                            if (dapAnDung.isEmpty())
+                            {
+                                Log.d("Không nhận được data trả về từ fragment!", null);
+                            }else {
+                                Question question = new Question(maCauHoi, noiDungCH, null, null, null,
+                                        null, dapAnDung, mucDo, null, maDangBaiTap);
+                                createAlertDialogEditQuestions(question).show();
+                            }
+                        }else if (fragment instanceof Admin_Question_True_False_Fragment)
+                        {
+                            dapAnDung = ((Admin_Question_True_False_Fragment) fragment).getTrueFalseData();
+                            if (dapAnDung.isEmpty())
+                            {
+                                Log.d("Không nhận được data trả về từ fragment!", null);
+                            }else {
+                                Question question = new Question(maCauHoi, noiDungCH, null, null, null,
+                                        null, dapAnDung, mucDo, null, maDangBaiTap);
+                                createAlertDialogEditQuestions(question).show();
+                            }
+                        }
+                    }
+                }
             }
         });
     }
@@ -127,5 +207,36 @@ public class Admin_Add_Question extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dsDangBaiTapCHString);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDangBaiTapThemCH.setAdapter(adapter);
+    }
+    void resetActivity()
+    {
+        maCauHoi = Admin_Add_Exercise.createAutoExerciseCode("CH");
+        edtThemMaCauHoi.setText(maCauHoi);
+        edtThemNoiDungCauHoi.setText("");
+        spinnerDangBaiTapThemCH.setSelection(0);
+        spinnerMucDoThemCH.setSelection(0);
+        Admin_Question_Multiple_Choice_Fragment fm = new Admin_Question_Multiple_Choice_Fragment();
+        replaceFragment(fm);
+    }
+    private AlertDialog createAlertDialogEditQuestions(Question question) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Add_Question.this);
+        builder.setTitle("Thêm câu hỏi");
+        builder.setMessage("Bạn có muốn thêm câu hỏi này không ?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                questionHandler.addNewQuestion(question);
+                Toast.makeText(Admin_Add_Question.this, "Thêm câu hỏi mới thành công!"
+                        , Toast.LENGTH_SHORT).show();
+                resetActivity();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
     }
 }
