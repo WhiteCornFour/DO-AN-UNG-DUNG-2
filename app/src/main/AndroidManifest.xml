@@ -15,7 +15,31 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".View.Admin_MainPage"
+            android:name=".View.Admin_Add_Grammar"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".View.Admin_Edit_Grammar"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".View.Admin_Delete_Grammar"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".View.Admin_Edit_Grammar_Category"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
+        <activity
+            android:name=".View.Admin_Add_Grammar_Category"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
+        <activity
+            android:name=".View.Admin_Login"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
+        <activity
+            android:name=".View.Admin_Edit_Exercises"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
 
@@ -31,7 +55,10 @@
             android:name=".View.Admin_Delete_ExercisesCategory"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
-
+          <activity
+            android:name=".View.Admin_Delete_Grammar_Category"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
         <activity
             android:name=".View.Admin_Add_Exercise"
             android:exported="false"
@@ -70,8 +97,6 @@
             android:name=".View.Admin_Delete_Dictionary"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar" />
-
-
         <activity
             android:name=".View.User_MainPage"
             android:exported="false"
@@ -96,7 +121,6 @@
             android:name=".View.User_Enter_OTP"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
-
         <activity
             android:name=".View.MainActivity"
             android:exported="false" />

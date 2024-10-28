@@ -381,11 +381,11 @@ public class Admin_Add_Exercise extends AppCompatActivity {
         edtThoiGianLamBai_AddExercise.setText("");
         spinnerDangBT_AddExercise.setSelection(0);
         spinnerSoCau_AddExercise.setSelection(0);
-        cbStarter_AddExercise.setChecked(true);
+        cbBeginner_AddExercise.setChecked(true);
+        cbStarter_AddExercise.setChecked(false);
         cbMaster_AddExercise.setChecked(false);
         cbProficient_AddExercise.setChecked(false);
         cbIntermediate_AddExercise.setChecked(false);
-        cbBeginner_AddExercise.setChecked(false);
     }
 
     //Alert

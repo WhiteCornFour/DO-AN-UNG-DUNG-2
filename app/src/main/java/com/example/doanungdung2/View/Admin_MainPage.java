@@ -122,6 +122,18 @@ public class Admin_MainPage extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
+                    case  R.id.qLDangNguPhap:
+                        Admin_GrammarCategory_Mainpage_Fragment fm1 = new Admin_GrammarCategory_Mainpage_Fragment();
+                        replaceFragment(fm1);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
+                    case R.id.qLNguPhap:
+                        Admin_Grammar_Mainpage_Fragment fm2 = new Admin_Grammar_Mainpage_Fragment();
+                        replaceFragment(fm2);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+                    
                     case  R.id.qLTuDien:
                         Admin_Dictionary_MainPage_Fragment admin_dictionary_mainPage_fragment = new Admin_Dictionary_MainPage_Fragment();
                         replaceFragment(admin_dictionary_mainPage_fragment);
