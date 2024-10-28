@@ -1,6 +1,10 @@
 package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -24,6 +28,8 @@ public class User_MainPage extends AppCompatActivity {
         setContentView(R.layout.activity_user_main_page);
         addControl();
         addEvent();
+        User_Quiz_MainPage_Fragment quiz_mainPage_fragment = new User_Quiz_MainPage_Fragment();
+        replaceFragment(quiz_mainPage_fragment);
     }
 
     void addControl() {
@@ -44,9 +50,7 @@ public class User_MainPage extends AppCompatActivity {
     }
 
     void addEvent() {
-        // Hiển thị Fragment đầu tiên là Quiz
-        displayFragment(User_Quiz_MainPage_Fragment.class, 1);
-
+        displayFragment(User_Quiz_MainPage_Fragment.class, selectedTab);
         // Cài đặt sự kiện click cho các tab
         quizLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,5 +145,12 @@ public class User_MainPage extends AppCompatActivity {
         scaleAnimation.setDuration(200);
         scaleAnimation.setFillAfter(true);
         layout.startAnimation(scaleAnimation);
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
+        fragmentTransaction.commit();
     }
 }

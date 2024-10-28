@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -12,6 +13,9 @@ import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
+
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -110,7 +114,8 @@ public class Admin_Add_Exercise extends AppCompatActivity {
                 int soCau = Integer.parseInt(spinnerSoCau_AddExercise.getSelectedItem().toString());
                 String thoiGian = edtThoiGianLamBai_AddExercise.getText().toString();
                 String moTa = edtMoTaBT_AddExercise.getText().toString();
-                String maDangBT = spinnerDangBT_AddExercise.getSelectedItem().toString();
+                String tenDangBT = spinnerDangBT_AddExercise.getSelectedItem().toString();
+                String maDangBT = exercisesCategoryHandler.getExerciseCategoryCodeByName(tenDangBT);
                 exercise = new Exercise(maBaiTap, tenBaiTap, soCau, mucDo, thoiGian, moTa, maDangBT);
                 //Kiểm tra trước khi insert
                 if(checkEnterExerciseData(exercise))
@@ -118,11 +123,7 @@ public class Admin_Add_Exercise extends AppCompatActivity {
                     //Kiểm tra tên hoặc mã bài tập có bị trùng hay không
                     if(!exerciseHandler.checkCodeAndNameExercise(maBaiTap, tenBaiTap))
                     {
-                        exerciseHandler.insertNewExercise(exercise);
-                        Toast.makeText(Admin_Add_Exercise.this, "Thêm bài tập thành công!",
-                                Toast.LENGTH_SHORT).show();
-                        loadAllDataExercise();
-                        resetActivity();
+                        createAlertDialogAddExercises(exercise).show();
                         return;
                     }else {
                         Toast.makeText(Admin_Add_Exercise.this, "Tên hoặc mã bài tập đã tồn tại!",
@@ -385,5 +386,34 @@ public class Admin_Add_Exercise extends AppCompatActivity {
         cbMaster_AddExercise.setChecked(false);
         cbProficient_AddExercise.setChecked(false);
         cbIntermediate_AddExercise.setChecked(false);
+    }
+
+    //Alert
+    private AlertDialog createAlertDialogAddExercises(Exercise exercise) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Add_Exercise.this);
+        builder.setTitle("Add Exercises");
+        builder.setMessage("Bạn có muốn thêm bài tập này không ? Nếu có sẽ chuyển bạn đến trang để thêm câu hỏi vào bài tập này ngay.");
+        builder.setPositiveButton("Có và Chuyển Tiếp", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                exerciseHandler.insertNewExercise(exercise);
+                Toast.makeText(Admin_Add_Exercise.this, "Thêm bài tập thành công!",
+                        Toast.LENGTH_SHORT).show();
+                Log.d("DEBUG", "Mức độ: " + exercise.getMucDo());
+                Log.d("DEBUG", "Dạng bài tập: " + exercise.getMaDangBaiTap());
+                loadAllDataExercise();
+                resetActivity();
+                Intent intent = new Intent(Admin_Add_Exercise.this, Admin_Questions_Exercises.class);
+                intent.putExtra("exercise", exercise);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
     }
 }

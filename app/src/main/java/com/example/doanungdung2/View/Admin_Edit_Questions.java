@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -147,7 +148,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                 String maCauHoi = edtSuaMaCauHoi.getText().toString().trim();
 
                 String mucDo = spinnerMucDoCH.getSelectedItem().toString();
-                Log.d("muc do", mucDo);
 
                 String noiDungCauHoi = edtSuaNoiDungCauHoi.getText().toString().trim();
 
@@ -171,7 +171,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     String cauC = questionData.get(2);
                     String cauD = questionData.get(3);
                     String dapAn = questionData.get(4);
-                    Log.d("DEBUG", "Cau A: " + cauA);
+
                     if (cauA.isEmpty() || cauB.isEmpty() || cauC.isEmpty() || cauD.isEmpty())
                     {
                         Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
@@ -192,10 +192,20 @@ public class Admin_Edit_Questions extends AppCompatActivity {
                     createAlertDialogEditQuestions(question).show();
                 } else if (fragment instanceof Admin_Question_True_False_Fragment) {
                     questionData2 = ((Admin_Question_True_False_Fragment) fragment).getTrueFalseData();
+                    if (questionData2.isEmpty())
+                    {
+                        Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Question question = new Question(maCauHoi, noiDungCauHoi, null, null, null, null, questionData2, mucDo, null, maDangBaiTap);
                     createAlertDialogEditQuestions(question).show();
                 } else if (fragment instanceof Admin_Question_Essay_Fragment) {
                     questionData2 = ((Admin_Question_Essay_Fragment) fragment).getEssayData();
+                    if (questionData2.isEmpty())
+                    {
+                        Toast.makeText(Admin_Edit_Questions.this, "Vui lòng không để trống thông tin.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Question question = new Question(maCauHoi, noiDungCauHoi, null, null, null, null, questionData2, mucDo, null, maDangBaiTap);
                     createAlertDialogEditQuestions(question).show();
                 }
@@ -213,7 +223,6 @@ public class Admin_Edit_Questions extends AppCompatActivity {
     void loadAllQuestions() {
         questionArrayListResult.clear();
         questionArrayListResult = questionHandler.loadAllDataOfQuestion();
-        Log.d("DEBUG", "Size of questionArrayListResult: " + questionArrayListResult.size());
         admin_edit_questions_customAdapter.setQuestionsList(questionArrayListResult);
     }
 

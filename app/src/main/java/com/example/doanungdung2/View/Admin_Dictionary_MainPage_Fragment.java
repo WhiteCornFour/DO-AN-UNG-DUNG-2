@@ -5,43 +5,40 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.doanungdung2.Controller.DictionaryHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
-import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
+import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.Exercise;
-import com.example.doanungdung2.Model.ExercisesCategory;
-import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Admin_Exercise_MainPage_Fragment#newInstance} factory method to
+ * Use the {@link Admin_Dictionary_MainPage_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Admin_Exercise_MainPage_Fragment extends Fragment {
+public class Admin_Dictionary_MainPage_Fragment extends Fragment {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
 
-    ExerciseHandler exercisesHandler;
+    DictionaryHandler dictionaryHandler;
 
-    ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
+    ArrayList<Dictionary> dictionaryArrayList = new ArrayList<>();
 
     ArrayAdapter<String> stringArrayAdapter;
 
-    LinearLayout lnThemBT, lnSuaBT, lnXoaBT;
-    ListView lvDSBTFragment;
+    LinearLayout lnThemTD, lnSuaTD, lnXoaTD;
+    ListView lvDSTDFragment;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,7 +48,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Admin_Exercise_MainPage_Fragment() {
+    public Admin_Dictionary_MainPage_Fragment() {
         // Required empty public constructor
     }
 
@@ -61,22 +58,24 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Admin_Exercise_MainPage_Fragment.
+     * @return A new instance of fragment Admin_Dictionary_MainPage_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Admin_Exercise_MainPage_Fragment newInstance(String param1, String param2) {
-        Admin_Exercise_MainPage_Fragment fragment = new Admin_Exercise_MainPage_Fragment();
+    public static Admin_Dictionary_MainPage_Fragment newInstance(String param1, String param2) {
+        Admin_Dictionary_MainPage_Fragment fragment = new Admin_Dictionary_MainPage_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onResume() {
         super.onResume();
         loadAllDataToLV();
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,71 +88,60 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin__exercise__main_page_, container, false);
-        addControll(view);
-        exercisesHandler = new ExerciseHandler(getActivity(),
-                DB_NAME,null, DB_VERSION);
+        View view = inflater.inflate(R.layout.fragment_admin__dictionary__main_page_, container, false);
+        addControl(view);
+        dictionaryHandler = new DictionaryHandler(getActivity(), DB_NAME,null, DB_VERSION);
         loadAllDataToLV();
         addEvent();
         return view;
     }
-    void addControll(View view)
+
+    void addControl(View view)
     {
-        lnThemBT = view.findViewById(R.id.lnThemBT);
-        lnSuaBT = view.findViewById(R.id.lnSuaBT);
-        lnXoaBT = view.findViewById(R.id.lnXoaBT);
-        lvDSBTFragment = view.findViewById(R.id.lvDSBTFragment);
+        lnThemTD = view.findViewById(R.id.lnThemTD);
+        lnSuaTD = view.findViewById(R.id.lnSuaTD);
+        lnXoaTD = view.findViewById(R.id.lnXoaTD);
+        lvDSTDFragment = view.findViewById(R.id.lvDSTDFragment);
     }
 
     void addEvent()
     {
-        lnThemBT.setOnClickListener(new View.OnClickListener() {
+        lnThemTD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Add_Exercise.class));
+                startActivity(new Intent(getActivity(), Admin_Add_Dictionary.class));
             }
         });
-        lnSuaBT.setOnClickListener(new View.OnClickListener() {
+        lnSuaTD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Edit_Exercises.class));
+                startActivity(new Intent(getActivity(), Admin_Edit_Dictionary.class));
             }
         });
-        lnXoaBT.setOnClickListener(new View.OnClickListener() {
+        lnXoaTD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Admin_Delete_Exercise.class));
-            }
-        });
-
-        lvDSBTFragment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Exercise exercise = exerciseArrayList.get(position);
-                Intent intent = new Intent(getActivity(), Admin_Questions_Exercises.class);
-                Log.d("DEBUG", "so cau: " + exercise.getSoCau());
-                intent.putExtra("exercise", exercise);
-                startActivity(intent);
+               startActivity(new Intent(getActivity(), Admin_Delete_Dictionary.class));
             }
         });
     }
 
     void loadAllDataToLV()
     {
-        Collections.reverse(exerciseArrayList = exercisesHandler.loadAllDataOfExercise());
-        ArrayList<String> dataLV = stringArrayList(exerciseArrayList);
+        dictionaryArrayList = dictionaryHandler.loadAllDataOfDictionary();
+        ArrayList<String> dataLV = stringArrayList(dictionaryArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);
-        lvDSBTFragment.setAdapter(stringArrayAdapter);
+        lvDSTDFragment.setAdapter(stringArrayAdapter);
     }
 
-    ArrayList<String> stringArrayList(ArrayList<Exercise> exerciseArrayList)
+    ArrayList<String> stringArrayList(ArrayList<Dictionary> dictionaryArrayList)
     {
         ArrayList<String> result = new ArrayList<>();
         String getResult;
-        for (Exercise ex: exerciseArrayList
+        for (Dictionary d: dictionaryArrayList
         ) {
-            getResult = ex.getMaBaiTap() + " - " +ex.getTenBaiTap() + " - " + ex.getSoCau();
+            getResult = d.getMaTuVung() + " - " + d.getTuTiengAnh() + " - " + d.getLoaiTu();
             result.add(getResult);
         }
         return result;
