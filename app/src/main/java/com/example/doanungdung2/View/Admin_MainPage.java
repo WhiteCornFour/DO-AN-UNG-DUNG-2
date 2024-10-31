@@ -115,7 +115,15 @@ public class Admin_MainPage extends AppCompatActivity {
                         replaceFragment(admin_exercise_mainPage_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
+                    case R.id.qLMauCau:
+                        Admin_MainPage_SampleSentence admin_mainPage_sampleSentence = new Admin_MainPage_SampleSentence();
+                        replaceFragment(admin_mainPage_sampleSentence);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
 
+                    case R.id.qLChuDeMauCau:
+                        Admin_TopicSentence_Fragment admin_topicSentence_fragment = new Admin_TopicSentence_Fragment();
+                        replaceFragment(admin_topicSentence_fragment);
                     case  R.id.qLCauHoi:
                         Admin_Question_Mainpage_Fragment admin_question_mainpage_fragment = new Admin_Question_Mainpage_Fragment();
                         replaceFragment(admin_question_mainpage_fragment);

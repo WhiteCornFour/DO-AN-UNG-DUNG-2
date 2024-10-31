@@ -12,10 +12,10 @@ import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
 
-public class Admin_Custom_Add_DBT_Adapter extends ArrayAdapter<ExercisesCategory> {
+public class Admin_Custom_Add_DBT_Adapter extends ArrayAdapter {
 
-    private Context context;
-    private ArrayList<ExercisesCategory> exercisesCategoryArrayList;
+    Context context;
+    ArrayList<ExercisesCategory> exercisesCategoryArrayList;
 
     // Constructor
     public Admin_Custom_Add_DBT_Adapter(Context context, int resource, ArrayList<ExercisesCategory> exercisesCategoryArrayList) {
