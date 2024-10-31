@@ -20,7 +20,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "MauCau";
     private static final String maMauCau = "MaMauCau";
     private static final String maChuDeMauCau = "MaChuDeMauCau";
-    private static final String MauCau = "MauCau";
+    private static final String mauCau = "MauCau";
     private static final String phienDich = "PhienDich";
     private static final String tinhHuongSuDung = "TinhHuongSuDung";
 
@@ -40,22 +40,6 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean checkSampleSentenceHaveTopic(String maChuDeMauCau) {
-        boolean checkResult = false;
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maChuDeMauCau + " = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maChuDeMauCau});
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                checkResult = true;
-            }
-            cursor.close();
-        }
-
-        return checkResult;
-    }
-
     @SuppressLint("Range")
     public ArrayList<SampleSentence> loadAllDataOfSampleSentence() {
         ArrayList<SampleSentence> sampleSentenceArrayList = new ArrayList<>();
@@ -68,7 +52,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
                 do {
                     SampleSentence sampleSentence = new SampleSentence();
                     sampleSentence.setMaMauCau(cursor.getString(cursor.getColumnIndex(maMauCau)));
-                    sampleSentence.setMauCau(cursor.getString(cursor.getColumnIndex(MauCau)));
+                    sampleSentence.setMauCau(cursor.getString(cursor.getColumnIndex(mauCau)));
                     sampleSentence.setPhienDich(cursor.getString(cursor.getColumnIndex(phienDich)));
                     sampleSentence.setTinhHuongSuDung(cursor.getString(cursor.getColumnIndex(tinhHuongSuDung)));
                     sampleSentence.setMaChuDeMauCau(cursor.getString(cursor.getColumnIndex(maChuDeMauCau)));
@@ -97,7 +81,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
                     ss = new SampleSentence();
                     ss.setMaMauCau(cursor.getString(cursor.getColumnIndex(maMauCau)));
                     ss.setMaChuDeMauCau(cursor.getString(cursor.getColumnIndex(maChuDeMauCau)));
-                    ss.setMauCau(cursor.getString(cursor.getColumnIndex(MauCau)));
+                    ss.setMauCau(cursor.getString(cursor.getColumnIndex(mauCau)));
                     ss.setPhienDich(cursor.getString(cursor.getColumnIndex(phienDich)));
                     ss.setTinhHuongSuDung(cursor.getString(cursor.getColumnIndex(tinhHuongSuDung)));
 
@@ -110,12 +94,28 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
         return sampleSentenceArrayList;
     }
 
+    public boolean checkTopicSentencesHaveSampleSentences(String maChuDeMauCauInput)
+    {
+        boolean checkResult = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "Select * From " + TABLE_NAME + " Where " + maChuDeMauCau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maChuDeMauCauInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                checkResult = true;
+            }
+            cursor.close();
+        }
+        return checkResult;
+    }
 
-    public boolean checkCodeAndNameSampleSentence(String maMauCau, String tenMauCau) {
+    public boolean checkCodeAndNameSampleSentence(String maMauCauInput, String tenMauCauInput) {
         boolean checked = false;
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE maMauCau = ? OR MauCau = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maMauCau, MauCau});
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maMauCau + " != ? AND " + mauCau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maMauCauInput, tenMauCauInput});
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -155,7 +155,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(maMauCau, sampleSentence.getMaMauCau());
             values.put(maChuDeMauCau, sampleSentence.getMaChuDeMauCau());
-            values.put(MauCau, sampleSentence.getMauCau());
+            values.put(mauCau, sampleSentence.getMauCau());
             values.put(phienDich, sampleSentence.getPhienDich());
             values.put(tinhHuongSuDung, sampleSentence.getTinhHuongSuDung());
 
@@ -178,7 +178,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
             db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
 
             ContentValues values = new ContentValues();
-            values.put(MauCau, sampleSentence.getMauCau());
+            values.put(mauCau, sampleSentence.getMauCau());
             values.put(phienDich, sampleSentence.getPhienDich());
             values.put(tinhHuongSuDung, sampleSentence.getTinhHuongSuDung());
             values.put(maChuDeMauCau, sampleSentence.getMaChuDeMauCau());
@@ -204,7 +204,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
     public ArrayList<SampleSentence> searchSampleSentenceByKeyword(String keyword) {
         ArrayList<SampleSentence> sampleSentenceList = new ArrayList<>();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maMauCau + " LIKE ? OR " + MauCau + " LIKE ?";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maMauCau + " LIKE ? OR " + mauCau + " LIKE ?";
         Cursor cursor = db.rawQuery(query, new String[]{"%" + keyword + "%", "%" + keyword + "%"});
 
         if (cursor != null) {
@@ -213,7 +213,7 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
                     SampleSentence sampleSentence = new SampleSentence();
                     sampleSentence.setMaMauCau(cursor.getString(cursor.getColumnIndex(maMauCau)));
                     sampleSentence.setMaChuDeMauCau(cursor.getString(cursor.getColumnIndex(maChuDeMauCau)));
-                    sampleSentence.setMauCau(cursor.getString(cursor.getColumnIndex(MauCau)));
+                    sampleSentence.setMauCau(cursor.getString(cursor.getColumnIndex(mauCau)));
                     sampleSentence.setPhienDich(cursor.getString(cursor.getColumnIndex(phienDich)));
                     sampleSentence.setTinhHuongSuDung(cursor.getString(cursor.getColumnIndex(tinhHuongSuDung)));
                     sampleSentenceList.add(sampleSentence);

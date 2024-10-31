@@ -101,6 +101,11 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
                     return;
                 }
 
+                if (topicSentenceHandler.checkCodeAndNameTopicSentence(maCDMC, tenCDMC)) {
+                    Toast.makeText(Admin_Edit_Topic_SampleSentence.this, "Không được để trùng tên chủ đề mẫu câu.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 TopicSentence topicSentence = new TopicSentence();
                 topicSentence.setMaChuDeMauCau(maCDMC);
                 topicSentence.setTenChuDeMauCau(tenCDMC);

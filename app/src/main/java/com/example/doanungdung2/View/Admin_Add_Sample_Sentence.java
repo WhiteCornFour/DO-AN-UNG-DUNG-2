@@ -39,14 +39,8 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
 
     SampleSentenceHandler sampleSentenceHandler;
     TopicSentenceHandler topicSentenceHandler;
-    SampleSentence sampleSentence;
-    TopicSentence topicSentence;
-    ArrayAdapter<String> adapterSpinnerChuDe;
-    ArrayList<TopicSentence> dsChuDeMauCau = new ArrayList<>();
     ArrayList<SampleSentence> sampleSentenceArrayList = new ArrayList<>();
-    Admin_Add_SampleSentence_CustomAdapter_LV admin_add_sampleSentence_customAdapter_lv;
     ArrayList<String> stringArrayList = new ArrayList<>();
-
     String maMauCau = "";
 
     @SuppressLint("MissingInflatedId")
@@ -86,9 +80,6 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
         fragmentManager.popBackStack();
     }
 
-
-
-
     void addEvent() {
         imgBack_MC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +93,7 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
             public void onClick(View v) {
                 Reset();
             }
+
         });
         lvDs_MC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,20 +104,13 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
                 edtTHSDAdd_MC.setText(ss.getTinhHuongSuDung());
                 edtTenAdd_CMC.setText(ss.getMauCau());
 
-                int viTri = -1;
-                for (int i = 0; i < stringArrayList.size(); i++)
-                {
-                    //Log.d("Kiem tra ham", exercisesCategoryHandler.searchCodeExerciseCategoryByName(stringArrayList.get(i)));
-                    if (Objects.equals(topicSentenceHandler.getTopicSentenceCodeByName(stringArrayList.get(i)), ss.getMaChuDeMauCau()))
-                    {
-                        viTri = i;
-                        Log.d("Vi tri", String.valueOf(viTri));
-                        Log.d("Ten Dang Bai Tap", stringArrayList.get(viTri));
-                    }
-                }
-                if (viTri != -1)
-                {
-                    spinnerChonChuDe.setSelection(viTri);
+
+                String maChuDeMauCau = ss.getMaChuDeMauCau();
+                String tenChuDeMauCau = topicSentenceHandler.getTopicSentenceNameByCode(maChuDeMauCau);
+                ArrayList<String> dsCDMCString = topicSentenceHandler.returnNameOfTopicsSpinner();
+                int index = dsCDMCString.indexOf(tenChuDeMauCau);
+                if (index != -1) {
+                    spinnerChonChuDe.setSelection(index);
                 }
             }
         });
@@ -134,7 +119,7 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 maMauCau = edtMaAdd_MC.getText().toString().trim();
-                String MauCau = edtTenAdd_CMC.getText().toString().trim();
+                String mauCau = edtTenAdd_CMC.getText().toString().trim();
                 String phienDich = edtPDAdd_CMC.getText().toString().trim();
                 String tinhHuong = edtTHSDAdd_MC.getText().toString().trim();
                 String chuDe = spinnerChonChuDe.getSelectedItem().toString();
@@ -142,11 +127,11 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
                 String maChuDeMauCau = topicSentenceHandler.getTopicSentenceCodeByName(chuDe);
                 String tenChuDeMauCau = topicSentenceHandler.getTopicSentenceNameByCode(maChuDeMauCau);
 
-                if (!MauCau.isEmpty() && !maChuDeMauCau.isEmpty() && !tenChuDeMauCau.isEmpty()) {
-                    SampleSentence sampleSentence = new SampleSentence(maMauCau, MauCau, phienDich, tinhHuong, maChuDeMauCau);
+                if (!mauCau.isEmpty() && !maChuDeMauCau.isEmpty() && !tenChuDeMauCau.isEmpty()) {
+                    SampleSentence sampleSentence = new SampleSentence(maMauCau, maChuDeMauCau, mauCau, phienDich, tinhHuong);
 
                     if (checkEnterSampleSentenceData(sampleSentence)) {
-                        if (!sampleSentenceHandler.checkNameSampleSentence(MauCau)) {
+                        if (!sampleSentenceHandler.checkNameSampleSentence(mauCau)) {
                             if (sampleSentenceHandler.insertSampleSentence(sampleSentence)) {
                                 Toast.makeText(Admin_Add_Sample_Sentence.this, "Thêm mẫu câu thành công", Toast.LENGTH_SHORT).show();
                                 loadAllDataOfSampleSentence();
@@ -194,28 +179,17 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
     }
 
 
-    ArrayList<String> convertObjectToString(ArrayList<TopicSentence> topicSentencesArrayList)
-    {
-        ArrayList<String> stringArrayList1 = new ArrayList<>();
-        for (TopicSentence tst: topicSentencesArrayList
-        ) {
-            String tenCDMC = tst.getTenChuDeMauCau();
-            stringArrayList1.add(tenCDMC);
-        }
-        return stringArrayList1;
-    }
-
     void setupSpinner() {
-        ArrayList<String> dsChuDeMauCauString = topicSentenceHandler.returnNameOfTopicSentenceSpinner();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dsChuDeMauCauString);
+        stringArrayList = topicSentenceHandler.returnNameOfTopicSentenceSpinner();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, stringArrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerChonChuDe.setAdapter(adapter);
 
         spinnerChonChuDe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCode = dsChuDeMauCauString.get(position);
-                String topicName = topicSentenceHandler.getTopicSentenceNameByCode(selectedCode); // Lấy tên từ mã
+                String selectedName = stringArrayList.get(position);
+                String topicName = topicSentenceHandler.getTopicSentenceNameByCode(selectedName); // Lấy tên từ mã
                 Log.d("Selected Topic", topicName);
             }
 
@@ -230,29 +204,28 @@ public class Admin_Add_Sample_Sentence extends AppCompatActivity {
     public boolean checkEnterSampleSentenceData(SampleSentence sampleSentence) {
 
         if (sampleSentence.getMaMauCau() == null || sampleSentence.getMaMauCau().trim().isEmpty()) {
-            System.out.println("Mã mẫu câu không được để trống.");
+            Toast.makeText(Admin_Add_Sample_Sentence.this, "Mã mẫu câu không được để trống.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (sampleSentence.getMauCau() == null || sampleSentence.getMauCau().trim().isEmpty()) {
-            System.out.println("Tên mẫu câu không được để trống.");
+            Toast.makeText(Admin_Add_Sample_Sentence.this, "Tên mẫu câu không được để trống.", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (sampleSentence.getMauCau().length() > 50) {
-            System.out.println("Tên mẫu câu không được dài hơn 50 ký tự.");
+            Toast.makeText(Admin_Add_Sample_Sentence.this, "Tên mẫu câu không được dài hơn 50 ký tự.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if (sampleSentence.getPhienDich() != null && sampleSentence.getPhienDich().isEmpty()) {
-            System.out.println("Vui lòng nhập phiên dịch cho mẫu câu này.");
+            Toast.makeText(Admin_Add_Sample_Sentence.this, "Vui lòng nhập phiên dịch cho mẫu câu này.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-//        if (sampleSentence.getTinhHuongSuDung() != null && sampleSentence.getTinhHuongSuDung().isEmpty()) {
-//            System.out.println("Vui lòng nhập tình huống sử dụng cho mẫu câu này.");
-//            return false;
-//        }
-
+        if (sampleSentence.getTinhHuongSuDung() != null && sampleSentence.getTinhHuongSuDung().isEmpty()) {
+            Toast.makeText(Admin_Add_Sample_Sentence.this, "Vui lòng nhập tình huống sử dụng cho mẫu câu này.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 

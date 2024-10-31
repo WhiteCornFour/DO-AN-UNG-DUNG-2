@@ -3,12 +3,22 @@ package com.example.doanungdung2.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.example.doanungdung2.Controller.DictionaryHandler;
+import com.example.doanungdung2.Controller.HistoryHandler;
+import com.example.doanungdung2.Model.History;
 import com.example.doanungdung2.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +26,13 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Dictionary_MainPage_Fragment extends Fragment {
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
+    RecyclerView rvSearchHistory;
+    EditText edtSearchBoxDictionary;
+    HistoryHandler historyHandler;
+    ArrayList<History> historyArrayList = new ArrayList<>();
+    User_History_Custom_Adapter_Recycler_View user_history_custom_adapter_recycler_view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +78,39 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__dictionary, container, false);
+        View view =  inflater.inflate(R.layout.fragment__dictionary, container, false);
+        addControl(view);
+
+        historyHandler = new HistoryHandler(getActivity(), DB_NAME, null, DB_VERSION);
+        
+        setupRecyclerView();
+        loadAllHistory();
+
+        return view;
+    }
+
+    void addControl(View view) {
+        rvSearchHistory = view.findViewById(R.id.rvSearchHistory);
+        edtSearchBoxDictionary = view.findViewById(R.id.edtSearchBoxDictionary);
+    }
+
+    void loadAllHistory() {
+        historyArrayList.clear();
+        historyArrayList = historyHandler.loadAllDataOfHistory();
+        user_history_custom_adapter_recycler_view.setHistoryList(historyArrayList);
+    }
+
+    void setupRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+//        rvSearchHistory.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        rvSearchHistory.setLayoutManager(layoutManager);
+        rvSearchHistory.setItemAnimator(new DefaultItemAnimator());
+        user_history_custom_adapter_recycler_view = new User_History_Custom_Adapter_Recycler_View(historyArrayList, new User_History_Custom_Adapter_Recycler_View.ItemClickListener() {
+            @Override
+            public void onItemClick(History history) {
+
+            }
+        });
+        rvSearchHistory.setAdapter(user_history_custom_adapter_recycler_view);
     }
 }

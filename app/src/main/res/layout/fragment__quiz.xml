@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/backgr_admin_white"
             android:layout_margin="20dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:orientation="vertical">
 
             <TextView

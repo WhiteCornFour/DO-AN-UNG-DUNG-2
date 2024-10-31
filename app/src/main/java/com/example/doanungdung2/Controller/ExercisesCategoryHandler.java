@@ -140,6 +140,7 @@ public class ExercisesCategoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return exercisesCategoryNames;
     }
+
     @SuppressLint("Range")
     public String getExerciseCategoryNameByCode(String maDangBaiTap) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);

@@ -3,6 +3,7 @@ package com.example.doanungdung2.View;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,7 +16,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.doanungdung2.Controller.SampleSentenceHandler;
 import com.example.doanungdung2.Controller.TopicSentenceHandler;
+import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.Model.TopicSentence;
 import com.example.doanungdung2.R;
 
@@ -35,6 +38,7 @@ public class Admin_Delete_Topic_SampleSentence extends AppCompatActivity {
     boolean[] checkedForSearch;
     boolean[] checkedStates;
     TopicSentenceHandler topicSentenceHandler;
+    SampleSentenceHandler sampleSentenceHandler;
     TopicSentence topicSentence;
     Admin_Delete_Topic_SampleSentence_CustomAdapter_LV admin_Delete_Topic_SampleSentence_CustomAdapter_LV;
 
@@ -47,8 +51,8 @@ public class Admin_Delete_Topic_SampleSentence extends AppCompatActivity {
 
         addControl();
         topicSentenceHandler = new TopicSentenceHandler(this, DB_NAME, null, DB_VERSION);
-
-            loadAllDataTopicSentence();
+        sampleSentenceHandler = new SampleSentenceHandler(this, DB_NAME, null, DB_VERSION);
+        loadAllDataTopicSentence();
 
 
         addEvent();
@@ -114,14 +118,21 @@ public class Admin_Delete_Topic_SampleSentence extends AppCompatActivity {
         lvDSDelete_CDMC.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (topicSentenceArrayList.size() == 0) {
-                    topicSentence = dataOfSearch.get(position);
-                } else {
-                    topicSentence = topicSentenceArrayList.get(position);
+                topicSentence = topicSentenceArrayList.get(position);
+                Log.d("DEBUG", "Chu de mau cau: " + topicSentence);
+                String maCDMC = topicSentence.getMaChuDeMauCau();
+                Log.d("DEBUG", "Ma mau cau: " + maCDMC);
+                boolean result = sampleSentenceHandler.checkTopicSentencesHaveSampleSentences(maCDMC);
+                Log.d("DEBUG", "Boolean: " + result);
+                if (!result)
+                {
+                    createDialog(maCDMC);
+                    return true;
+                }else
+                {
+                    dialogThongBao(maCDMC);
+                    return false;
                 }
-                String maChuDe = topicSentence.getMaChuDeMauCau();
-                createDialog(maChuDe);
-                return true;
             }
         });
 
@@ -129,29 +140,19 @@ public class Admin_Delete_Topic_SampleSentence extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean anyChecked = false;
-
-                // Kiểm tra xem danh sách checkedForSearch có dữ liệu hay không
-//                if (topicSentenceArrayList.size() != 0) {
-                    for (boolean checked : checkedStates) {
-                        if (checked) {
-                            anyChecked = true;
-                            break;
-                        }
+                for (boolean checked : checkedStates) {
+                    if (checked) {
+                        anyChecked = true;
+                        break;
                     }
-//                }
-//                else {
-//                    // Nếu topicSentenceArrayList trống, kiểm tra checkedForSearch
-//                    for (boolean checked : checkedForSearch) {
-//                        if (checked) {
-//                            anyChecked = true;
-//                            break;
-//                        }
-//                    }
-//                }
+                }
+
                 if (!anyChecked) {
-                    Toast.makeText(Admin_Delete_Topic_SampleSentence.this, "Hãy chọn ít nhất một chủ đề!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Admin_Delete_Topic_SampleSentence.this,
+                            "Hãy chọn ít nhất một chủ đề mẫu câu!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 AlertDialog alertDialog = createAlertDialogDeleteTopic();
                 alertDialog.show();
             }
@@ -159,24 +160,25 @@ public class Admin_Delete_Topic_SampleSentence extends AppCompatActivity {
     }
 
     private void deleteSelectedTopics() {
-        ArrayList<TopicSentence> topicsToDelete = new ArrayList<>();
-
+        ArrayList<TopicSentence> topicSenToDelete = new ArrayList<>();
         for (int i = 0; i < checkedStates.length; i++) {
             if (checkedStates[i]) {
-               topicsToDelete.add(topicSentenceArrayList.get(i));
+                topicSenToDelete.add(topicSentenceArrayList.get(i));
             }
         }
-
-        for (TopicSentence ts : topicsToDelete) {
-//            boolean rs = topicSentenceHandler.check(maChuDe);
-//            if (!rs) {
+        for (TopicSentence ts : topicSenToDelete) {
+            boolean rs = sampleSentenceHandler.checkTopicSentencesHaveSampleSentences(ts.getMaChuDeMauCau());
+            if (!rs)
+            {
                 topicSentenceHandler.deleteTopicSentence(ts.getMaChuDeMauCau());
-//            } else {
-//                dialogThongBao(maChuDe);
-//            }
+                topicSentenceArrayList.remove(ts);
+            }else
+            {
+                dialogThongBao(ts.getMaChuDeMauCau());
+            }
         }
+        checkedStates = new boolean[topicSentenceArrayList.size()];
         loadAllDataTopicSentence();
-        Toast.makeText(Admin_Delete_Topic_SampleSentence.this, "Đã xóa các chủ đề đã chọn", Toast.LENGTH_SHORT).show();
     }
 
 
