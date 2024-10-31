@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,7 @@ public class Admin_Grammar_Mainpage_Fragment extends Fragment {
     ArrayList<String> dataLV = new ArrayList<>();
     LinearLayout lnThemNP, lnSuaNP, lnXoaNP;
     ListView lvDSNPFragment;
+    TextView tvDSSLDNP;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,7 @@ public class Admin_Grammar_Mainpage_Fragment extends Fragment {
         lnSuaNP = view.findViewById(R.id.lnSuaNP);
         lnXoaNP = view.findViewById(R.id.lnXoaNP);
         lvDSNPFragment = view.findViewById(R.id.lvDSNPFragment);
+        tvDSSLDNP = view.findViewById(R.id.tvDSSLDNP);
     }
     void addEvent()
     {
@@ -90,9 +94,11 @@ public class Admin_Grammar_Mainpage_Fragment extends Fragment {
         }
         return stringArrayList;
     }
+    @SuppressLint("SetTextI18n")
     void loadAdllDataLV()
     {
         grammarArrayList = grammarHandler.loadAllDataOfGrammar();
+        tvDSSLDNP.setText("Danh sách số lượng ngữ pháp: " + String.valueOf(grammarArrayList.size()));
         dataLV = convertObjectToString(grammarArrayList);
         Collections.reverse(dataLV);
         adapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,

@@ -121,10 +121,10 @@ public class GrammarHandler extends SQLiteOpenHelper {
         Cursor cursor = null;
         sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM " + TABLE_NAME +
-                " WHERE " + maNguPhap + " LIKE ? OR " + tenNguPhap + " LIKE ?";
+                " WHERE " + maNguPhap + " LIKE ? OR " + tenNguPhap + " LIKE ? OR MaDangNguPhap = ?";
 
         // Sử dụng "%" + keyWord + "%" để tìm kiếm chuỗi có chứa từ khóa
-        String[] selectionArgs = new String[]{"%" + keyWord + "%", "%" + keyWord + "%"};
+        String[] selectionArgs = new String[]{"%" + keyWord + "%", "%" + keyWord + "%", keyWord};
         cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
 
         if (cursor.moveToFirst()) {
@@ -154,6 +154,13 @@ public class GrammarHandler extends SQLiteOpenHelper {
                 grammar.getMaDangNguPhap(),
                 grammar.getMaNguPhap()  // Tham số cho điều kiện WHERE
         });
+        sqLiteDatabase.close();
+    }
+    public void deleteGrammar(String maNguPhap)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String query = "Delete from " + TABLE_NAME + " Where MaNguPhap = ?";
+        sqLiteDatabase.execSQL(query, new String[]{maNguPhap});
         sqLiteDatabase.close();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.ExerciseHandler;
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
@@ -41,6 +43,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
     ArrayAdapter<String> stringArrayAdapter;
 
     LinearLayout lnThemBT, lnSuaBT, lnXoaBT;
+    TextView tvDSSLBT;
     ListView lvDSBTFragment;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -103,6 +106,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
         lnSuaBT = view.findViewById(R.id.lnSuaBT);
         lnXoaBT = view.findViewById(R.id.lnXoaBT);
         lvDSBTFragment = view.findViewById(R.id.lvDSBTFragment);
+        tvDSSLBT = view.findViewById(R.id.tvDSSLBT);
     }
 
     void addEvent()
@@ -138,9 +142,11 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     void loadAllDataToLV()
     {
         Collections.reverse(exerciseArrayList = exercisesHandler.loadAllDataOfExercise());
+        tvDSSLBT.setText("Danh sách số lượng bài tập: " + String.valueOf(exerciseArrayList.size()));
         ArrayList<String> dataLV = stringArrayList(exerciseArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);

@@ -189,9 +189,10 @@ public class Admin_Delete_Grammar_Category extends AppCompatActivity {
         builder.setNegativeButton("Chuyển tiếp", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-//                Intent intent = new Intent(Admin_Delete_ExercisesCategory.this, Admin_Delete_Exercise.class);
-//                intent.putExtra("maDBT", maDBT);
-//                startActivity(intent);
+                Intent intent = new Intent(Admin_Delete_Grammar_Category.this
+                        , Admin_Delete_Grammar.class);
+                intent.putExtra("maDNP", maDangNguPhap);
+                startActivity(intent);
             }
         });
         AlertDialog alertDialog = builder.create();

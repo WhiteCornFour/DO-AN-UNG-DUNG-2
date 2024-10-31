@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.Question;
@@ -34,6 +36,7 @@ public class Admin_Question_Mainpage_Fragment extends Fragment {
     QuestionHandler questionHandler;
     LinearLayout lnThemCH, lnSuaCH, lnXoaCH;
     ListView lvDSCHFragment;
+    TextView tvDSSLCH;
     ArrayAdapter<String> stringArrayAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,6 +102,7 @@ public class Admin_Question_Mainpage_Fragment extends Fragment {
         lnSuaCH = view.findViewById(R.id.lnSuaCH);
         lnXoaCH = view.findViewById(R.id.lnXoaCH);
         lvDSCHFragment = view.findViewById(R.id.lvDSCHFragment);
+        tvDSSLCH = view.findViewById(R.id.tvDSSLCH);
     }
     void addEvent()
     {
@@ -122,9 +126,11 @@ public class Admin_Question_Mainpage_Fragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     void loadAllDataLV()
     {
         Collections.reverse(questionArrayList = questionHandler.loadAllDataOfQuestion());;
+        tvDSSLCH.setText("Danh sách số lượng câu hỏi: " + String.valueOf(questionArrayList.size()));
         ArrayList<String> data = stringArrayList(questionArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 data);

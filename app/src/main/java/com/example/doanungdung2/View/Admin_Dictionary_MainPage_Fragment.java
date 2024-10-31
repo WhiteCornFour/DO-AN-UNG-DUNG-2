@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.DictionaryHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
@@ -38,6 +40,7 @@ public class Admin_Dictionary_MainPage_Fragment extends Fragment {
 
     LinearLayout lnThemTD, lnSuaTD, lnXoaTD;
     ListView lvDSTDFragment;
+    TextView tvDSSLTD;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,6 +105,7 @@ public class Admin_Dictionary_MainPage_Fragment extends Fragment {
         lnSuaTD = view.findViewById(R.id.lnSuaTD);
         lnXoaTD = view.findViewById(R.id.lnXoaTD);
         lvDSTDFragment = view.findViewById(R.id.lvDSTDFragment);
+        tvDSSLTD = view.findViewById(R.id.tvDSSLTD);
     }
 
     void addEvent()
@@ -126,9 +130,11 @@ public class Admin_Dictionary_MainPage_Fragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     void loadAllDataToLV()
     {
         dictionaryArrayList = dictionaryHandler.loadAllDataOfDictionary();
+        tvDSSLTD.setText("Danh sách số lượng từ điển: " + String.valueOf(dictionaryArrayList.size()));
         ArrayList<String> dataLV = stringArrayList(dictionaryArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);

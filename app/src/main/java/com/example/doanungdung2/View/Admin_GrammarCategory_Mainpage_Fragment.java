@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.GrammarCategoryHandler;
 import com.example.doanungdung2.Model.GrammarCategory;
@@ -34,6 +36,7 @@ public class Admin_GrammarCategory_Mainpage_Fragment extends Fragment {
     ArrayAdapter<String> adapter;
     LinearLayout lnThemDNP, lnSuaDNP, lnXoaDNP;
     ListView lvDSDNPFragment;
+    TextView tvDSSLDNP;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -97,6 +100,7 @@ public class Admin_GrammarCategory_Mainpage_Fragment extends Fragment {
         lnSuaDNP = view.findViewById(R.id.lnSuaDNP);
         lnXoaDNP = view.findViewById(R.id.lnXoaDNP);
         lvDSDNPFragment = view.findViewById(R.id.lvDSDNPFragment);
+        tvDSSLDNP = view.findViewById(R.id.tvDSSLDNP);
     }
     void addEvent()
     {
@@ -130,9 +134,11 @@ public class Admin_GrammarCategory_Mainpage_Fragment extends Fragment {
         }
         return data;
     }
+    @SuppressLint("SetTextI18n")
     void loadAllDataGrammarCategory()
     {
         grammarCategoryArrayList = grammarCategoryHandler.loadAllDataGrammarCategory();
+        tvDSSLDNP.setText("Danh sách số lượng dạng ngữ pháp: " + String.valueOf(grammarCategoryArrayList.size()));
         Collections.reverse(grammarCategoryArrayList);
         dataLV = convertObjectToString(grammarCategoryArrayList);
         adapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
