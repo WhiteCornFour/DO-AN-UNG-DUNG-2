@@ -108,6 +108,18 @@ public class Admin_MainPage extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 
+                    case R.id.qLMauCau:
+                        Admin_MainPage_SampleSentence admin_mainPage_sampleSentence = new Admin_MainPage_SampleSentence();
+                        replaceFragment(admin_mainPage_sampleSentence);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
+                    case R.id.qLChuDeMauCau:
+                        Admin_TopicSentence_Fragment admin_topicSentence_fragment = new Admin_TopicSentence_Fragment();
+                        replaceFragment(admin_topicSentence_fragment);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                     case R.id.logoutAD:
 //                        startActivity(new Intent(Admin_MainPage.this, Admin_Login.class));
 //                        drawerLayout.closeDrawer(GravityCompat.START);

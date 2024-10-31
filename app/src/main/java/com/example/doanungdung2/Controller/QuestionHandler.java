@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -75,6 +76,51 @@ public class QuestionHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return questionArrayList;
     }
+    @SuppressLint("Range")
+    public ArrayList<Question> searchQuestionByNameOrCode(String keyWord) {
+        ArrayList<Question> questionArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maCauHoi + " LIKE ? OR " + noiDungCauHoi + " LIKE ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{"%" + keyWord + "%", "%" + keyWord + "%"});
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Question question = new Question();
+                question.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                question.setNoiDungCauHoi(cursor.getString(cursor.getColumnIndex(noiDungCauHoi)));
+                question.setCauA(cursor.getString(cursor.getColumnIndex(cauA)));
+                question.setCauB(cursor.getString(cursor.getColumnIndex(cauB)));
+                question.setCauC(cursor.getString(cursor.getColumnIndex(cauC)));
+                question.setCauD(cursor.getString(cursor.getColumnIndex(cauD)));
+                question.setDapAn(cursor.getString(cursor.getColumnIndex(dapAn)));
+                question.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                question.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                question.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                questionArrayList.add(question);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return questionArrayList;
+    }
 
+//    public void deleteQuestion(String maCauHoi) {
+//        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+//        sqLiteDatabase.delete(TABLE_NAME, this.maCauHoi + "=?", new String[]{maCauHoi});
+//        sqLiteDatabase.close();
+//    }
+
+    public void deleteQuestion(String maCauHoi) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        int rowsAffected = sqLiteDatabase.delete(TABLE_NAME, this.maCauHoi + "=?", new String[]{maCauHoi});
+
+        if (rowsAffected > 0) {
+            Log.d("db", "Xoa cau hoi voi ma: " + maCauHoi);
+        } else {
+            Log.d("db", "Khong tim thay cau hoi voi ma: " + maCauHoi);
+        }
+        if (sqLiteDatabase != null && sqLiteDatabase.isOpen()) {
+            sqLiteDatabase.close();
+        }
+    }
 
 }
