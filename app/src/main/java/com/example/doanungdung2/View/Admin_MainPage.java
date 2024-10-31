@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.doanungdung2.R;
 import com.google.android.material.navigation.NavigationView;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -92,10 +93,17 @@ public class Admin_MainPage extends AppCompatActivity {
     void addEvent()
     {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId())
                 {
+                    case R.id.danhMucQuanLy:
+                        Admin_ManagementCategory_MainPage_Fragment fm = new Admin_ManagementCategory_MainPage_Fragment();
+                        replaceFragment(fm);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
                     case R.id.qLDangBaiTap:
                         Admin_ExercisesCategory_MainPage_Fragment admin_dangBaiTap_fragment = new Admin_ExercisesCategory_MainPage_Fragment();
                         replaceFragment(admin_dangBaiTap_fragment);
@@ -107,7 +115,6 @@ public class Admin_MainPage extends AppCompatActivity {
                         replaceFragment(admin_exercise_mainPage_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
-
                     case R.id.qLMauCau:
                         Admin_MainPage_SampleSentence admin_mainPage_sampleSentence = new Admin_MainPage_SampleSentence();
                         replaceFragment(admin_mainPage_sampleSentence);
@@ -117,6 +124,27 @@ public class Admin_MainPage extends AppCompatActivity {
                     case R.id.qLChuDeMauCau:
                         Admin_TopicSentence_Fragment admin_topicSentence_fragment = new Admin_TopicSentence_Fragment();
                         replaceFragment(admin_topicSentence_fragment);
+                    case  R.id.qLCauHoi:
+                        Admin_Question_Mainpage_Fragment admin_question_mainpage_fragment = new Admin_Question_Mainpage_Fragment();
+                        replaceFragment(admin_question_mainpage_fragment);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
+                    case  R.id.qLDangNguPhap:
+                        Admin_GrammarCategory_Mainpage_Fragment fm1 = new Admin_GrammarCategory_Mainpage_Fragment();
+                        replaceFragment(fm1);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+
+                    case R.id.qLNguPhap:
+                        Admin_Grammar_Mainpage_Fragment fm2 = new Admin_Grammar_Mainpage_Fragment();
+                        replaceFragment(fm2);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        return true;
+                    
+                    case  R.id.qLTuDien:
+                        Admin_Dictionary_MainPage_Fragment admin_dictionary_mainPage_fragment = new Admin_Dictionary_MainPage_Fragment();
+                        replaceFragment(admin_dictionary_mainPage_fragment);
                         drawerLayout.closeDrawer(GravityCompat.START);
                         return true;
 

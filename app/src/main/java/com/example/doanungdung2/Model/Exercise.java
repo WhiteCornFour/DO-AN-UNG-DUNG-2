@@ -1,6 +1,8 @@
 package com.example.doanungdung2.Model;
 
-public class Exercise {
+import java.io.Serializable;
+
+public class Exercise implements Serializable {
     String maBaiTap;
     String tenBaiTap;
     int soCau;

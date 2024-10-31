@@ -13,6 +13,8 @@ public class Question implements Serializable {
     String mucDo;
     String maBaiTap;
     String maDangBaiTap;
+    //bo sung thuoc tinh isChecked de xem xem check bõx có check chưa
+    boolean isChecked = false;
 
     public Question(String maCauHoi, String noiDungCauHoi, String cauA, String cauB, String cauC, String cauD, String dapAn, String mucDo, String maBaiTap, String maDangBaiTap) {
         this.maCauHoi = maCauHoi;
@@ -108,5 +110,13 @@ public class Question implements Serializable {
 
     public void setMaDangBaiTap(String maDangBaiTap) {
         this.maDangBaiTap = maDangBaiTap;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

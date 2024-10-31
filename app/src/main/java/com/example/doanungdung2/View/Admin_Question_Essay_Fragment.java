@@ -1,8 +1,9 @@
 package com.example.doanungdung2.View;
 
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,56 +11,33 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
+import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link Admin_Question_Essay_Fragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A Fragment that allows the admin to manage essay questions.
  */
 public class Admin_Question_Essay_Fragment extends Fragment {
 
-    EditText edtDapAnDungTuLuan;
-    TextView tvTuLuanVaDBT;
+    private EditText edtDapAnDungTuLuan;
+    private TextView tvTuLuanVaDBT;
+    private ExercisesCategoryHandler exercisesCategoryHandler;
+    private SharedViewModel sharedViewModel;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Database constants
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
 
     public Admin_Question_Essay_Fragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Admin_Question_Essay.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Admin_Question_Essay_Fragment newInstance(String param1, String param2) {
-        Admin_Question_Essay_Fragment fragment = new Admin_Question_Essay_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     @Override
@@ -67,12 +45,30 @@ public class Admin_Question_Essay_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_question_essay, container, false);
-        addControl(view);
+        initializeControls(view);
+        exercisesCategoryHandler = new ExercisesCategoryHandler(getContext(), DB_NAME, null, DB_VERSION);
+
+        // Observe the selected question from the SharedViewModel
+        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateUIWithQuestionData);
+
         return view;
     }
 
-    void addControl(View view) {
+    private void initializeControls(View view) {
         edtDapAnDungTuLuan = view.findViewById(R.id.edtDapAnDungTuLuan);
         tvTuLuanVaDBT = view.findViewById(R.id.tvTuLuanVaDBT);
+    }
+
+    private void updateUIWithQuestionData(Question question) {
+        if (question != null) {
+            String maDangBaiTap = question.getMaDangBaiTap();
+            String tenDangBaiTap = exercisesCategoryHandler.getExerciseCategoryNameByCode(maDangBaiTap);
+            tvTuLuanVaDBT.setText("Dạng bài tập " + tenDangBaiTap);
+            edtDapAnDungTuLuan.setText(question.getDapAn());
+        }
+    }
+
+    public String getEssayData() {
+        return edtDapAnDungTuLuan.getText().toString().trim();
     }
 }

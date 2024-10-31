@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +38,7 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
     ArrayAdapter<String> stringArrayAdapter;
     LinearLayout lnThemDBT, lnSuaDBT, lnXoaDBT;
     ListView lvDSDangBTFragment;
+    TextView tvDSDBTCount;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -97,6 +101,7 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
         lnSuaDBT = view.findViewById(R.id.lnSuaDBT);
         lnXoaDBT = view.findViewById(R.id.lnXoaDBT);
         lvDSDangBTFragment = view.findViewById(R.id.lvDSDangBTFragment);
+        tvDSDBTCount = view.findViewById(R.id.tvDSDBTCount);
     }
 
     void addEvent()
@@ -121,9 +126,11 @@ public class Admin_ExercisesCategory_MainPage_Fragment extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     void loadAllDataToLV()
     {
-        exercisesCategoryArrayList = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
+        Collections.reverse(exercisesCategoryArrayList = exercisesCategoryHandler.loadAllDataOfExercisesCategory());
+        tvDSDBTCount.setText("Danh sách số lượng dạng bài tập: " + exercisesCategoryArrayList.size());
         ArrayList<String> dataLV = stringArrayList(exercisesCategoryArrayList);
         stringArrayAdapter = new ArrayAdapter<>(getActivity(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                 dataLV);

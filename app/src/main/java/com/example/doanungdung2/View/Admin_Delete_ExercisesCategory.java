@@ -33,14 +33,14 @@ public class Admin_Delete_ExercisesCategory extends AppCompatActivity {
     ImageView imgSerchForDeleteInDangBT, imgBackDeleteToMainPage;
 
     ArrayList<ExercisesCategory> exercisesCategoryArrayList = new ArrayList<>();
-    ArrayList<ExercisesCategory> searchCategoryArrayList = new ArrayList<>();
+    //ArrayList<ExercisesCategory> searchCategoryArrayList = new ArrayList<>();
     ExercisesCategoryHandler exercisesCategoryHandler;
     ExerciseHandler exerciseHandler;
     Admin_Delete_ExercisesCategory_CustomAdapter_LV customAdapterLv;
     ExercisesCategory exercisesCategory;
     boolean[] checkedStates;
 
-    boolean[] checkedForSearch;
+    //boolean[] checkedForSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,16 +146,16 @@ public class Admin_Delete_ExercisesCategory extends AppCompatActivity {
 
     void loadDataForSearch(String keyWord)
     {
-        searchCategoryArrayList = exercisesCategoryHandler.searchResultExercisesCategory(keyWord);
-        if (searchCategoryArrayList.size() == 0)
+        exercisesCategoryArrayList = exercisesCategoryHandler.searchResultExercisesCategory(keyWord);
+        if (exercisesCategoryArrayList.size() == 0)
         {
             Toast.makeText(Admin_Delete_ExercisesCategory.this,
                     "Không có kết quả phù hợp!", Toast.LENGTH_SHORT).show();
             return;
         }
-        checkedForSearch = new boolean[searchCategoryArrayList.size()];
+        checkedStates = new boolean[exercisesCategoryArrayList.size()];
         customAdapterLv = new Admin_Delete_ExercisesCategory_CustomAdapter_LV(Admin_Delete_ExercisesCategory.this,
-                R.layout.layou_admin_delete_exercises_category_customadper_lv, searchCategoryArrayList, checkedForSearch);
+                R.layout.layou_admin_delete_exercises_category_customadper_lv, exercisesCategoryArrayList, checkedStates);
         lvDSDangBTTrongXoa.setAdapter(customAdapterLv);
     }
     void createDialog(String maDangBaiTap) {

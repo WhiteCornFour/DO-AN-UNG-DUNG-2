@@ -5,6 +5,14 @@
         android:id="@+id/danhMucQuanLy"
         android:icon="@drawable/category"/>
 
+    <item android:title="Câu hỏi" >
+        <menu>
+            <item android:title="Quản lý câu hỏi"
+                android:id="@+id/qLCauHoi"
+                android:icon="@drawable/arrow"/>
+        </menu>
+    </item>
+
     <item android:title="Bài tập" >
         <menu >
             <item android:title="Quản lý dạng bài tập"
@@ -13,14 +21,6 @@
 
             <item android:title="Quản lý bài tập"
                 android:id="@+id/qLBaiTap"
-                android:icon="@drawable/arrow"/>
-        </menu>
-    </item>
-
-    <item android:title="Câu hỏi" >
-        <menu>
-            <item android:title="Quản lý câu hỏi"
-                android:id="@+id/qLCauHoi"
                 android:icon="@drawable/arrow"/>
         </menu>
     </item>

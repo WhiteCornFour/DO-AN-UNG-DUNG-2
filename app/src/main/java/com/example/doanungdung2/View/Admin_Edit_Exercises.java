@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +58,10 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
         addControl();
         exerciseHandler = new ExerciseHandler(Admin_Edit_Exercises.this, DB_NAME, null, DB_VERSION);
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Edit_Exercises.this, DB_NAME, null, DB_VERSION);
+        //------------------------------------//
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        //------------------------------------//
 
         dsDangBaiTap = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
 
@@ -63,6 +69,7 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
         spinnerDBTCreate();
         spinnerDangBaiTapBT.setEnabled(false);
 
+        unableCheckBox();
         setupRecyclerView();
         loadAllExercises();
         addEvent();
@@ -97,9 +104,7 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
     void addEvent() {
         imgBackToMainPageSBT.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
-            }
+            public void onClick(View v) { finish();}
         });
 
         imgSuaBTSearch.setOnClickListener(new View.OnClickListener() {
@@ -121,8 +126,8 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
                 String maBT = edtSuaMaBT.getText().toString().trim();
                 String tenBT = edtSuaTenBT.getText().toString().trim();
 
-                int selectedCauIndex = spinnerSoCauBT.getSelectedItemPosition();
-                int soCau = dsCau[selectedCauIndex];
+                int soCau = Integer.parseInt(spinnerSoCauBT.getSelectedItem().toString());
+                Log.d("DEBUG", "so cau: " + soCau);
 
                 String mucDo = getMucDo();
 
@@ -142,7 +147,7 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
                     return;
                 }
 
-                if (exerciseHandler.isExerciseNameExists(tenBT)) {
+                if (exerciseHandler.checkExerciseByNameAndCode(tenBT, maBT)) {
                     Toast.makeText(Admin_Edit_Exercises.this, "Tên bài tập đã tồn tại. Vui lòng chọn tên khác.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -159,6 +164,40 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
             }
         });
 
+        btnCapNhatCauHoiSBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String maBT = edtSuaMaBT.getText().toString().trim();
+                String tenBT = edtSuaTenBT.getText().toString().trim();
+
+                int selectedCauIndex = spinnerSoCauBT.getSelectedItemPosition();
+                int soCau = dsCau[selectedCauIndex];
+                String mucDo = getMucDo();
+                String thoigianBT = edtSuaThoiGianBT.getText().toString().trim();
+                String moTaBT = edtSuaMoTaBT.getText().toString().trim();
+                String tendangBaiTap = spinnerDangBaiTapBT.getSelectedItem().toString();
+                String maDangBaiTap = exercisesCategoryHandler.getExerciseCategoryCodeByName(tendangBaiTap);
+
+                Exercise exercise = new Exercise(maBT, tenBT, soCau, mucDo, thoigianBT, moTaBT, maDangBaiTap);
+
+                if (!isNumeric(thoigianBT) || Integer.parseInt(thoigianBT) < 5 || Integer.parseInt(thoigianBT) > 60) {
+                    Toast.makeText(Admin_Edit_Exercises.this, "Hãy đảm bảo điền đầy đủ thông tin trước khi chuyển sang cập nhật câu hỏi.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (maBT.isEmpty() || tenBT.isEmpty() || thoigianBT.isEmpty() ||  moTaBT.isEmpty()) {
+                    Toast.makeText(Admin_Edit_Exercises.this, "Hãy đảm bảo điền đầy đủ thông tin trước khi chuyển sang cập nhật câu hỏi.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (exerciseHandler.checkExerciseByNameAndCode(tenBT, maBT)) {
+                    Toast.makeText(Admin_Edit_Exercises.this, "Hãy đảm bảo điền đầy đủ thông tin trước khi chuyển sang cập nhật câu hỏi.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                createAlertDialogQuestionsExercises(exercise).show();
+
+            }
+        });
         cbBeginnerSBT.setOnCheckedChangeListener((buttonView, isChecked) -> handleCheckBoxChange(cbBeginnerSBT, isChecked));
         cbStarterSBT.setOnCheckedChangeListener((buttonView, isChecked) -> handleCheckBoxChange(cbStarterSBT, isChecked));
         cbIntermediateSBT.setOnCheckedChangeListener((buttonView, isChecked) -> handleCheckBoxChange(cbIntermediateSBT, isChecked));
@@ -228,7 +267,6 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
                         break;
                     }
                 }
-
                 if (index != -1) {
                     spinnerSoCauBT.setSelection(index);
                 }
@@ -294,27 +332,39 @@ public class Admin_Edit_Exercises extends AppCompatActivity {
         cbMasterSBT.setChecked(false);
     }
 
+    void unableCheckBox () {
+        cbBeginnerSBT.setEnabled(false);
+        cbStarterSBT.setEnabled(false);
+        cbIntermediateSBT.setEnabled(false);
+        cbProficientSBT.setEnabled(false);
+        cbMasterSBT.setEnabled(false);
+    }
 
-    //Alert
-    private void showWarningDialog(CheckBox changedCheckBox, String level) {
+    private AlertDialog createAlertDialogQuestionsExercises(Exercise exercise) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Cảnh báo");
-        builder.setMessage("Bạn đang thay đổi mức độ bài tập sang " + level + ". Tất cả câu hỏi trong bài tập sẽ bị xóa.");
+        builder.setTitle("Chuyển sang cập nhật câu hỏi");
+        builder.setMessage("Bạn cần phải lưu lại những chỉnh sửa của bài tập hiện tại trước khi thêm,xóa câu hỏi ở bài tập. Bạn có muốn tiếp tục ?");
         builder.setPositiveButton("Tiếp tục", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                exerciseHandler.updateExercises(exercise);
+                loadAllExercises();
+                Toast.makeText(Admin_Edit_Exercises.this, "Cập nhật thành công.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Admin_Edit_Exercises.this, Admin_Questions_Exercises.class);
+                intent.putExtra("exercise", exercise);
+                startActivity(intent);
+
             }
         });
         builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Nếu người dùng hủy, bỏ chọn CheckBox
-                changedCheckBox.setChecked(false);
                 dialog.cancel();
             }
         });
-        builder.show();
+        return builder.create();
     }
+
 
     private AlertDialog createAlertDialogEditExercises(Exercise exercise) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_Edit_Exercises.this);
