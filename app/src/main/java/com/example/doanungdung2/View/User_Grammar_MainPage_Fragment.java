@@ -3,12 +3,21 @@ package com.example.doanungdung2.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.example.doanungdung2.Controller.GrammarCategoryHandler;
+import com.example.doanungdung2.Controller.GrammarHandler;
+import com.example.doanungdung2.Model.Grammar;
+import com.example.doanungdung2.Model.GrammarCategory;
 import com.example.doanungdung2.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +26,12 @@ import com.example.doanungdung2.R;
  */
 public class User_Grammar_MainPage_Fragment extends Fragment {
 
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
+    GrammarCategoryHandler grammarCategoryHandler;
+    ArrayList<GrammarCategory> grammarCategoryArrayList = new ArrayList<>();
+    ListView lvGrammar_User;
+    Expandable_Grammar adapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +76,28 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__grammar, container, false);
+        View view = inflater.inflate(R.layout.fragment__grammar, container, false);
+        addControl(view);
+        grammarCategoryHandler = new GrammarCategoryHandler(getContext(), DB_NAME, null, DB_VERSION);
+        loadDataLV();
+        addEvent();
+        return view;
+    }
+
+    void addControl(View view)
+    {
+        lvGrammar_User = view.findViewById(R.id.lvGrammar_User);
+        lvGrammar_User.setDivider(null);
+        lvGrammar_User.setDividerHeight(0);
+    }
+    void addEvent()
+    {
+
+    }
+    void loadDataLV()
+    {
+        grammarCategoryArrayList = grammarCategoryHandler.loadAllDataGrammarCategory();
+        adapter = new Expandable_Grammar(getContext(), R.layout.layout_expandble_grammar, grammarCategoryArrayList);
+        lvGrammar_User.setAdapter(adapter);
     }
 }

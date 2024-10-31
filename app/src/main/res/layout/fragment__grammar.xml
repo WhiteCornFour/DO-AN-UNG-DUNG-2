@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lime"
+    android:orientation="vertical"
     tools:context=".View.User_Grammar_MainPage_Fragment">
 
     <LinearLayout
@@ -24,55 +25,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="9pt"
-            android:text="Master English, Master Your World!" />
+            android:text="Master English, Master Your World!"
+            android:textSize="9pt" />
 
         <TextView
             android:id="@+id/textView43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12pt"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
-            android:text="Want to strengthen \nwhat you've learned?" />
+            android:layout_marginTop="50dp"
+            android:text="Want to strengthen \nwhat you've learned?"
+            android:textColor="@color/black"
+            android:textSize="12pt"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView47"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
             android:layout_marginLeft="30dp"
+            android:text="Yes, let's make it stronger!"
             android:textSize="10pt"
-            android:text="Yes, let's make it stronger!" />
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/textView48"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12pt"
-            android:textStyle="bold"
-            android:textColor="@color/black"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
-            android:text="Grammar List" />
+            android:text="Grammar List"
+            android:textColor="@color/black"
+            android:textSize="12pt"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/backgr_lv_grammar_user"
             android:layout_marginTop="30dp"
+            android:background="@drawable/backgr_lv_grammar_user"
             android:orientation="vertical">
 
             <ListView
                 android:id="@+id/lvGrammar_User"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="400dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:layout_height="400dp" />
+                android:layout_marginBottom="10dp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
