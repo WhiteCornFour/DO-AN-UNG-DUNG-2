@@ -121,7 +121,7 @@ public class Admin_Question_Mainpage_Fragment extends Fragment {
         lnXoaCH.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), Admin_Delete_Questions.class));
             }
         });
     }

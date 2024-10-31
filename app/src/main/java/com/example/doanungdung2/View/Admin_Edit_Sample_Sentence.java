@@ -121,6 +121,11 @@ public class Admin_Edit_Sample_Sentence extends AppCompatActivity {
                     return;
                 }
 
+                if (sampleSentenceHandler.checkCodeAndNameSampleSentence(maSS, tenSS)) {
+                    Toast.makeText(Admin_Edit_Sample_Sentence.this, "Không được để trùng tên và mã.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 SampleSentence sampleSentence = new SampleSentence();
                 sampleSentence.setMaMauCau(maSS);
                 sampleSentence.setMauCau(tenSS);

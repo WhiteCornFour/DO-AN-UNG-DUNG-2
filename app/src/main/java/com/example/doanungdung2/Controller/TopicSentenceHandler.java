@@ -63,6 +63,23 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
         return topicSentenceArrayList;
     }
 
+    public boolean checkCodeAndNameTopicSentence(String maCDMCInput, String tenCDMCInput) {
+        boolean checked = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maChuDeMauCau + " != ? AND " + tenChuDeMauCau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maCDMCInput, tenCDMCInput});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                checked = true;
+            }
+            cursor.close();
+        }
+
+        sqLiteDatabase.close();
+        return checked;
+    }
+
     @SuppressLint("Range")
     public ArrayList<TopicSentence> searchTopicByNameOrCode(String keyWord) {
         ArrayList<TopicSentence> topicSentenceArrayList = new ArrayList<>();
@@ -87,6 +104,7 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return topicSentenceArrayList;
     }
+
     @SuppressLint("Range")
     public static ArrayList<String> returnNameOfTopicSentenceSpinner() {
         ArrayList<String> TopicSentenceName = new ArrayList<>();
@@ -111,20 +129,20 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "SELECT " + tenChuDeMauCau + " FROM " + TABLE_NAME + " WHERE " +  maChuDeMauCau + " = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maChuDeMauCauInput});
-        String maChudemaucau = "";
+        String tenCDMC = "";
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                maChudemaucau = cursor.getString(cursor.getColumnIndex(tenChuDeMauCau));
+                tenCDMC = cursor.getString(cursor.getColumnIndex(tenChuDeMauCau));
             }
             cursor.close();
         }
         sqLiteDatabase.close();
-        return maChudemaucau;
+        return tenCDMC;
     }
     @SuppressLint("Range")
     public String getTopicSentenceCodeByName(String tenChuDeMauCauInput) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT " + maChuDeMauCau + " FROM " + TABLE_NAME + " WHERE TenChuDeMauCau = ?";
+        String query = "SELECT " + maChuDeMauCau + " FROM " + TABLE_NAME + " WHERE " + tenChuDeMauCau + " = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenChuDeMauCauInput});
         String MaCDMC = "";
         if (cursor != null) {
@@ -208,38 +226,6 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return topicNames;
     }
-
-//    @SuppressLint("Range")
-//    public String getTopicNameByCode(String maChuDeMauCau) {
-//        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-//        String query = "SELECT " + tenChuDeMauCau + " FROM " + TABLE_NAME + " WHERE " + this.maChuDeMauCau + " = ?";
-//        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maChuDeMauCau});
-//        String topicName = "";
-//        if (cursor != null) {
-//            if (cursor.moveToFirst()) {
-//                topicName = cursor.getString(cursor.getColumnIndex(tenChuDeMauCau));
-//            }
-//            cursor.close();
-//        }
-//        sqLiteDatabase.close();
-//        return topicName;
-//    }
-//
-//    @SuppressLint("Range")
-//    public String getTopicCodeByName(String tenChuDeMauCau) {
-//        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
-//        String query = "SELECT " + maChuDeMauCau + " FROM " + TABLE_NAME + " WHERE " + tenChuDeMauCau + " = ?";
-//        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{tenChuDeMauCau});
-//        String topicCode = "";
-//        if (cursor != null) {
-//            if (cursor.moveToFirst()) {
-//                topicCode = cursor.getString(cursor.getColumnIndex(maChuDeMauCau));
-//            }
-//            cursor.close();
-//        }
-//        sqLiteDatabase.close();
-//        return topicCode;
-//    }
 
     public boolean addTopicSentence(TopicSentence topicSentence) {
         boolean added = false;
