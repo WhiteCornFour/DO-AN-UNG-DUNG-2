@@ -1,6 +1,9 @@
 package com.example.doanungdung2.View;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -84,10 +87,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
 
         FragmentManager fragmentManager = getParentFragmentManager();
         fragmentManager.setFragmentResultListener("userResult", this, new FragmentResultListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 user = (User) result.getSerializable("user");
-
                 tvUserName.setText("Hi, " + user.getTenNguoiDung());
                 Bitmap bitmap = BitmapFactory.decodeByteArray(user.getAnhNguoiDung(),
                         0, user.getAnhNguoiDung().length);
@@ -98,6 +101,11 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 else {
                     imgUserAccount.setImageBitmap(bitmap);
                 }
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("tk", user.getTaiKhoan());
+                editor.putString("mk", user.getMatKhau());
+                editor.apply();
             }
         });
         return view;
@@ -105,6 +113,26 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
 
     @Override
     public void onResume() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+        String tk = sharedPreferences.getString("tk", null);
+        String mk =  sharedPreferences.getString("mk", null);
+        if (tk == null || mk == null)
+        {
+            Log.d("Tk && MK", tk + mk);
+        }else {
+            user = new User();
+            user = userHandler.getUserInfo(tk, mk);
+            tvUserName.setText("Hi, " + user.getTenNguoiDung());
+            Bitmap bitmap = BitmapFactory.decodeByteArray(user.getAnhNguoiDung(),
+                    0, user.getAnhNguoiDung().length);
+            if (bitmap == null)
+            {
+                imgUserAccount.setImageResource(R.drawable.avt);
+            }
+            else {
+                imgUserAccount.setImageBitmap(bitmap);
+            }
+        }
         super.onResume();
     }
 

@@ -3,8 +3,12 @@ package com.example.doanungdung2.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +34,8 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
     private static final int DB_VERSION = 1;
     GrammarCategoryHandler grammarCategoryHandler;
     ArrayList<GrammarCategory> grammarCategoryArrayList = new ArrayList<>();
-    ListView lvGrammar_User;
-    Expandable_Grammar adapter;
+    RecyclerView recyclerViewGrammar_User;
+    Expandable_Grammar expandable_grammar;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -79,25 +83,42 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment__grammar, container, false);
         addControl(view);
         grammarCategoryHandler = new GrammarCategoryHandler(getContext(), DB_NAME, null, DB_VERSION);
-        loadDataLV();
+
+        setupRecyclerView();
+        loadDataRecylerView();
+
         addEvent();
         return view;
     }
 
     void addControl(View view)
     {
-        lvGrammar_User = view.findViewById(R.id.lvGrammar_User);
-        lvGrammar_User.setDivider(null);
-        lvGrammar_User.setDividerHeight(0);
+        recyclerViewGrammar_User = view.findViewById(R.id.recyclerViewGrammar_User);
     }
     void addEvent()
     {
 
     }
-    void loadDataLV()
+    void loadDataRecylerView()
     {
         grammarCategoryArrayList = grammarCategoryHandler.loadAllDataGrammarCategory();
-        adapter = new Expandable_Grammar(getContext(), R.layout.layout_expandble_grammar, grammarCategoryArrayList);
-        lvGrammar_User.setAdapter(adapter);
+        expandable_grammar.setGrammarCategoryAL(grammarCategoryArrayList);
+    }
+    void setupRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyclerViewGrammar_User.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        recyclerViewGrammar_User.setLayoutManager(layoutManager);
+        recyclerViewGrammar_User.setItemAnimator(new DefaultItemAnimator());
+        // Khởi tạo dividerItemDecoration
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        // Thêm divider vào RecyclerView
+        recyclerViewGrammar_User.removeItemDecoration(dividerItemDecoration);
+        expandable_grammar = new Expandable_Grammar(grammarCategoryArrayList, new Expandable_Grammar.ItemClickListener() {
+            @Override
+            public void onItemClick(GrammarCategory grammarCategory) {
+                //Log.d("onItemClick: ", grammarCategory.getMaDangNguPhap());
+            }
+        });
+        recyclerViewGrammar_User.setAdapter(expandable_grammar);
     }
 }

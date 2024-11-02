@@ -66,14 +66,15 @@
             android:background="@drawable/backgr_lv_grammar_user"
             android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lvGrammar_User"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewGrammar_User"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
