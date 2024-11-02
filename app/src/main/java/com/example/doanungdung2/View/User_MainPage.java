@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
@@ -22,7 +25,7 @@ public class User_MainPage extends AppCompatActivity {
     LinearLayout quizLayout, dictionaryLayout, grammarLayout, sentencesLayout;
     ImageView quizImage, dictionaryImage, grammarImage, sentencesImage;
     TextView quizTextView, dictionaryTextView, grammarTextView, sentencesTextView;
-
+    long pressbackTime;
     private int selectedTab = 1;
 
     @Override
@@ -41,6 +44,22 @@ public class User_MainPage extends AppCompatActivity {
         fragmentManager.setFragmentResult("userResult", bundle);
 
         replaceFragment(quiz_mainPage_fragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (pressbackTime + 200 > System.currentTimeMillis())
+        {
+            super.onBackPressed();
+            SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+            return;
+        }else {
+            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+        }
+        pressbackTime = System.currentTimeMillis();
     }
 
     void addControl() {

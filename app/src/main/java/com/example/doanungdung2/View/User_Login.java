@@ -37,7 +37,6 @@ public class User_Login extends AppCompatActivity {
         addControl();
         //--------
         userHandler = new UserHandler(User_Login.this, DB_NAME, null, DB_VERSION);
-        userHandler.onCreate(sqLiteDatabase);
         //----------------------
         addEvent();
     }
@@ -120,11 +119,11 @@ public class User_Login extends AppCompatActivity {
     }
 
     public boolean validateInputs(String account, String password) {
-        if (account.trim().isEmpty() || account.trim().length() <= 8) {
+        if (account.trim().isEmpty()) {
             return false;
         }
         // Kiểm tra password có hơn 8 ký tự
-        if (password.trim().isEmpty() || password.trim().length() <= 8) {
+        if (password.trim().isEmpty()) {
             return false;
         }
         return true;
