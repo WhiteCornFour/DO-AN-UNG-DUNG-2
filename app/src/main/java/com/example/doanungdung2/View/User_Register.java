@@ -57,6 +57,12 @@ public class User_Register extends AppCompatActivity {
         addEvent();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(User_Register.this, User_Login.class));
+        super.onBackPressed();
+    }
+
     void addControl () {
         edtRegisterNameUser = (EditText) findViewById(R.id.edtRegisterNameUser);
         edtRegisterAccount = (EditText) findViewById(R.id.edtRegisterAccount);

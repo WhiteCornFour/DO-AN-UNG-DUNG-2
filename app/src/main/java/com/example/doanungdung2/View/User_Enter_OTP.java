@@ -31,6 +31,8 @@ public class User_Enter_OTP extends AppCompatActivity {
 
     UserHandler userHandler;
 
+    long backpresstime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,17 @@ public class User_Enter_OTP extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("phoneNumber");
 
         addEvent();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(backpresstime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Press back again to Exit.", Toast.LENGTH_SHORT).show();
+        }
+        backpresstime = System.currentTimeMillis();
     }
 
     void addControl()

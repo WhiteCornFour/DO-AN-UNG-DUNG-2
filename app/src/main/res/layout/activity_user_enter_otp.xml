@@ -80,7 +80,8 @@
                 android:hint="Enter OTP..."
                 android:inputType="textPersonName"
                 android:textSize="20dp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:nextFocusDown="@id/btnComfirmOTP"/>
         </LinearLayout>
 
         <LinearLayout
@@ -97,6 +98,9 @@
                 android:background="@drawable/boder_round_btn_forgotpass"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/alata"
                 android:text="Back" />
 
             <Button
@@ -107,6 +111,9 @@
                 android:background="@drawable/boder_round_btn_forgotpass"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/alata"
                 android:text="Comfirm" />
 
         </LinearLayout>

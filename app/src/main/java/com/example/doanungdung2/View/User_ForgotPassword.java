@@ -45,6 +45,12 @@ public class User_ForgotPassword extends AppCompatActivity {
         addEvent();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(User_ForgotPassword.this, User_Login.class));
+        super.onBackPressed();
+    }
+
     void addControl()
     {
         edtPhoneForgotPass = findViewById(R.id.edtPhoneForgotPass);

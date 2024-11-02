@@ -65,7 +65,7 @@
 
                 <EditText
                     android:id="@+id/edtLoginAccount_AD"
-                    android:layout_width="match_parent"
+                    android:layout_width="330dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/custom_edit_text"
                     android:drawableStart="@drawable/custom_account_icon"
@@ -91,7 +91,7 @@
 
                 <EditText
                     android:id="@+id/edtLoginPassword_AD"
-                    android:layout_width="match_parent"
+                    android:layout_width="330dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/custom_edit_text"
                     android:drawableStart="@drawable/custom_password_icon"
@@ -109,12 +109,13 @@
 
             <Button
                 android:id="@+id/btnLoginAD"
-                android:layout_width="380dp"
+                android:layout_width="275dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="25pt"
                 android:backgroundTint="@color/brown"
+                android:background="@drawable/backgr_button_brown"
                 android:fontFamily="@font/alata"
                 android:padding="10dp"
                 android:text="LOGIN"

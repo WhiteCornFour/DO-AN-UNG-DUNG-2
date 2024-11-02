@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Admin_MainPage extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class Admin_MainPage extends AppCompatActivity {
     NavigationView navigationView;
 
     TextView tvTenAD, tvTKAD;
+
+    long backpresstime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,17 @@ public class Admin_MainPage extends AppCompatActivity {
         drawerLayout.closeDrawer(GravityCompat.START);
 
         addEvent();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(backpresstime + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+        }
+        backpresstime = System.currentTimeMillis();
     }
 
     void addControl()

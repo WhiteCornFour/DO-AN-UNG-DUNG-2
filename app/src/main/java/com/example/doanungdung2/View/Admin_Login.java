@@ -40,6 +40,12 @@ public class Admin_Login extends AppCompatActivity {
         addEvent();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(Admin_Login.this, User_Login.class));
+        super.onBackPressed();
+    }
+
     void addControl() {
         edtLoginAccount_AD = (EditText) findViewById(R.id.edtLoginAccount_AD);
         edtLoginPassword_AD = (EditText) findViewById(R.id.edtLoginPassword_AD);
