@@ -1,6 +1,7 @@
 package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.UserHandler;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 public class User_Login extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class User_Login extends AppCompatActivity {
     EditText edtLoginAccount, edtLoginPassword;
     Button btnLogin;
     TextView tvRegisterNow, tvForgetPasswordLogin, tvLoginAD;
-    UserHandler UserHandler;
+    UserHandler userHandler;
     SQLiteDatabase sqLiteDatabase;
 
     long backpresstime;
@@ -34,8 +36,8 @@ public class User_Login extends AppCompatActivity {
 
         addControl();
         //--------
-        UserHandler = new UserHandler(User_Login.this, DB_NAME, null, DB_VERSION);
-        UserHandler.onCreate(sqLiteDatabase);
+        userHandler = new UserHandler(User_Login.this, DB_NAME, null, DB_VERSION);
+        userHandler.onCreate(sqLiteDatabase);
         //----------------------
         addEvent();
     }
@@ -67,15 +69,14 @@ public class User_Login extends AppCompatActivity {
                 String account = edtLoginAccount.getText().toString().trim();
                 String password = edtLoginPassword.getText().toString().trim();
 
-                boolean isValid = UserHandler.validateLogin(account, password);
+                boolean isValid = userHandler.validateLogin(account, password);
                 if (validateInputs(account, password))
                 {
                     if (isValid) {
                         Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(User_Login.this, User_MainPage.class);
-                        intent.putExtra("account", account);
-                        intent.putExtra("password", password);
-
+                        User us = userHandler.getUserInfo(account, password);
+                        intent.putExtra("user", us);
                         startActivity(intent);
                         resetEdt();
                         finish();

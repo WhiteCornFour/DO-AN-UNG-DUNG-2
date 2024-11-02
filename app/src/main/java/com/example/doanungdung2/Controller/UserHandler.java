@@ -147,4 +147,25 @@ public class UserHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return result;
     }
+
+    public User getUserInfo(String accountInput, String passwordInput) {
+        User us = new User();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + taiKhoan + " = ? AND " + matKhau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{accountInput, passwordInput});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                us.setMaNguoiDung(cursor.getString(0));
+                us.setTenNguoiDung(cursor.getString(1));
+                us.setTaiKhoan(cursor.getString(2));
+                us.setMatKhau(cursor.getString(3));
+                us.setSoDienThoai(cursor.getString(4));
+                us.setEmail(cursor.getString(5));
+                us.setAnhNguoiDung(cursor.getBlob(6));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return us;
+    }
 }

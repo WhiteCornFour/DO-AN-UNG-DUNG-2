@@ -49,14 +49,18 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgUserAccount"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
+                android:padding="3dp"
+                app:strokeColor="@color/brown"
+                app:strokeWidth="0.75dp"
+                app:shapeAppearanceOverlay="@style/Circular"
                 android:contentDescription="User Profile Icon"
-                android:src="@drawable/baseline_account_circle_24_focus" />
+                android:src="@drawable/logo" />
 
         </LinearLayout>
 

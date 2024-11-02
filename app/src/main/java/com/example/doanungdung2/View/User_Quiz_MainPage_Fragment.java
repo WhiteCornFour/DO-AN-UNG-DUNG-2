@@ -1,13 +1,24 @@
 package com.example.doanungdung2.View;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.doanungdung2.Controller.UserHandler;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 /**
@@ -16,6 +27,12 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Quiz_MainPage_Fragment extends Fragment {
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
+    TextView tvUserName;
+    ImageView imgUserAccount;
+    UserHandler userHandler;
+    User user;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +78,38 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__quiz, container, false);
+        View view = inflater.inflate(R.layout.fragment__quiz, container, false);
+        addControl(view);
+        userHandler = new UserHandler(getActivity(), DB_NAME, null, DB_VERSION);
+
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.setFragmentResultListener("userResult", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                user = (User) result.getSerializable("user");
+
+                tvUserName.setText("Hi, " + user.getTenNguoiDung());
+                Bitmap bitmap = BitmapFactory.decodeByteArray(user.getAnhNguoiDung(),
+                        0, user.getAnhNguoiDung().length);
+                if (bitmap == null)
+                {
+                    imgUserAccount.setImageResource(R.drawable.avt);
+                }
+                else {
+                    imgUserAccount.setImageBitmap(bitmap);
+                }
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    void addControl(View view) {
+        tvUserName = view.findViewById(R.id.tvUserName);
+        imgUserAccount = view.findViewById(R.id.imgUserAccount);
     }
 }
