@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,6 +13,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 public class User_MainPage extends AppCompatActivity {
@@ -29,6 +32,14 @@ public class User_MainPage extends AppCompatActivity {
         addControl();
         addEvent();
         User_Quiz_MainPage_Fragment quiz_mainPage_fragment = new User_Quiz_MainPage_Fragment();
+        Intent intent = getIntent();
+        User user = (User) intent.getSerializableExtra("user");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        fragmentManager.setFragmentResult("userResult", bundle);
+
         replaceFragment(quiz_mainPage_fragment);
     }
 
