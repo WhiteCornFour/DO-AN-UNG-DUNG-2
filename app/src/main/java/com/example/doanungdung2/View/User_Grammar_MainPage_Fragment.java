@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -33,9 +34,12 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     GrammarCategoryHandler grammarCategoryHandler;
+    GrammarHandler grammarHandler;
     ArrayList<GrammarCategory> grammarCategoryArrayList = new ArrayList<>();
+    ArrayList<Grammar> grammarArrayList = new ArrayList<>();
     RecyclerView recyclerViewGrammar_User;
     Expandable_Grammar expandable_grammar;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -75,20 +79,26 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__grammar, container, false);
         addControl(view);
-        grammarCategoryHandler = new GrammarCategoryHandler(getContext(), DB_NAME, null, DB_VERSION);
-
+        grammarCategoryHandler = new GrammarCategoryHandler(getActivity(), DB_NAME, null, DB_VERSION);
+        grammarHandler = new GrammarHandler(getActivity(), DB_NAME, null, DB_VERSION);
         setupRecyclerView();
         loadDataRecylerView();
 
         addEvent();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupRecyclerView();
+        loadDataRecylerView();
     }
 
     void addControl(View view)
@@ -115,8 +125,12 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
         recyclerViewGrammar_User.removeItemDecoration(dividerItemDecoration);
         expandable_grammar = new Expandable_Grammar(grammarCategoryArrayList, new Expandable_Grammar.ItemClickListener() {
             @Override
-            public void onItemClick(GrammarCategory grammarCategory) {
-                //Log.d("onItemClick: ", grammarCategory.getMaDangNguPhap());
+            public void onItemClick(GrammarCategory grammarCategory, String maNP) {
+                if (maNP != null && !maNP.isEmpty()) { // Kiểm tra nếu maNP đã được cập nhật
+                    Intent intent = new Intent(getActivity(), User_Grammar_Details.class);
+                    intent.putExtra("maNP", maNP);
+                    startActivity(intent);
+                }
             }
         });
         recyclerViewGrammar_User.setAdapter(expandable_grammar);

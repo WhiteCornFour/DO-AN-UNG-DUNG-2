@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DoAnUngDung2"
         tools:targetApi="31">
-
+        <activity
+            android:name=".View.User_Grammar_Details"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User"
+            android:exported="false" />
         <activity
             android:name=".View.Admin_Login"
             android:exported="false"
@@ -125,7 +128,7 @@
         <activity
             android:name=".View.User_Login"
             android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User"/>
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
         <activity
             android:name=".View.User_Register"
             android:exported="false"
