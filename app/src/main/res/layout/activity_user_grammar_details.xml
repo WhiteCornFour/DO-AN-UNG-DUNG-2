@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:backgroundTint="@color/lime"
+    android:fillViewport="true"
+    tools:context=".View.User_Grammar_Details" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/curved_background_nguoc"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"> <!-- Căn giữa theo trục dọc -->
+
+            <ImageView
+                android:id="@+id/backToGrammarMainPage_User"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleX="-1"
+                android:layout_weight="0.5"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/arrow" />
+
+            <TextView
+                android:id="@+id/tvTenNP_User"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/brown"
+                android:textSize="12pt"
+                android:layout_weight="1.5"
+                android:textStyle="italic"
+                android:fontFamily="@font/alata"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="Hiện Tại Đơn" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:textSize="9pt"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alata"
+            android:text="Thông tin chi tiết" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgr_user_search_history_white"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView58"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:textColor="@color/teal_700"
+                    android:textStyle="bold"
+                    android:text="Công thức:" />
+
+                <TextView
+                    android:id="@+id/tvCTGrammar_User"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:textSize="15pt"
+                    android:textColor="@color/red"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView61"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:textColor="@color/teal_700"
+                    android:textStyle="bold"
+                    android:text="Nội dung:" />
+
+                <TextView
+                    android:id="@+id/tvNDGrammar_User"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="9pt"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView63"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:textColor="@color/teal_700"
+                    android:textStyle="bold"
+                    android:text="Ví dụ:" />
+
+                <TextView
+                    android:id="@+id/tvVDGrammar_User"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="9pt"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="15dp"
+                    android:text="TextView" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

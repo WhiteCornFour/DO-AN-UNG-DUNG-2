@@ -21,6 +21,7 @@
             android:textStyle="bold"
             android:fontFamily="@font/alata"
             android:background="@drawable/boder_item_lv_grammar"
+            android:backgroundTint="@color/green"
             android:paddingStart="30dp"
             android:text="Tên dạng ngữ pháp" />
     </RelativeLayout>
