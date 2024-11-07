@@ -168,4 +168,30 @@ public class UserHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return us;
     }
+    public boolean checkPhoneAndEmailBeforeUpdate(String key)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * From " + TABLE_NAME + " Where Email = ? OR SoDienThoai = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{key, key});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return check;
+    }
+    public void upDateUserInfor(User user)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String query = "Update " + TABLE_NAME + " Set TenNguoiDung = ?, SoDienThoai = ?, Email = ?, AnhNguoiDung = ?" +
+                " Where MaNguoiDung = ?";
+        sqLiteDatabase.execSQL(query, new Object[]{user.getTenNguoiDung(), user.getSoDienThoai(),
+        user.getEmail(), user.getAnhNguoiDung(), user.getMaNguoiDung()});
+        sqLiteDatabase.close();
+    }
 }
