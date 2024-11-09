@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.History;
 import com.example.doanungdung2.Model.Question;
 
@@ -22,6 +23,7 @@ public class HistoryHandler extends SQLiteOpenHelper {
     private static final String maLichSu = "MaLichSu";
     private static final String maTuVung = "MaTuVung";
     private static final String maNguoiDung = "MaNguoiDung";
+    private static final String uaThich = "UaThich";
 
     private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
 
@@ -40,12 +42,12 @@ public class HistoryHandler extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public ArrayList<History> loadAllDataOfHistory()
+    public ArrayList<History> loadAllDataOfHistory(String maNguoiDungInput)
     {
         ArrayList<History> historyArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maNguoiDung + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query,new String[]{maNguoiDungInput});
         if (cursor != null)
         {
             if (cursor.moveToFirst())
@@ -63,4 +65,21 @@ public class HistoryHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return historyArrayList;
     }
+
+    public void insertHistory(History history)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String query = "INSERT INTO " + TABLE_NAME + " (maLichSu, maTuVung, maNguoiDung) VALUES (?, ?, ?)";
+        sqLiteDatabase.execSQL(query, new String[]{history.getMaLichSu(), history.getMaTuVung(), history.getMaNguoiDung()});
+        sqLiteDatabase.close();
+    }
+
+    public void deleteHistory(String maTuVung, String maNguoiDung) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String deleteQuery = "DELETE FROM " + TABLE_NAME + " WHERE maTuVung = ? AND maNguoiDung = ?";
+        sqLiteDatabase.execSQL(deleteQuery, new String[]{maTuVung, maNguoiDung});
+        sqLiteDatabase.close();
+    }
+
+
 }

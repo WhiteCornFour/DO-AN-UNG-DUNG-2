@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 public class User_History_Custom_Adapter_Recycler_View extends RecyclerView.Adapter<User_History_Custom_Adapter_Recycler_View.MyViewHolder> {
 
-    ArrayList<History> historyArrayList = new ArrayList<>();
+    ArrayList<Dictionary> dictionaryArrayList = new ArrayList<>();
     ItemClickListener itemClickListener;
 
-    public User_History_Custom_Adapter_Recycler_View(ArrayList<History> historyArrayList, ItemClickListener itemClickListener) {
-        this.historyArrayList = historyArrayList;
+    public User_History_Custom_Adapter_Recycler_View(ArrayList<Dictionary> dictionaryArrayList, ItemClickListener itemClickListener) {
+        this.dictionaryArrayList = dictionaryArrayList;
         this.itemClickListener = itemClickListener;
     }
 
@@ -33,19 +33,19 @@ public class User_History_Custom_Adapter_Recycler_View extends RecyclerView.Adap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        History history = historyArrayList.get(position);
-        holder.tvTuTiengAnhLoaiTuDictionary_CustomRecyclerView.setText(history.getMaLichSu() + history.getMaTuVung());
+        Dictionary dictionary = dictionaryArrayList.get(position);
+        holder.tvTuTiengAnhLoaiTuDictionary_CustomRecyclerView.setText(dictionary.getTuTiengAnh() + " - " + dictionary.getLoaiTu());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(history); // Pass the clicked item
+                itemClickListener.onItemClick(dictionary); // Pass the clicked item
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return historyArrayList.size();
+        return dictionaryArrayList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -59,11 +59,11 @@ public class User_History_Custom_Adapter_Recycler_View extends RecyclerView.Adap
 
     // Interface for click listener
     public interface ItemClickListener {
-        void onItemClick(History history);
+        void onItemClick(Dictionary dictionary);
     }
 
-    public void setHistoryList(ArrayList<History> newList) {
-        this.historyArrayList = newList;
+    public void setHistoryList(ArrayList<Dictionary> newList) {
+        this.dictionaryArrayList = newList;
         notifyDataSetChanged(); // Notify adapter of data change
     }
 }

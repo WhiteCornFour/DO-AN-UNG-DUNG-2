@@ -36,6 +36,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     ImageView imgUserAccount;
     UserHandler userHandler;
     User user;
+    public static String idMaNguoiDungStatic;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,16 +92,18 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 user = (User) result.getSerializable("user");
+                idMaNguoiDungStatic = user.getMaNguoiDung();
+                Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
                 tvUserName.setText("Hi, " + user.getTenNguoiDung());
-                Bitmap bitmap = BitmapFactory.decodeByteArray(user.getAnhNguoiDung(),
-                        0, user.getAnhNguoiDung().length);
-                if (bitmap == null)
-                {
+
+                byte[] anhNguoiDung = user.getAnhNguoiDung();
+                if (anhNguoiDung == null || anhNguoiDung.length == 0) {
                     imgUserAccount.setImageResource(R.drawable.avt);
-                }
-                else {
+                } else {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
                     imgUserAccount.setImageBitmap(bitmap);
                 }
+
                 SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("tk", user.getTaiKhoan());
@@ -109,6 +112,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public static String getIdMaNguoiDungStatic() {
+        return idMaNguoiDungStatic;
     }
 
     @Override
@@ -123,13 +130,11 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);
             tvUserName.setText("Hi, " + user.getTenNguoiDung());
-            Bitmap bitmap = BitmapFactory.decodeByteArray(user.getAnhNguoiDung(),
-                    0, user.getAnhNguoiDung().length);
-            if (bitmap == null)
-            {
+            byte[] anhNguoiDung = user.getAnhNguoiDung();
+            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
                 imgUserAccount.setImageResource(R.drawable.avt);
-            }
-            else {
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
                 imgUserAccount.setImageBitmap(bitmap);
             }
         }

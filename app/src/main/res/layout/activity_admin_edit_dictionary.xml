@@ -348,6 +348,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -364,7 +365,7 @@
                     <EditText
                         android:id="@+id/edtSuaViDuSDTD"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/custom_admin_edit_text"
                         android:ems="10"
                         android:inputType="textPersonName"
@@ -373,6 +374,66 @@
                         android:paddingEnd="12dp"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSuaMTSDTVTD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Ví dụ tiếng Việt: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSuaViDuTVSDTD"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:lineSpacingMultiplier="4"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSuaAnhTuVungSDTD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Ảnh từ vựng: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgSuaAnhTuVungSDTD"
+                        android:padding="5dp"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:layout_gravity="center"
+                        app:shapeAppearanceOverlay="@style/RoundSquare"
+                        app:srcCompat="@drawable/no_img"
+                        app:strokeColor="@color/blue"
+                        app:strokeWidth="3dp" />
+
                 </LinearLayout>
 
             </LinearLayout>
