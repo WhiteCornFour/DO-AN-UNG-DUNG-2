@@ -2,6 +2,7 @@ package com.example.doanungdung2.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.transition.AutoTransition;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,17 +35,15 @@ public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.
     ArrayList<GrammarCategory> grammarCategoryArrayList = new ArrayList<>();
     ArrayList<Grammar> grammarArrayList = new ArrayList<>();
     GrammarHandler grammarHandler;
-    int layoutItem;
-    Context context;
     User_Item_CustomAdapter_LV adapter;
     private ItemClickListener itemCLickListener;
+    private String maNP = "";
     private int expandedPosition = -1;
 
     public Expandable_Grammar(ArrayList<GrammarCategory> grammarCategoryArrayList, ItemClickListener itemCLickListener) {
         this.grammarCategoryArrayList = grammarCategoryArrayList;
         this.itemCLickListener = itemCLickListener;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -66,9 +66,8 @@ public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.
         holder.itemClicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Position", String.valueOf(position));
                 //lấy item đang được chọn
-                itemCLickListener.onItemClick(grammarCategory);
+                itemCLickListener.onItemClick(grammarCategory, maNP);
                 //gọi handler cho grammar
                 grammarHandler = new GrammarHandler(view.getContext(),
                         DB_NAME, null, DB_VERSION);
@@ -85,6 +84,7 @@ public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.
                     adapter = new User_Item_CustomAdapter_LV(view.getContext(), R.layout.layout_user_item_custom_adapter_lv,
                             grammarArrayList);
                     holder.lvNP.setAdapter(adapter);
+                    setListViewHeightBasedOnChildren(holder.lvNP);
                     expandedPosition = position;
                 }else {
                     expandedPosition = -1;
@@ -93,6 +93,16 @@ public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.
                     holder.display.setVisibility(View.GONE);
                 }
                 notifyDataSetChanged(); // Cập nhật toàn bộ view để áp dụng thay đổi
+            }
+        });
+        //lấy grammar code đang chọn để truyền về main page qua interface itemCLickListener.onItemClick(grammarCategory, maNP);
+        holder.lvNP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Grammar grammar = grammarArrayList.get(i);
+                maNP = grammar.getMaNguPhap();
+                itemCLickListener.onItemClick(grammarCategory, maNP);  // Gọi khi maNP đã được cập nhật
+                //Log.d("maNP", maNP);
             }
         });
     }
@@ -119,11 +129,49 @@ public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.
             itemClicked = itemView.findViewById(R.id.itemClicked);
         }
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void setGrammarCategoryAL(ArrayList<GrammarCategory> newList) {
         this.grammarCategoryArrayList = newList;
         notifyDataSetChanged(); // Notify adapter of data change
     }
     public interface ItemClickListener {
-        void onItemClick(GrammarCategory grammarCategory);
+        void onItemClick(GrammarCategory grammarCategory, String maNP);
+    }
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        // Lấy adapter hiện tại của ListView (dữ liệu sẽ được hiển thị qua adapter)
+        ListAdapter listAdapter = listView.getAdapter();
+
+        // Nếu ListView chưa có dữ liệu (adapter là null), thoát phương thức
+        if (listAdapter == null) {
+            return;
+        }
+
+        // Khởi tạo biến để tính tổng chiều cao của tất cả các item trong ListView
+        int totalHeight = 0;
+
+        // Lặp qua từng item trong adapter để tính chiều cao của nó
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            // Lấy item view tại vị trí 'i' trong adapter
+            View listItem = listAdapter.getView(i, null, listView);
+
+            // Đo kích thước của item (width và height)
+            listItem.measure(0, 0);
+
+            // Cộng chiều cao của item vào totalHeight
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        // Lấy layout params hiện tại của ListView
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+        // Thiết lập chiều cao mới cho ListView bằng tổng chiều cao của tất cả các item
+        // và thêm vào chiều cao của các divider (nếu có) giữa các item
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+
+        // Áp dụng layout params mới cho ListView để thay đổi kích thước
+        listView.setLayoutParams(params);
+
+        // Yêu cầu ListView sắp xếp lại layout dựa trên kích thước mới
+        listView.requestLayout();
     }
 }

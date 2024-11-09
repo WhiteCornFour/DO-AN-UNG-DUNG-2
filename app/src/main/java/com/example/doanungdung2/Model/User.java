@@ -10,7 +10,6 @@ public class User implements Serializable {
     String soDienThoai;
     String email;
     byte[] anhNguoiDung;
-
     public String getMaNguoiDung() {
         return maNguoiDung;
     }

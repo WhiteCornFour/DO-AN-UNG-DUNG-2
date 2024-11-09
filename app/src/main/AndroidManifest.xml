@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -19,6 +19,18 @@
             android:name=".View.User_Dictionary_Details"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User"/>
+        <activity
+            android:name=".View.User_Edit_Detail_Informations"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User"
+            android:exported="false" />
+        <activity
+            android:name=".View.User_Details_Information"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
+            android:name=".View.User_Grammar_Details"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
         <activity
             android:name=".View.Admin_Login"
             android:exported="false"

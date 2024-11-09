@@ -36,7 +36,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     ImageView imgUserAccount;
     UserHandler userHandler;
     User user;
+  
     public static String idMaNguoiDungStatic;
+    String tk = "";
+    String mk = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,7 +98,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 idMaNguoiDungStatic = user.getMaNguoiDung();
                 Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
                 tvUserName.setText("Hi, " + user.getTenNguoiDung());
-
+              
                 byte[] anhNguoiDung = user.getAnhNguoiDung();
                 if (anhNguoiDung == null || anhNguoiDung.length == 0) {
                     imgUserAccount.setImageResource(R.drawable.avt);
@@ -111,6 +114,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 editor.apply();
             }
         });
+        addEvent();
         return view;
     }
 
@@ -121,8 +125,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     @Override
     public void onResume() {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        String tk = sharedPreferences.getString("tk", null);
-        String mk =  sharedPreferences.getString("mk", null);
+        tk = sharedPreferences.getString("tk", null);
+        mk =  sharedPreferences.getString("mk", null);
         if (tk == null || mk == null)
         {
             Log.d("Tk && MK", tk + mk);
@@ -144,5 +148,17 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     void addControl(View view) {
         tvUserName = view.findViewById(R.id.tvUserName);
         imgUserAccount = view.findViewById(R.id.imgUserAccount);
+    }
+    void addEvent()
+    {
+        imgUserAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = userHandler.getUserInfo(tk, mk);
+                Intent intent = new Intent(getActivity(), User_Details_Information.class);
+                intent.putExtra("UserInfor", user);
+                startActivity(intent);
+            }
+        });
     }
 }
