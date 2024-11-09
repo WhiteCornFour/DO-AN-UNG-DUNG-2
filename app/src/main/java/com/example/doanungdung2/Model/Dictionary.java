@@ -1,6 +1,8 @@
 package com.example.doanungdung2.Model;
 
-public class Dictionary {
+import java.io.Serializable;
+
+public class Dictionary implements Serializable {
     String maTuVung;
     String tuTiengAnh;
     String tuTiengViet;
@@ -8,10 +10,11 @@ public class Dictionary {
     String cachPhatAm;
     String loaiTu;
     String viDu;
-
+    String viDuTiengViet;
+    byte[] anhTuVung;
     boolean isChecked = false;
 
-    public Dictionary(String maTuVung, String tuTiengAnh, String tuTiengViet, String gioiTuDiKem, String cachPhatAm, String loaiTu, String viDu) {
+    public Dictionary(String maTuVung, String tuTiengAnh, String tuTiengViet, String gioiTuDiKem, String cachPhatAm, String loaiTu, String viDu, String viDuTiengViet, byte[] anhTuVung) {
         this.maTuVung = maTuVung;
         this.tuTiengAnh = tuTiengAnh;
         this.tuTiengViet = tuTiengViet;
@@ -19,6 +22,8 @@ public class Dictionary {
         this.cachPhatAm = cachPhatAm;
         this.loaiTu = loaiTu;
         this.viDu = viDu;
+        this.viDuTiengViet = viDuTiengViet;
+        this.anhTuVung = anhTuVung;
     }
 
     public Dictionary() {
@@ -80,6 +85,21 @@ public class Dictionary {
         this.viDu = viDu;
     }
 
+    public String getViDuTiengViet() {
+        return viDuTiengViet;
+    }
+
+    public void setViDuTiengViet(String viDuTiengViet) {
+        this.viDuTiengViet = viDuTiengViet;
+    }
+
+    public byte[] getAnhTuVung() {
+        return anhTuVung;
+    }
+
+    public void setAnhTuVung(byte[] anhTuVung) {
+        this.anhTuVung = anhTuVung;
+    }
 
     public boolean isChecked() {
         return isChecked;

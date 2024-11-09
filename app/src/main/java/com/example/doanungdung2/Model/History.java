@@ -4,11 +4,13 @@ public class History {
     String maLichSu;
     String maTuVung;
     String maNguoiDung;
+    String uaThich;
 
-    public History(String maLichSu, String maTuVung, String maNguoiDung) {
+    public History(String maLichSu, String maTuVung, String maNguoiDung, String uaThich) {
         this.maLichSu = maLichSu;
         this.maTuVung = maTuVung;
         this.maNguoiDung = maNguoiDung;
+        this.uaThich = uaThich;
     }
 
     public History() {
@@ -36,5 +38,13 @@ public class History {
 
     public void setMaNguoiDung(String maNguoiDung) {
         this.maNguoiDung = maNguoiDung;
+    }
+
+    public String getUaThich() {
+        return uaThich;
+    }
+
+    public void setUaThich(String uaThich) {
+        this.uaThich = uaThich;
     }
 }

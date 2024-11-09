@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lime"
+    tools:context=".View.User_Dictionary_Details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="5dp"
+            android:layout_height="60dp"
+            android:background="@drawable/backgr_user_white">
+
+            <ImageView
+                android:id="@+id/imgBackToDictionaryFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:fontFamily="@font/alata"
+                android:text="Dictionary" />
+
+            <ImageView
+                android:id="@+id/imgBookMark"
+                android:layout_marginTop="3dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/baseline_bookmark_border_24" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/backgr_user_search_history_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView58"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/brown"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/alata"
+                    android:text="Từ tiếng Anh: " />
+
+                <TextView
+                    android:id="@+id/tvTuTiengAnhDictionary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/alata"
+                    android:text="Apple" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView59"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/brown"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/alata"
+                    android:text="Từ tiếng Việt: " />
+
+                <TextView
+                    android:id="@+id/tvTuTiengVietDictionary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/alata"
+                    android:text="Quả táo" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView60"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/brown"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/alata"
+                    android:text="Loại từ: " />
+
+                <TextView
+                    android:id="@+id/tvLoaiTuDictionary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/alata"
+                    android:text="Danh từ (n)" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView61"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/brown"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/alata"
+                    android:text="Giới từ đi kèm: " />
+
+                <TextView
+                    android:id="@+id/tvGioiTuDictionary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/alata"
+                    android:text="Không có" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView62"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/brown"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/alata"
+                    android:text="Cách phát âm: " />
+
+                <TextView
+                    android:id="@+id/tvCachPhatAmDictionary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingLeft="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/brown"
+                    android:fontFamily="@font/alata"
+                    android:text="/:apple:/" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgTuVung"
+            android:padding="10dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            app:shapeAppearanceOverlay="@style/RoundSquare"
+            app:srcCompat="@drawable/no_img"
+            app:strokeColor="@color/brown"
+            app:strokeWidth="3dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/backgr_user_search_history_white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNguCanhDictionary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="I love eating apple"/>
+
+            <TextView
+                android:id="@+id/tvNguCanhTVDictionary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="15sp"
+                android:textColor="@color/brown"
+                android:fontFamily="@font/alata"
+                android:textStyle="italic"
+                android:gravity="center"
+                android:text="(Tôi thích ăn táo)"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

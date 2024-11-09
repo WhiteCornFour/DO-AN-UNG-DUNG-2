@@ -66,8 +66,8 @@
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/edtSearchBoxDictionary"
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteSearchTV"
             android:layout_width="367dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
@@ -75,8 +75,9 @@
             android:background="@drawable/custom_user_search_bar_edit_text"
             android:drawableEnd="@drawable/custom_search_icon"
             android:drawablePadding="8dp"
+            android:imeOptions="actionSearch"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:paddingStart="18dp"
             android:paddingEnd="18dp"
             android:textColor="@color/brown"

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -28,6 +29,8 @@ public class DictionaryHandler extends SQLiteOpenHelper {
     private static final String cachPhatAm = "CachPhatAm";
     private static final String loaiTu = "LoaiTu";
     private static final String viDu = "ViDu";
+    private static final String viDuTiengViet = "ViDuTiengViet";
+    private static final String anhTuVung = "AnhTuVung";
 
     private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
 
@@ -65,6 +68,8 @@ public class DictionaryHandler extends SQLiteOpenHelper {
                     dictionary.setCachPhatAm(cursor.getString(cursor.getColumnIndex(cachPhatAm)));
                     dictionary.setLoaiTu(cursor.getString(cursor.getColumnIndex(loaiTu)));
                     dictionary.setViDu(cursor.getString(cursor.getColumnIndex(viDu)));
+                    dictionary.setViDuTiengViet(cursor.getString(cursor.getColumnIndex(viDuTiengViet)));
+                    dictionary.setAnhTuVung(cursor.getBlob(cursor.getColumnIndex(anhTuVung)));
                     dictionaryArrayList.add(dictionary);
                 }while (cursor.moveToNext());
 
@@ -79,10 +84,10 @@ public class DictionaryHandler extends SQLiteOpenHelper {
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "INSERT INTO " + TABLE_NAME + " (maTuVung, tuTiengAnh, tuTiengViet, gioiTuDiKem, cachPhatAm," +
-                "loaiTu, viDu) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        sqLiteDatabase.execSQL(query, new String[]{dictionary.getMaTuVung(),dictionary.getTuTiengAnh(),
+                "loaiTu, viDu, viDuTiengViet, anhTuVung) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        sqLiteDatabase.execSQL(query, new Object[]{dictionary.getMaTuVung(),dictionary.getTuTiengAnh(),
                 String.valueOf(dictionary.getTuTiengViet()), dictionary.getGioiTuDiKem(), dictionary.getCachPhatAm(),
-                dictionary.getLoaiTu(), dictionary.getViDu()});
+                dictionary.getLoaiTu(), dictionary.getViDu(), dictionary.getViDuTiengViet(), dictionary.getAnhTuVung()});
         sqLiteDatabase.close();
     }
 
@@ -138,6 +143,8 @@ public class DictionaryHandler extends SQLiteOpenHelper {
             contentValues.put(cachPhatAm, d.getCachPhatAm());
             contentValues.put(loaiTu, d.getLoaiTu());
             contentValues.put(viDu, d.getViDu());
+            contentValues.put(viDuTiengViet, d.getViDuTiengViet());
+            contentValues.put(anhTuVung, d.getAnhTuVung());
 
             int kq = sqLiteDatabase.update(TABLE_NAME, contentValues, maTuVung + " = ?", new String[]{d.getMaTuVung()});
             updated = kq > 0;
@@ -174,6 +181,8 @@ public class DictionaryHandler extends SQLiteOpenHelper {
                     dictionary.setCachPhatAm(cursor.getString(cursor.getColumnIndex(cachPhatAm)));
                     dictionary.setLoaiTu(cursor.getString(cursor.getColumnIndex(loaiTu)));
                     dictionary.setViDu(cursor.getString(cursor.getColumnIndex(viDu)));
+                    dictionary.setViDuTiengViet(cursor.getString(cursor.getColumnIndex(viDuTiengViet)));
+                    dictionary.setAnhTuVung(cursor.getBlob(cursor.getColumnIndex(anhTuVung)));
                     dictionaryArrayList.add(dictionary);
                 }while (cursor.moveToNext());
 
@@ -200,5 +209,91 @@ public class DictionaryHandler extends SQLiteOpenHelper {
         String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + maTuVung + " = '" + d.getMaTuVung() + "'";
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
+    }
+
+    @SuppressLint("Range")
+    public Dictionary searchDictionary(String inputWord) {
+        Dictionary dictionary = null;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+
+        String sql = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + tuTiengAnh + " = ? OR " + tuTiengViet + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{inputWord, inputWord});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                dictionary = new Dictionary();
+                dictionary.setMaTuVung(cursor.getString(cursor.getColumnIndex(maTuVung)));
+                dictionary.setTuTiengAnh(cursor.getString(cursor.getColumnIndex(tuTiengAnh)));
+                dictionary.setTuTiengViet(cursor.getString(cursor.getColumnIndex(tuTiengViet)));
+                dictionary.setGioiTuDiKem(cursor.getString(cursor.getColumnIndex(gioiTuDiKem)));
+                dictionary.setCachPhatAm(cursor.getString(cursor.getColumnIndex(cachPhatAm)));
+                dictionary.setLoaiTu(cursor.getString(cursor.getColumnIndex(loaiTu)));
+                dictionary.setViDu(cursor.getString(cursor.getColumnIndex(viDu)));
+                dictionary.setViDuTiengViet(cursor.getString(cursor.getColumnIndex(viDuTiengViet)));
+                dictionary.setAnhTuVung(cursor.getBlob(cursor.getColumnIndex(anhTuVung)));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+
+        return dictionary;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getSuggestions(String keyword) {
+        ArrayList<String> dsTuGoiY = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+
+        // So sánh gần đúng
+        String sql = "SELECT TuTiengAnh, TuTiengViet FROM " + TABLE_NAME + " WHERE TuTiengAnh LIKE ? OR TuTiengViet LIKE ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{"%" + keyword + "%", "%" + keyword + "%"});
+
+        //Test null
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                //lay vi tri thu tu cot
+                int indexTuTiengAnh = cursor.getColumnIndex("TuTiengAnh");
+                int indexTuTiengViet = cursor.getColumnIndex("TuTiengViet");
+
+                //so sanh co dung cot k
+                if (indexTuTiengAnh != -1) {
+                    dsTuGoiY.add(cursor.getString(indexTuTiengAnh));
+                }
+                if (indexTuTiengViet != -1) {
+                    dsTuGoiY.add(cursor.getString(indexTuTiengViet));
+                }
+            } while (cursor.moveToNext());
+            if (cursor != null) {
+                cursor.close();
+            }
+            sqLiteDatabase.close();
+        }
+        return dsTuGoiY;
+    }
+
+    @SuppressLint("Range")
+    public Dictionary getDetailDictionary(String maTuVungInput) {
+        Dictionary dictionaryDetail = null;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + maTuVung + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{maTuVungInput});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                dictionaryDetail = new Dictionary();
+                dictionaryDetail.setMaTuVung(cursor.getString(cursor.getColumnIndex(maTuVung)));
+                dictionaryDetail.setTuTiengAnh(cursor.getString(cursor.getColumnIndex(tuTiengAnh)));
+                dictionaryDetail.setTuTiengViet(cursor.getString(cursor.getColumnIndex(tuTiengViet)));
+                dictionaryDetail.setGioiTuDiKem(cursor.getString(cursor.getColumnIndex(gioiTuDiKem)));
+                dictionaryDetail.setCachPhatAm(cursor.getString(cursor.getColumnIndex(cachPhatAm)));
+                dictionaryDetail.setLoaiTu(cursor.getString(cursor.getColumnIndex(loaiTu)));
+                dictionaryDetail.setViDu(cursor.getString(cursor.getColumnIndex(viDu)));
+                dictionaryDetail.setViDuTiengViet(cursor.getString(cursor.getColumnIndex(viDuTiengViet)));
+                dictionaryDetail.setAnhTuVung(cursor.getBlob(cursor.getColumnIndex(anhTuVung)));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return  dictionaryDetail;
     }
 }

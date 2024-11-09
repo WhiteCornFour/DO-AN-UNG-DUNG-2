@@ -36,6 +36,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     ImageView imgUserAccount;
     UserHandler userHandler;
     User user;
+  
+    public static String idMaNguoiDungStatic;
     String tk = "";
     String mk = "";
 
@@ -93,7 +95,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 user = (User) result.getSerializable("user");
+                idMaNguoiDungStatic = user.getMaNguoiDung();
+                Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
                 tvUserName.setText("Hi, " + user.getTenNguoiDung());
+              
                 byte[] anhNguoiDung = user.getAnhNguoiDung();
                 if (anhNguoiDung == null || anhNguoiDung.length == 0) {
                     imgUserAccount.setImageResource(R.drawable.avt);
@@ -101,6 +106,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
                     imgUserAccount.setImageBitmap(bitmap);
                 }
+
                 SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("tk", user.getTaiKhoan());
@@ -110,6 +116,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         });
         addEvent();
         return view;
+    }
+
+    public static String getIdMaNguoiDungStatic() {
+        return idMaNguoiDungStatic;
     }
 
     @Override
