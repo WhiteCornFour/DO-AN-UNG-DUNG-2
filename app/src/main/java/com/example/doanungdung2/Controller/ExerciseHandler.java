@@ -199,4 +199,35 @@
             }
             return checked;
         }
+
+
+        @SuppressLint("Range")
+        public ArrayList<Exercise> loadAllDataOfExerciseByLevel(String levelInput)
+        {
+            ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
+            SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+            String query = "Select * from " + TABLE_NAME + " Where " + mucDo + " = ?";
+            Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{levelInput});
+            if (cursor != null)
+            {
+                if (cursor.moveToFirst())
+                {
+                    do {
+                        Exercise exercise = new Exercise();
+                        exercise.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                        exercise.setTenBaiTap(cursor.getString(cursor.getColumnIndex(tenBaiTap)));
+                        exercise.setSoCau(cursor.getInt(cursor.getColumnIndex(soCau)));
+                        exercise.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                        exercise.setThoiGian(cursor.getString(cursor.getColumnIndex(thoiGian)));
+                        exercise.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                        exercise.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                        exerciseArrayList.add(exercise);
+                    }while (cursor.moveToNext());
+
+                }
+                cursor.close();
+            }
+            sqLiteDatabase.close();
+            return exerciseArrayList;
+        }
     }

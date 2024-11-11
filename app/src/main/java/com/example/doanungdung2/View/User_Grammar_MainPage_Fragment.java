@@ -116,7 +116,7 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
     }
     void setupRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        recyclerViewGrammar_User.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+//        recyclerViewGrammar_User.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerViewGrammar_User.setLayoutManager(layoutManager);
         recyclerViewGrammar_User.setItemAnimator(new DefaultItemAnimator());
         // Khởi tạo dividerItemDecoration

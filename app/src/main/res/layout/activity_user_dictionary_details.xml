@@ -18,7 +18,7 @@
             android:paddingLeft="20dp"
             android:paddingBottom="5dp"
             android:layout_height="60dp"
-            android:background="@drawable/backgr_user_white">
+            android:background="@drawable/backgr_user_header_white">
 
             <ImageView
                 android:id="@+id/imgBackToDictionaryFragment"

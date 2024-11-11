@@ -118,9 +118,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="Beginner" />
 
             <Button
@@ -128,9 +129,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="Starter" />
 
             <Button
@@ -138,9 +140,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="Intermediate" />
 
             <Button
@@ -148,9 +151,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="Proficient" />
 
             <Button
@@ -158,9 +162,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:text="Master" />
         </LinearLayout>
 
