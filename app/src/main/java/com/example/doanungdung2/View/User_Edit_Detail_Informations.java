@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class User_Edit_Detail_Informations extends AppCompatActivity {
@@ -49,19 +50,28 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
         addControl();
         userHandler = new UserHandler(User_Edit_Detail_Informations.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
-        userOld = (User) intent.getSerializableExtra("UserEdit");
-        edtFullName_User.setText(userOld.getTenNguoiDung());
-        edtPhoneNumber_User.setText(userOld.getSoDienThoai());
-        edtEmail_User.setText(userOld.getEmail());
-        byte[] anhNguoiDung = userOld.getAnhNguoiDung();
-        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-            imgEditAVT_User.setImageResource(R.drawable.avt);
-        } else {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-            imgEditAVT_User.setImageBitmap(bitmap);
+        userOld = new User();
+        String tk = intent.getStringExtra("tkFromDetailToEdit");
+        String mk = intent.getStringExtra("mkFromDetailToEdit");
+        Log.d("tk: ", tk);
+        Log.d("mk: ", mk);
+        userOld = userHandler.getUserInfo(tk, mk);
+        if (userOld != null)
+        {
+            edtFullName_User.setText(userOld.getTenNguoiDung());
+            edtPhoneNumber_User.setText(userOld.getSoDienThoai());
+            edtEmail_User.setText(userOld.getEmail());
+            byte[] anhNguoiDung = userOld.getAnhNguoiDung();
+            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                imgEditAVT_User.setImageResource(R.drawable.avt);
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                imgEditAVT_User.setImageBitmap(bitmap);
+            }
         }
         addEvent();
     }
+
     void addControl()
     {
         backToProfile = findViewById(R.id.backToProfile);
@@ -78,7 +88,15 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(User_Edit_Detail_Informations.this, User_Details_Information.class);
-                intent.putExtra("UserUpdated", userNew);
+                if (userNew != null)
+                {
+                    intent.putExtra("username", userNew.getTaiKhoan());
+                    intent.putExtra("password", userNew.getMatKhau());
+                }else if (userOld != null)
+                {
+                    intent.putExtra("username", userOld.getTaiKhoan());
+                    intent.putExtra("password", userOld.getMatKhau());
+                }
                 startActivity(intent);
                 finish();
             }
@@ -102,7 +120,7 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                 if (validInforInput(userNew))
                 {
                     //Kiểm tra tên và ảnh có thay đổi mới hay chỉ là tên và ảnh cũ
-                    if (!Objects.equals(userNew.getTenNguoiDung(), userOld.getTenNguoiDung()) || userNew.getAnhNguoiDung() != userOld.getAnhNguoiDung())
+                    if (!Objects.equals(userNew.getTenNguoiDung(), userOld.getTenNguoiDung()) || !Arrays.equals(userNew.getAnhNguoiDung(), userOld.getAnhNguoiDung()))
                     {
                         //Kiểm tra xem người dùng có nhập số điện mới hay không
                         if (!Objects.equals(userNew.getSoDienThoai(), userOld.getSoDienThoai()))
@@ -134,7 +152,22 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                             //nếu như email và sđt cũ thì không cần kiểm tra cho phép người dùng cập những thông tin thay đổi
                             //như là tên or ảnh
                         }else {
-                            createAlertDialog(userNew).show();
+                            imgEditAVT_User.setDrawingCacheEnabled(true);
+                            imgEditAVT_User.buildDrawingCache();
+                            Bitmap bitmap = imgEditAVT_User.getDrawingCache();
+
+                            // Chuyển đổi Bitmap thành byte array
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                            imageBytes = byteArrayOutputStream.toByteArray();
+
+                            Log.d("ImageData", "Image length: " + (imageBytes != null ? imageBytes.length : "null"));
+                            User user = new User(userOld.getMaNguoiDung(), tenNguoiDung, userOld.getTaiKhoan(), userOld.getMatKhau(),
+                                    sdt, email, imageBytes);
+
+                            createAlertDialog(user).show();
+                            // Tắt Drawing Cache của ImageView
+                            imgEditAVT_User.setDrawingCacheEnabled(false);
                         }
                     }else
                     {
@@ -163,11 +196,7 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 imageBytes = byteArrayOutputStream.toByteArray();
-
                 // You can now use imageBytes to save the image in the database
-                // For example, you can set it to the product object
-                // products.setImageProduct(imageBytes);
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Unable to load image", Toast.LENGTH_SHORT).show();
@@ -192,7 +221,7 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                userHandler.upDateUserInfor(userNew);
+                userHandler.upDateUserInfor(user);
                 Toast.makeText(User_Edit_Detail_Informations.this, "Updated information successfully!", Toast.LENGTH_SHORT).show();
             }
         });

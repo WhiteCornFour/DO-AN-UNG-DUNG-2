@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
@@ -23,20 +24,45 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class User_Details_Information extends AppCompatActivity {
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
     ImageView backToQuizMainPage, imgAVT_User, imgLogoutAcc;
     TextView tvTenUser, tvSDTUser, tvEmailUser;
     Button btnEditUser;
     User user;
-
+    User userLoad;
+    UserHandler userHandler;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details_information);
         addControl();
+        userHandler = new UserHandler(User_Details_Information.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("UserInfor");
-        loadDataUser(user);
+        //user = new User();
+        String tkReciveFromQuiz = intent.getStringExtra("tkFromQuizToDetail");
+        String mkReciveFromQuiz = intent.getStringExtra("mkFromQuizToDetail");
+        if (tkReciveFromQuiz != null && mkReciveFromQuiz != null)
+        {
+            user = userHandler.getUserInfo(tkReciveFromQuiz, mkReciveFromQuiz);
+            loadDataUser(user);
+        }else {
+            //Intent intent = getIntent();
+            String tk = intent.getStringExtra("username");
+            String mk = intent.getStringExtra("password");
+            if (tk != null && mk != null)
+            {
+                Log.d("tk on Resume details", tk);
+                Log.d("mk on Resume details", mk);
+                //userLoad = new User();
+                userLoad = userHandler.getUserInfo(tk, mk);
+                loadDataUser(userLoad);
+            }else
+            {
+                loadDataUser(user);
+            }
+        }
         addEvent();
     }
 
@@ -50,9 +76,20 @@ public class User_Details_Information extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = getIntent();
-        User user1 = (User) intent.getSerializableExtra("UserUpdated");
-        loadDataUser(user1);
+//        Intent intent = getIntent();
+//        String tk = intent.getStringExtra("username");
+//        String mk = intent.getStringExtra("password");
+//        if (tk != null && mk != null)
+//        {
+//            Log.d("tk on Resume details", tk);
+//            Log.d("mk on Resume details", mk);
+//            userLoad = new User();
+//            userLoad = userHandler.getUserInfo(tk, mk);
+//            loadDataUser(userLoad);
+//        }else
+//        {
+//            loadDataUser(userLoad);
+//        }
     }
 
     void addControl()
@@ -83,7 +120,19 @@ public class User_Details_Information extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(User_Details_Information.this, User_Edit_Detail_Informations.class);
-                intent.putExtra("UserEdit", user);
+                if (userLoad != null)
+                {
+                    intent.putExtra("tkFromDetailToEdit", userLoad.getTaiKhoan());
+                    intent.putExtra("mkFromDetailToEdit", userLoad.getMatKhau());
+                    Log.d("tkFromDetailToEdit: ",userLoad.getTaiKhoan());
+                    Log.d("mkFromDetailToEdit: ",userLoad.getMatKhau());
+                }else if (user != null)
+                {
+                    intent.putExtra("tkFromDetailToEdit", user.getTaiKhoan());
+                    intent.putExtra("mkFromDetailToEdit", user.getMatKhau());
+                    Log.d("tkFromDetailToEdit: ",user.getTaiKhoan());
+                    Log.d("mkFromDetailToEdit: ",user.getMatKhau());
+                }
                 startActivity(intent);
                 finish();
             }
@@ -114,6 +163,7 @@ public class User_Details_Information extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(User_Details_Information.this,
                         User_Login.class));
+                finish();
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
