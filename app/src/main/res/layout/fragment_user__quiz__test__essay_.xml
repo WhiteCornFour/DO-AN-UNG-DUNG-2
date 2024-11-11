@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".View.User_Quiz_Test_Essay_Fragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".View.User_Quiz_Test_Essay_Fragment" >
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/tvNDCH_Essay_Quiz_User"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:textSize="10.5pt"
+        android:textColor="@color/black"
+        android:fontFamily="@font/alata"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="40dp"
+        android:text="Nội dung câu hỏi: " />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/edtTLEssay_Quiz_User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:background="@drawable/border_rounded_forgotpass"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/black"
+        android:textSize="9pt"
+        android:fontFamily="@font/alata"
+        android:textStyle="normal"
+        android:paddingStart="20dp"
+        android:padding="30dp"
+        android:hint="Vui lòng điền đáp án tại đây..." />
+</LinearLayout>

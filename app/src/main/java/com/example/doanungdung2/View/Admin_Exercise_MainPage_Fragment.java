@@ -159,7 +159,7 @@ public class Admin_Exercise_MainPage_Fragment extends Fragment {
         String getResult;
         for (Exercise ex: exerciseArrayList
         ) {
-            getResult = ex.getMaBaiTap() + " - " +ex.getTenBaiTap() + " - " + ex.getSoCau();
+            getResult = ex.getMaBaiTap() + " - Mức độ: " +ex.getMucDo() + " - " + ex.getTenBaiTap();
             result.add(getResult);
         }
         return result;
