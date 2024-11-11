@@ -207,7 +207,7 @@
                 android:backgroundTint="@color/brown"
                 android:fontFamily="@font/alata"
                 android:padding="10dp"
-                android:background="@drawable/backgr_button_brown"
+                android:background="@drawable/backgr_button_green"
                 android:text="Get in study !"
                 android:textColor="@color/white"
                 android:textStyle="bold"  />

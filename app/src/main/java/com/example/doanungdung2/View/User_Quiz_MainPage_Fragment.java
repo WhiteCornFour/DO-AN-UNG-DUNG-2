@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     private static final int DB_VERSION = 1;
     TextView tvUserName;
     ImageView imgUserAccount;
+    Button btnBeginnerQuiz, btnStarterQuiz, btnIntermediateQuiz ,btnProficientQuiz ,btnMasterQuiz;
     UserHandler userHandler;
     User user;
   
@@ -148,6 +150,11 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     void addControl(View view) {
         tvUserName = view.findViewById(R.id.tvUserName);
         imgUserAccount = view.findViewById(R.id.imgUserAccount);
+        btnBeginnerQuiz = view.findViewById(R.id.btnBeginnerQuiz);
+        btnStarterQuiz = view.findViewById(R.id.btnStarterQuiz);
+        btnIntermediateQuiz = view.findViewById(R.id.btnIntermediateQuiz);
+        btnProficientQuiz = view.findViewById(R.id.btnProficientQuiz);
+        btnMasterQuiz = view.findViewById(R.id.btnMasterQuiz);
     }
     void addEvent()
     {
@@ -160,5 +167,52 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        btnBeginnerQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), User_Quiz_List.class);
+                intent.putExtra("mucDo", "Beginner");
+                startActivity(intent);
+            }
+        });
+
+        btnStarterQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), User_Quiz_List.class);
+                intent.putExtra("mucDo", "Starter");
+                startActivity(intent);
+            }
+        });
+
+        btnIntermediateQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), User_Quiz_List.class);
+                intent.putExtra("mucDo", "Intermediate");
+                startActivity(intent);
+            }
+        });
+
+        btnProficientQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), User_Quiz_List.class);
+                intent.putExtra("mucDo", "Proficient");
+                startActivity(intent);
+            }
+        });
+
+        btnMasterQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), User_Quiz_List.class);
+                intent.putExtra("mucDo", "Master");
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

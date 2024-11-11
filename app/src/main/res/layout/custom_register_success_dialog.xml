@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/successDone"
             android:text="OK"
+            android:textColor="@color/white"
             android:fontFamily="@font/alata"
             android:textSize="14sp"
             app:cornerRadius="12dp"
