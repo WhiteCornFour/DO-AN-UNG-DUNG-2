@@ -88,7 +88,6 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment__quiz, container, false);
         addControl(view);
         userHandler = new UserHandler(getActivity(), DB_NAME, null, DB_VERSION);
-
         FragmentManager fragmentManager = getParentFragmentManager();
         fragmentManager.setFragmentResultListener("userResult", this, new FragmentResultListener() {
             @SuppressLint("SetTextI18n")
@@ -124,6 +123,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
         tk = sharedPreferences.getString("tk", null);
         mk =  sharedPreferences.getString("mk", null);
@@ -142,7 +142,6 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 imgUserAccount.setImageBitmap(bitmap);
             }
         }
-        super.onResume();
     }
 
     void addControl(View view) {
@@ -154,9 +153,11 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         imgUserAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = userHandler.getUserInfo(tk, mk);
                 Intent intent = new Intent(getActivity(), User_Details_Information.class);
-                intent.putExtra("UserInfor", user);
+                intent.putExtra("tkFromQuizToDetail", tk);
+                intent.putExtra("mkFromQuizToDetail", mk);
+                Log.d("tkFromQuizToDetail: ",tk);
+                Log.d("mkFromQuizToDetail: ",mk);
                 startActivity(intent);
             }
         });
