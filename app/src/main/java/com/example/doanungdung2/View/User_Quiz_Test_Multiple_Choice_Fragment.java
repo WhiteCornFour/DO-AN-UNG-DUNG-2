@@ -15,11 +15,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.ShareViewModel_Answer;
 import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
+import java.util.ArrayList;
 
 
 /**
@@ -76,7 +78,11 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
         addControl(view);
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateQuestionDetails);
+        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
+            if (question != null) {
+                updateQuestionDetails(question);
+            }
+        });
 
         addEvent();
         return view;

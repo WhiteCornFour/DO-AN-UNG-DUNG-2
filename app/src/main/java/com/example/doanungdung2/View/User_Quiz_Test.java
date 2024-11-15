@@ -40,7 +40,6 @@ public class User_Quiz_Test extends AppCompatActivity {
     ImageView imgBackToQuizFragment;
     TextView tvTenBaiTapQuizTest, tvThoiGianLamBai;
     RecyclerView rvCauHoiQuizTest;
-    ImageButton btnPrevious, btnNext;
     Button btnSubmitQuiz;
     FrameLayout frameLayoutQuizTest;
     ArrayList<Question> questionArrayList = new ArrayList<>();
@@ -86,7 +85,6 @@ public class User_Quiz_Test extends AppCompatActivity {
             String kq = String.valueOf(number);
             data.add(kq);
         }
-        Log.d("Lenght of data String", String.valueOf(data.size()));
         return data;
     }
 
@@ -101,8 +99,6 @@ public class User_Quiz_Test extends AppCompatActivity {
         tvTenBaiTapQuizTest = findViewById(R.id.tvTenBaiTapQuizTest);
         tvThoiGianLamBai = findViewById(R.id.tvThoiGianLamBai);
         rvCauHoiQuizTest = findViewById(R.id.rvCauHoiQuizTest);
-        btnPrevious = findViewById(R.id.btnPrevious);
-        btnNext = findViewById(R.id.btnNext);
         btnSubmitQuiz = findViewById(R.id.btnSubmitQuiz);
         frameLayoutQuizTest = findViewById(R.id.frameLayoutQuizTest);
     }
@@ -142,6 +138,7 @@ public class User_Quiz_Test extends AppCompatActivity {
             }
         }.start();
     }
+  
     private Exercise getIntentExercise() {
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
@@ -173,24 +170,41 @@ public class User_Quiz_Test extends AppCompatActivity {
         }
     }
 
-        private void setUpRecyclerView() {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
-            rvCauHoiQuizTest.setLayoutManager(layoutManager);
-            rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
-            user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
-                @Override
-                public void onItemClick(Question question) {
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
+    private void setUpRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
+        rvCauHoiQuizTest.setLayoutManager(layoutManager);
+        rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
+        user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
+            @Override
+            public void onItemClick(Question question) {
+                Log.d("Quesiton: ", question.getNoiDungCauHoi());
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
 
-                    if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-                        sharedViewModel.select(question);
-
-                    }
+                if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+                    sharedViewModel.select(question);
                 }
-            });
-            rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
+            }
+        });
+        rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
+    }
+
+    private void updateQuestion() {
+        Question currentQuestion = new Question();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frameLayoutQuizTest);
+        if (currentQuestionPosition == 0) {
+            currentQuestion = questionArrayList.get(0);
+            loadAllQuizTestList();
+            if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+                sharedViewModel.select(currentQuestion);
+            }
         }
+        currentQuestion = questionArrayList.get(currentQuestionPosition);
+        loadAllQuizTestList();
+        if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+            sharedViewModel.select(currentQuestion);
+        }
+    }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

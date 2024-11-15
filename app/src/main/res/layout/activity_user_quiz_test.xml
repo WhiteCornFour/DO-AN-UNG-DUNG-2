@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -99,14 +99,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btnPrevious"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/arrow_forward_enabled"
-                    android:scaleX="-1"
-                    android:background="@drawable/shape_round_button" />
-
                 <Button
                     android:id="@+id/btnSubmitQuiz"
                     android:layout_width="wrap_content"
@@ -121,12 +113,6 @@
                     android:text="Submit Quiz"
                     android:textAllCaps="false"/>
 
-                <ImageButton
-                    android:id="@+id/btnNext"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/arrow_forward_enabled"
-                    android:background="@drawable/shape_round_button" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
