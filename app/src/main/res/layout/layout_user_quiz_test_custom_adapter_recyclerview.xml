@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <FrameLayout
+        android:id="@+id/cardViewTestQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageButton
+            android:id="@+id/imgButtonRecyclerViewSoCau"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/custom_question_radio_button" />
+
+        <TextView
+            android:id="@+id/tvRecyclerViewButtonNumberSoCau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="sans-serif-medium" />
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

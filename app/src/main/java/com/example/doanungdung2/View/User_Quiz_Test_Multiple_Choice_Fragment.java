@@ -3,12 +3,23 @@ package com.example.doanungdung2.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +27,10 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
+
+    TextView tvFrameLayoutNoiDungCauHoiMC, tvFrameLayoutNDCauAQuizTest, tvFrameLayoutNDCauBQuizTest,tvFrameLayoutNDCauCQuizTest, tvFrameLayoutNDCauDQuizTest;
+    RadioButton rdbFrameLayoutA,rdbFrameLayoutB, rdbFrameLayoutC, rdbFrameLayoutD;
+    private SharedViewModel sharedViewModel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,16 +66,97 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
+        View view = inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
+        addControl(view);
+        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateQuestionDetails);
+
+        addEvent();
+        return view;
+    }
+
+    void addControl (View view) {
+        tvFrameLayoutNoiDungCauHoiMC = view.findViewById(R.id.tvFrameLayoutNoiDungCauHoiMC);
+        tvFrameLayoutNDCauAQuizTest = view.findViewById(R.id.tvFrameLayoutNDCauAQuizTest);
+        tvFrameLayoutNDCauBQuizTest = view.findViewById(R.id.tvFrameLayoutNDCauBQuizTest);
+        tvFrameLayoutNDCauCQuizTest = view.findViewById(R.id.tvFrameLayoutNDCauCQuizTest);
+        tvFrameLayoutNDCauDQuizTest = view.findViewById(R.id.tvFrameLayoutNDCauDQuizTest);
+        rdbFrameLayoutA = view.findViewById(R.id.rdbFrameLayoutA);
+        rdbFrameLayoutB = view.findViewById(R.id.rdbFrameLayoutB);
+        rdbFrameLayoutC = view.findViewById(R.id.rdbFrameLayoutC);
+        rdbFrameLayoutD = view.findViewById(R.id.rdbFrameLayoutD);
+    }
+
+    void addEvent () {
+        rdbFrameLayoutA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRadioButtonClick(rdbFrameLayoutA);
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
+            }
+        });
+
+        rdbFrameLayoutB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRadioButtonClick(rdbFrameLayoutB);
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
+            }
+        });
+
+        rdbFrameLayoutC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRadioButtonClick(rdbFrameLayoutC);
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
+            }
+        });
+
+        rdbFrameLayoutD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRadioButtonClick(rdbFrameLayoutD);
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.brown));
+            }
+        });
+
+    }
+
+    private void updateQuestionDetails(Question question) {
+        if (question != null) {
+            tvFrameLayoutNoiDungCauHoiMC.setText(question.getNoiDungCauHoi());
+            tvFrameLayoutNDCauAQuizTest.setText(question.getCauA());
+            tvFrameLayoutNDCauBQuizTest.setText(question.getCauB());
+            tvFrameLayoutNDCauCQuizTest.setText(question.getCauC());
+            tvFrameLayoutNDCauDQuizTest.setText(question.getCauD());
+        }
+    }
+
+    void handleRadioButtonClick(RadioButton selectedRadioButton) {
+        rdbFrameLayoutA.setChecked(false);
+        rdbFrameLayoutB.setChecked(false);
+        rdbFrameLayoutC.setChecked(false);
+        rdbFrameLayoutD.setChecked(false);
+        //chon dap an moi
+        selectedRadioButton.setChecked(true);
+
+        Toast.makeText(getActivity(), "Selected: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 }

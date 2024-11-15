@@ -1,14 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".View.User_Quiz_Test_Multiple_Choice_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvFrameLayoutNoiDungCauHoiMC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:fontFamily="@font/alata"
+        android:textColor="@color/brown"
+        android:text="Quiz Question 1"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdbFrameLayoutA"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_question_radio_button"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/alata"
+                android:text="A"
+                android:textAlignment="center"
+                android:textColor="@drawable/custom_question_text_view"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvFrameLayoutNDCauAQuizTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alata"
+                android:text="Nội dung câu A"
+                android:textColor="@color/mist"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdbFrameLayoutB"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_question_radio_button"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/alata"
+                android:text="B"
+                android:textAlignment="center"
+                android:textColor="@drawable/custom_question_text_view"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvFrameLayoutNDCauBQuizTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alata"
+                android:text="Nội dung câu B"
+                android:textColor="@color/mist"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdbFrameLayoutC"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_question_radio_button"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/alata"
+                android:text="C"
+                android:textAlignment="center"
+                android:textColor="@drawable/custom_question_text_view"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvFrameLayoutNDCauCQuizTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alata"
+                android:text="Nội dung câu C"
+                android:textColor="@color/mist"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdbFrameLayoutD"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_question_radio_button"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/alata"
+                android:text="D"
+                android:textAlignment="center"
+                android:textColor="@drawable/custom_question_text_view"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvFrameLayoutNDCauDQuizTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alata"
+                android:text="Nội dung câu D"
+                android:textColor="@color/mist"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

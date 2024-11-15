@@ -246,4 +246,36 @@ public class QuestionHandler extends SQLiteOpenHelper {
             question.getMucDo(), question.getMaBaiTap(), question.getMaDangBaiTap()});
         sqLiteDatabase.close();
     }
+
+    @SuppressLint("Range")
+    public ArrayList<Question> loadAllDataOfMatchQuestionByExerciseCode(String maBaiTapInput, String mucDoInput) {
+        ArrayList<Question> questionArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiTap + " = ? AND " + mucDo + " = ?";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiTapInput, mucDoInput});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Question question = new Question();
+                    question.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    question.setNoiDungCauHoi(cursor.getString(cursor.getColumnIndex(noiDungCauHoi)));
+                    question.setCauA(cursor.getString(cursor.getColumnIndex(cauA)));
+                    question.setCauB(cursor.getString(cursor.getColumnIndex(cauB)));
+                    question.setCauC(cursor.getString(cursor.getColumnIndex(cauC)));
+                    question.setCauD(cursor.getString(cursor.getColumnIndex(cauD)));
+                    question.setDapAn(cursor.getString(cursor.getColumnIndex(dapAn)));
+                    question.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    question.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    question.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                    questionArrayList.add(question);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return questionArrayList;
+    }
 }
