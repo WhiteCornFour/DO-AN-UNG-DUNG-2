@@ -121,7 +121,7 @@
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:text="Beginner" />
 
             <Button
@@ -132,7 +132,7 @@
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:text="Starter" />
 
             <Button
@@ -143,7 +143,7 @@
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:text="Intermediate" />
 
             <Button
@@ -154,7 +154,7 @@
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:text="Proficient" />
 
             <Button
@@ -165,7 +165,7 @@
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/brown"
                 android:text="Master" />
         </LinearLayout>
 

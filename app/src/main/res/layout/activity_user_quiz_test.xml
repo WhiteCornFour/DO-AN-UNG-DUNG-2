@@ -75,18 +75,11 @@
             android:padding="20dp"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/textView66"
-                android:layout_width="50dp"
-                android:layout_height="5dp"
-                android:layout_gravity="center"
-                android:background="@color/brown"
-                android:text="TextView" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCauHoiQuizTest"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:scrollbars="horizontal"
                 android:layout_marginTop="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -115,7 +108,7 @@
                     android:background="@drawable/shape_round_button" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnSubmitQuiz"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
