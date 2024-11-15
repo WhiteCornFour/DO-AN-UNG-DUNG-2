@@ -57,7 +57,7 @@
                 android:layout_gravity="right|center"
                 android:gravity="center"
                 android:layout_marginRight="20dp"
-                android:text="20:00"
+                android:text="00:00:00"
                 android:paddingRight="9dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
