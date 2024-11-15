@@ -6,34 +6,37 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.ShareViewModel_Answer;
 import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class User_Quiz_Test extends AppCompatActivity {
-
     private static  final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     SharedViewModel sharedViewModel;
+    ShareViewModel_Answer shareViewModelAnswer;
     ImageView imgBackToQuizFragment;
     TextView tvTenBaiTapQuizTest, tvThoiGianLamBai;
     RecyclerView rvCauHoiQuizTest;
@@ -45,6 +48,7 @@ public class User_Quiz_Test extends AppCompatActivity {
     ArrayList<String> dataSource = new ArrayList<>();
     QuestionHandler questionHandler;
     Exercise exercise = new Exercise();
+    CountDownTimer countDownTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +57,23 @@ public class User_Quiz_Test extends AppCompatActivity {
         addControl();
         questionHandler = new QuestionHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        shareViewModelAnswer = new ViewModelProvider(this).get(ShareViewModel_Answer.class);
+
+        if (shareViewModelAnswer.getAnswer() != null)
+        {
+            shareViewModelAnswer.getAnswer().observe(User_Quiz_Test.this, this::getAnswerFromQuizTest);
+        }
+
         exercise = getIntentExercise();
         setUpDataForTest(exercise);
 
         setUpRecyclerView();
         loadAllQuizTestList();
-        Log.d("Leght of questionArrayList", String.valueOf(questionArrayList.size()));
+
+        //Bat dau thoi gian lam bai 1s = 1000
+        startTime(Integer.parseInt(exercise.getThoiGian().trim()) * 1000 * 60);
+        //Log.d("ThoiGian lam bai", String.valueOf(Integer.parseInt(exercise.getThoiGian().trim()) * 60));
+        //Log.d("Leght of questionArrayList", String.valueOf(questionArrayList.size()));
         addEvent();
     }
 
@@ -91,7 +106,10 @@ public class User_Quiz_Test extends AppCompatActivity {
         btnSubmitQuiz = findViewById(R.id.btnSubmitQuiz);
         frameLayoutQuizTest = findViewById(R.id.frameLayoutQuizTest);
     }
-
+    void getAnswerFromQuizTest(String dapan)
+    {
+        Log.d("Dap an from quiz", dapan);
+    }
     void addEvent() {
         imgBackToQuizFragment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +117,31 @@ public class User_Quiz_Test extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
+    //function count down time
+    private void startTime(int time)
+    {
+        countDownTimer = new CountDownTimer(time, 1000) {
+            @Override
+            public void onTick(long l) {
+                long hours = (l / 1000) / 3600;
+                long minutes = ((l / 1000) % 3600) / 60;
+                long seconds = (l / 1000) % 60;
+                String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+                tvThoiGianLamBai.setText(timeFormatted);
+            }
+
+            @Override
+            public void onFinish() {
+                tvThoiGianLamBai.setText("00:00:00");
+                Toast.makeText(User_Quiz_Test.this, "Time's up!", Toast.LENGTH_SHORT).show();
+                MediaPlayer mediaPlayer = MediaPlayer.create(User_Quiz_Test.this, R.raw.success);
+                mediaPlayer.start();
+                finish();
+            }
+        }.start();
+    }
     private Exercise getIntentExercise() {
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
@@ -146,7 +185,6 @@ public class User_Quiz_Test extends AppCompatActivity {
 
                     if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
                         sharedViewModel.select(question);
-
 
                     }
                 }
