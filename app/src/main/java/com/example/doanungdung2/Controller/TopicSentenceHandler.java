@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import java.io.ByteArrayOutputStream;
 
 import androidx.annotation.Nullable;
 
@@ -18,12 +20,13 @@ import java.util.ArrayList;
 public class TopicSentenceHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final String TABLE_NAME = "ChuDeMauCau";
     private static final String maChuDeMauCau = "MaChuDeMauCau";
     private static final String tenChuDeMauCau = "TenChuDeMauCau";
     private static final String moTa = "MoTa";
-
+    private static final String anhChuDeMauCau = "AnhChuDeMauCau";
     private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
 
     public TopicSentenceHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -53,6 +56,12 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
                     topicSentence.setMaChuDeMauCau(cursor.getString(cursor.getColumnIndex(maChuDeMauCau)));
                     topicSentence.setTenChuDeMauCau(cursor.getString(cursor.getColumnIndex(tenChuDeMauCau)));
                     topicSentence.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+
+                    byte[] imageBytes = cursor.getBlob(cursor.getColumnIndex(anhChuDeMauCau));
+                    if (imageBytes != null) {
+                        topicSentence.setAnhChuDeMauCau(imageBytes);
+                    }
+
                     topicSentenceArrayList.add(topicSentence);
                 } while (cursor.moveToNext());
             }
@@ -170,6 +179,10 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
                     ts.setMaChuDeMauCau(cursor.getString(cursor.getColumnIndex(maChuDeMauCau)));
                     ts.setTenChuDeMauCau(cursor.getString(cursor.getColumnIndex(tenChuDeMauCau)));
                     ts.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+
+                    byte[] anhChuDe = cursor.getBlob(cursor.getColumnIndex("AnhChuDeMauCau"));
+                    ts.setAnhChuDeMauCau(anhChuDe);
+
                     topicSentenceArrayList.add(ts);
                 } while (cursor.moveToNext());
             }
@@ -189,7 +202,11 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
             contentValues.put(tenChuDeMauCau, topicSentence.getTenChuDeMauCau());
             contentValues.put(moTa, topicSentence.getMoTa());
 
-            int result = sqLiteDatabase.update(TABLE_NAME, contentValues, maChuDeMauCau + " = ?", new String[]{topicSentence.getMaChuDeMauCau()});
+            if (topicSentence.getAnhChuDeMauCau() != null) {
+                contentValues.put("AnhChuDeMauCau", topicSentence.getAnhChuDeMauCau());
+            }
+
+            int result = sqLiteDatabase.update(TABLE_NAME, contentValues, maChuDeMauCau + " = ?", new String[]{String.valueOf(topicSentence.getMaChuDeMauCau())});
             updated = result > 0;
 
         } catch (SQLiteException e) {
@@ -227,7 +244,8 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
         return topicNames;
     }
 
-    public boolean addTopicSentence(TopicSentence topicSentence) {
+
+    public boolean addTopicSentence(TopicSentence topicSentence, Bitmap image) {
         boolean added = false;
         SQLiteDatabase sqLiteDatabase = null;
         try {
@@ -236,6 +254,13 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
             contentValues.put(maChuDeMauCau, topicSentence.getMaChuDeMauCau());
             contentValues.put(tenChuDeMauCau, topicSentence.getTenChuDeMauCau());
             contentValues.put(moTa, topicSentence.getMoTa());
+
+            if (image != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] imageBytes = stream.toByteArray();
+                contentValues.put(anhChuDeMauCau, imageBytes);
+            }
 
             long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
             added = result != -1;

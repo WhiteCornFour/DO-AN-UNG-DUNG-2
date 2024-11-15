@@ -44,7 +44,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="720dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/backgr_admin_blue"
             android:orientation="vertical">
 
@@ -127,7 +127,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:background="@drawable/backgr_admin_white"
-                    android:nestedScrollingEnabled="true"/>
+                    android:nestedScrollingEnabled="true" />
             </LinearLayout>
 
             <TextView
@@ -142,8 +142,8 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="380dp"
-                android:layout_height="220dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/backgr_admin_white"
@@ -172,12 +172,12 @@
                         android:layout_height="40dp"
                         android:background="@drawable/custom_admin_unedit_text"
                         android:drawableStart="@drawable/id_icon_focus"
+                        android:drawablePadding="8dp"
                         android:ems="10"
                         android:enabled="false"
                         android:inputType="textPersonName"
                         android:paddingStart="14dp"
                         android:paddingEnd="12dp"
-                        android:drawablePadding="8dp"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
 
@@ -194,10 +194,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
+                        android:layout_marginBottom="3dp"
                         android:text="Tên chủ đề mẫu câu: "
                         android:textColor="@color/black"
                         android:textSize="13sp"
-                        android:layout_marginBottom="3dp"
                         android:textStyle="bold" />
 
                     <EditText
@@ -206,11 +206,11 @@
                         android:layout_height="40dp"
                         android:background="@drawable/custom_admin_edit_text"
                         android:drawableStart="@drawable/custom_name_icon"
+                        android:drawablePadding="8dp"
                         android:ems="10"
                         android:inputType="textPersonName"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
-                        android:drawablePadding="8dp"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -243,19 +243,44 @@
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView277"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="Ảnh chủ đề: "
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imgSuaAnhChuDe"
+                        android:layout_width="match_parent"
+                        android:layout_height="85dp"
+                        android:layout_marginLeft="70dp"
+                        android:layout_marginRight="70dp"
+                        android:background="@drawable/custom_admin_edit_text"
+                        app:srcCompat="@android:drawable/ic_menu_gallery" />
+                </LinearLayout>
             </LinearLayout>
 
             <Button
                 android:id="@+id/btnSua_CDMC"
-                android:background="@drawable/backgr_admin_white"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
+                android:background="@drawable/backgr_admin_white"
                 android:text="Sửa"
-                android:textStyle="bold"
+                android:textColor="@color/blue"
                 android:textSize="15sp"
-                android:textColor="@color/blue" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

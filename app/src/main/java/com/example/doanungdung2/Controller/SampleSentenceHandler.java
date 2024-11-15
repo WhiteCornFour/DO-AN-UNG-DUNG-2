@@ -94,16 +94,13 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
         return sampleSentenceArrayList;
     }
 
-    public boolean checkTopicSentencesHaveSampleSentences(String maChuDeMauCauInput)
-    {
+    public boolean checkTopicSentencesHaveSampleSentences(String maChuDeMauCauInput) {
         boolean checkResult = false;
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String query = "Select * From " + TABLE_NAME + " Where " + maChuDeMauCau + " = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maChuDeMauCauInput});
-        if (cursor != null)
-        {
-            if (cursor.moveToFirst())
-            {
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 checkResult = true;
             }
             cursor.close();
@@ -224,4 +221,31 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
         db.close();
         return sampleSentenceList;
     }
+
+    @SuppressLint("Range")
+    public ArrayList<SampleSentence> getSampleSentencesByCodeTopic(String SSInput) {
+        ArrayList<SampleSentence> sampleSentences = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maChuDeMauCau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{SSInput});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String ss = cursor.getString(cursor.getColumnIndex(mauCau));
+                    String pd = cursor.getString(cursor.getColumnIndex(phienDich));
+                    SampleSentence sentence = new SampleSentence();
+                    sentence.setMauCau(ss);
+                    sentence.setPhienDich(pd);
+                    sampleSentences.add(sentence);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return sampleSentences;
+    }
+    //Dialog
+
 }
