@@ -24,7 +24,6 @@ public class User_Login extends AppCompatActivity {
     Button btnLogin;
     TextView tvRegisterNow, tvForgetPasswordLogin, tvLoginAD;
     UserHandler userHandler;
-    SQLiteDatabase sqLiteDatabase;
 
     long backpresstime;
     private static final String DB_NAME = "AppHocTiengAnh";

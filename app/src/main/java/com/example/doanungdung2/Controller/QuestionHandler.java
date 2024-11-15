@@ -278,4 +278,21 @@ public class QuestionHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return questionArrayList;
     }
+    public boolean checkAnswerQuestion(String maCauHoi, String dapAn)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * From " + TABLE_NAME + " Where maCauHoi = ? AND dapAn = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maCauHoi, dapAn});
+        if(cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return check;
+    }
 }

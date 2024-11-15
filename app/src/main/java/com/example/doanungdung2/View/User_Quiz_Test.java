@@ -22,7 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanungdung2.Controller.AssignmentDetailHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
+import com.example.doanungdung2.Model.AssigmentDetail;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.ShareViewModel_Answer;
@@ -48,6 +50,9 @@ public class User_Quiz_Test extends AppCompatActivity {
     QuestionHandler questionHandler;
     Exercise exercise = new Exercise();
     CountDownTimer countDownTimer;
+    AssignmentDetailHandler assignmentDetailHandler;
+    String maCauHoiSelected = "";
+    String maBaiLam = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,8 @@ public class User_Quiz_Test extends AppCompatActivity {
         //-------------------------------//
         addControl();
         questionHandler = new QuestionHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
+        assignmentDetailHandler = new AssignmentDetailHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
+
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         shareViewModelAnswer = new ViewModelProvider(this).get(ShareViewModel_Answer.class);
 
@@ -73,6 +80,19 @@ public class User_Quiz_Test extends AppCompatActivity {
         startTime(Integer.parseInt(exercise.getThoiGian().trim()) * 1000 * 60);
         //Log.d("ThoiGian lam bai", String.valueOf(Integer.parseInt(exercise.getThoiGian().trim()) * 60));
         //Log.d("Leght of questionArrayList", String.valueOf(questionArrayList.size()));
+        Intent intent = getIntent();
+        maBaiLam = intent.getStringExtra("maBaiLam");
+
+        Log.d("Ma Bai Lam", maBaiLam);
+        int i = 0;
+        for (Question q: questionArrayList
+             ) {
+            String maChiTietBaiLam = Admin_Add_Exercise.createAutoExerciseCode("CTBL");
+            String maCauHoi = q.getMaCauHoi();
+            AssigmentDetail assigmentDetail = new AssigmentDetail(maChiTietBaiLam, null, "Sai", maCauHoi, maBaiLam);
+            assignmentDetailHandler.insertAssignmentDetail(assigmentDetail);
+            Log.d("Thanh cong ", String.valueOf(i++));
+        }
         addEvent();
     }
 
@@ -104,7 +124,21 @@ public class User_Quiz_Test extends AppCompatActivity {
     }
     void getAnswerFromQuizTest(String dapan)
     {
+        String ketQuaCauTraLoi = "Sai";
         Log.d("Dap an from quiz", dapan);
+        if (maCauHoiSelected != null)
+        {
+            boolean check = questionHandler.checkAnswerQuestion(maCauHoiSelected, dapan);
+            if (check)
+            {
+                ketQuaCauTraLoi = "Đúng";
+            }else
+            {
+                ketQuaCauTraLoi = "Sai";
+            }
+            assignmentDetailHandler.upDateAssignmentDetail(maCauHoiSelected, maBaiLam, dapan, ketQuaCauTraLoi);
+
+        }
     }
     void addEvent() {
         imgBackToQuizFragment.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +212,7 @@ public class User_Quiz_Test extends AppCompatActivity {
             @Override
             public void onItemClick(Question question) {
                 Log.d("Quesiton: ", question.getNoiDungCauHoi());
+                maCauHoiSelected = question.getMaCauHoi();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
 
@@ -187,23 +222,6 @@ public class User_Quiz_Test extends AppCompatActivity {
             }
         });
         rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
-    }
-
-    private void updateQuestion() {
-        Question currentQuestion = new Question();
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frameLayoutQuizTest);
-        if (currentQuestionPosition == 0) {
-            currentQuestion = questionArrayList.get(0);
-            loadAllQuizTestList();
-            if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-                sharedViewModel.select(currentQuestion);
-            }
-        }
-        currentQuestion = questionArrayList.get(currentQuestionPosition);
-        loadAllQuizTestList();
-        if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-            sharedViewModel.select(currentQuestion);
-        }
     }
 
     private void replaceFragment(Fragment fragment) {
