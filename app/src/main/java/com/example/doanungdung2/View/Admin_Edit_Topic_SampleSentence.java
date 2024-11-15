@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -9,7 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +26,8 @@ import com.example.doanungdung2.Controller.TopicSentenceHandler;
 import com.example.doanungdung2.Model.TopicSentence;
 import com.example.doanungdung2.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
@@ -27,15 +35,19 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
     EditText edtSuaSearch_CDMC, edtSuaTen_CDMC, edtSuaMoTa_CDMC, edtSuaMa_CDMC;
     Button btnSua_CDMC;
     RecyclerView rvSua_CDMC;
-    ImageView imgBackToMainPage_CDMC, imgSuaSearch_CDMC;
+    ImageView imgBackToMainPage_CDMC, imgSuaSearch_CDMC, imgSuaAnhChuDe;
 
     TopicSentence topicSentence;
     TopicSentenceHandler topicSentenceHandler;
+
+    ArrayList<TopicSentence> topicSentenceArrayList = new ArrayList<>();
     ArrayList<TopicSentence> topicSentencesArrayListSearchResult = new ArrayList<>();
     Admin_Edit_Topic_SampleSentence_CustomAdapter_RV admin_edit_topic_sample_sentence_custom_adapter_rv;
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
+
+    private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +73,7 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
         rvSua_CDMC = (RecyclerView) findViewById(R.id.rvSuaSearch_CDMC);
         imgBackToMainPage_CDMC = (ImageView) findViewById(R.id.imgBackToMainPage_CDMC);
         imgSuaSearch_CDMC = (ImageView) findViewById(R.id.imgSuaSearch_CDMC);
+        imgSuaAnhChuDe = (ImageView) findViewById(R.id.imgSuaAnhChuDe);
     }
 
     @Override
@@ -89,6 +102,15 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
             }
         });
 
+        imgSuaAnhChuDe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
         btnSua_CDMC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,10 +128,16 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
                     return;
                 }
 
+                Bitmap imageBitmap = ((BitmapDrawable) imgSuaAnhChuDe.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
                 TopicSentence topicSentence = new TopicSentence();
                 topicSentence.setMaChuDeMauCau(maCDMC);
                 topicSentence.setTenChuDeMauCau(tenCDMC);
                 topicSentence.setMoTa(moTaCDMC);
+                topicSentence.setAnhChuDeMauCau(imageBytes);
                 createAlertDialogEditTopicSentence(topicSentence).show();
             }
         });
@@ -146,6 +174,13 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
                 edtSuaTen_CDMC.setText(topicSentence.getTenChuDeMauCau());
                 edtSuaMoTa_CDMC.setText(topicSentence.getMoTa());
                 edtSuaMa_CDMC.setText(topicSentence.getMaChuDeMauCau());
+
+                if (topicSentence.getAnhChuDeMauCau() != null) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(topicSentence.getAnhChuDeMauCau(), 0, topicSentence.getAnhChuDeMauCau().length);
+                    imgSuaAnhChuDe.setImageBitmap(bitmap);
+                } else {
+                    imgSuaAnhChuDe.setImageResource(R.drawable.image_default);
+                }
             }
         });
         rvSua_CDMC.setAdapter(admin_edit_topic_sample_sentence_custom_adapter_rv);
@@ -173,10 +208,37 @@ public class Admin_Edit_Topic_SampleSentence extends AppCompatActivity {
         return builder.create();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            try {
+                Bitmap selectedImage = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                imgSuaAnhChuDe.setImageBitmap(selectedImage);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+                // Kiểm tra nếu requestCode nằm trong phạm vi của danh sách
+                if (requestCode >= 0 && requestCode < topicSentenceArrayList.size()) {
+                    TopicSentence tss = topicSentenceArrayList.get(requestCode);
+                    tss.setAnhChuDeMauCau(imageBytes);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Lỗi khi chọn ảnh", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
     private void clearInputFields() {
         edtSuaMa_CDMC.setText("");
         edtSuaTen_CDMC.setText("");
         edtSuaMoTa_CDMC.setText("");
+        imgSuaAnhChuDe.setImageResource(R.drawable.image_default);
     }
 }
 

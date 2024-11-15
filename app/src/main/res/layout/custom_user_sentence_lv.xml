@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/custom_vienxanhsang"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.2"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgAnhCDMC_Us"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_edit_text"
+                android:contentDescription="Ảnh chủ đề" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.8"
+            android:paddingStart="8dp">
+
+            <TextView
+                android:id="@+id/tvCDMC_Us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="8pt"
+                android:gravity="center"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Chủ đề mẫu câu" />
+
+            <TextView
+                android:id="@+id/tvMoTaCDMC_Us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="6pt"
+                android:textStyle="italic"
+                android:text="Mô Tả chủ đề mẫu câu" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

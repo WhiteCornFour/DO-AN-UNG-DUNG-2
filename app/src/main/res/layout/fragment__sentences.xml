@@ -3,17 +3,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pink"
+    android:background="@color/lime"
     tools:context=".View.User_Sentences_MainPage_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo_no_background" />
+
     <TextView
+        android:id="@+id/textView52"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alata"
+        android:gravity="center"
+        android:paddingRight="5dp"
+        android:text="Master English, Master Your World"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Sentences Fragment"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/custom_bgr_sentences">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text=" CHỦ ĐỀ"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:background="@drawable/custom_bgr_edt_topic"
+            android:layout_marginTop="15dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/custom_bgr_sentence_xanhdam">
+
+            <ListView
+                android:id="@+id/lvTopic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="7dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+
 
 </FrameLayout>
