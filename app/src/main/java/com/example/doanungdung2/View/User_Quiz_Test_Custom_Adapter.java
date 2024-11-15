@@ -1,11 +1,14 @@
 package com.example.doanungdung2.View;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +28,7 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
     ArrayList<Question> arrayListQuestion = new ArrayList<>();
     ItemClickListener itemClickListener;
 
-    // Biến để lưu vị trí của item đã chọn
-    private int selectedPosition = -1;
+    private int selectedPosition = 0;
 
     public User_Quiz_Test_Custom_Adapter(ArrayList<String> dataSource, ArrayList<Question> arrayListQuestion, ItemClickListener itemClickListener) {
         this.dataSource = dataSource;
@@ -42,45 +44,39 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Question question = arrayListQuestion.get(position);
-        holder.tvRecyclerViewButtonNumberSoCau.setText(dataSource.get(position));
-        holder.imgButtonRecyclerViewSoCau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(question);
-                holder.imgButtonRecyclerViewSoCau.setBackgroundResource(R.drawable.shape_round_checked_radio_button);
-                int color = ContextCompat.getColor(holder.imgButtonRecyclerViewSoCau.getContext(), R.color.brown); // Thay 'your_color' bằng tên màu bạn muốn
-                holder.tvRecyclerViewButtonNumberSoCau.setTextColor(color);
-            }
-        });
-
-        // Nếu item này đã được chọn, thay đổi màu sắc và chữ
-        if (position == selectedPosition) {
-            holder.imgButtonRecyclerViewSoCau.setBackgroundResource(R.drawable.shape_round_checked_radio_button);
-            int color = ContextCompat.getColor(holder.imgButtonRecyclerViewSoCau.getContext(), R.color.brown); // Thay màu theo ý muốn
-            holder.tvRecyclerViewButtonNumberSoCau.setTextColor(color);
-        } else {
-            // Nếu không phải item được chọn, quay lại trạng thái ban đầu
-            holder.imgButtonRecyclerViewSoCau.setBackgroundResource(R.drawable.shape_round_unchecked_radio_button);
-            int defaultColor = ContextCompat.getColor(holder.imgButtonRecyclerViewSoCau.getContext(), R.color.white); // Màu mặc định
-            holder.tvRecyclerViewButtonNumberSoCau.setTextColor(defaultColor);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        if(selectedPosition == 0) {
+            Question question1 = arrayListQuestion.get(0);
+            itemClickListener.onItemClick(question1);
         }
+        Question question = arrayListQuestion.get(position);
 
+        holder.tvRecyclerViewButtonNumberSoCau.setText(dataSource.get(position));
+
+        // Cập nhật trạng thái hiển thị của item
+        updateItemAppearance(holder, position == selectedPosition);
         // Xử lý sự kiện click
-        holder.itemView.setOnClickListener(v -> {
-            // Lưu lại vị trí item được chọn
+        holder.tvRecyclerViewButtonNumberSoCau.setOnClickListener(v -> {
+            // Cập nhật vị trí đã chọn
             int previousSelectedPosition = selectedPosition;
-            selectedPosition = position;
+            selectedPosition = holder.getAdapterPosition();
 
-            // Thông báo để adapter cập nhật giao diện
-            notifyItemChanged(previousSelectedPosition);
-            notifyItemChanged(selectedPosition);
-
-            itemClickListener.onItemClick(question); // Gọi sự kiện click của item
+            // Thông báo RecyclerView cập nhật giao diện toàn bộ danh sách
+            notifyDataSetChanged();
+            Log.d("Debug click", question.getNoiDungCauHoi());
+            // Gọi sự kiện click từ giao diện
+            itemClickListener.onItemClick(question);
         });
+
     }
 
+    private void updateItemAppearance(MyViewHolder holder, boolean isSelected) {
+        holder.imgButtonRecyclerViewSoCau.setBackgroundResource(isSelected ?
+                R.drawable.shape_round_checked_radio_button : R.drawable.shape_round_unchecked_radio_button);
+        int color = ContextCompat.getColor(holder.imgButtonRecyclerViewSoCau.getContext(),
+                isSelected ? R.color.brown : R.color.white);
+        holder.tvRecyclerViewButtonNumberSoCau.setTextColor(color);
+    }
 
     @Override
     public int getItemCount() {
@@ -92,11 +88,11 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
 
         ImageButton imgButtonRecyclerViewSoCau;
         TextView tvRecyclerViewButtonNumberSoCau;
-        FrameLayout cardViewTestQuiz;
+        FrameLayout layoutTestQuizModel;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardViewTestQuiz = itemView.findViewById(R.id.cardViewTestQuiz);
+            layoutTestQuizModel = itemView.findViewById(R.id.layoutTestQuizModel);
             imgButtonRecyclerViewSoCau = itemView.findViewById(R.id.imgButtonRecyclerViewSoCau);
             tvRecyclerViewButtonNumberSoCau = itemView.findViewById(R.id.tvRecyclerViewButtonNumberSoCau);
 
