@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.ShareViewModel_Answer;
 import com.example.doanungdung2.Model.SharedViewModel;
 import com.example.doanungdung2.R;
 
@@ -27,7 +28,7 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
-
+    ShareViewModel_Answer shareViewModelAnswer;
     TextView tvFrameLayoutNoiDungCauHoiMC, tvFrameLayoutNDCauAQuizTest, tvFrameLayoutNDCauBQuizTest,tvFrameLayoutNDCauCQuizTest, tvFrameLayoutNDCauDQuizTest;
     RadioButton rdbFrameLayoutA,rdbFrameLayoutB, rdbFrameLayoutC, rdbFrameLayoutD;
     private SharedViewModel sharedViewModel;
@@ -67,6 +68,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        shareViewModelAnswer = new ViewModelProvider(requireActivity()).get(ShareViewModel_Answer.class);
     }
 
     @Override
@@ -156,7 +158,10 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
         rdbFrameLayoutD.setChecked(false);
         //chon dap an moi
         selectedRadioButton.setChecked(true);
-
-        Toast.makeText(getActivity(), "Selected: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
+        if (selectedRadioButton.getText() != null)
+        {
+            shareViewModelAnswer.setAnswer(String.valueOf(selectedRadioButton.getText()));
+        }
+        Toast.makeText(getActivity(), "Selected from fragment: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 }

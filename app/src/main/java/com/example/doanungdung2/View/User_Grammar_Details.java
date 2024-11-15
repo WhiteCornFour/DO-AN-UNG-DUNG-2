@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import com.example.doanungdung2.Controller.GrammarHandler;
 import com.example.doanungdung2.Model.Grammar;
 import com.example.doanungdung2.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +32,6 @@ public class User_Grammar_Details extends AppCompatActivity {
         setContentView(R.layout.activity_user_grammar_details);
         addControl();
         grammarHandler = new GrammarHandler(this, DB_NAME, null, DB_VERSION);
-
         Intent intent = getIntent();
         String maNP = intent.getStringExtra("maNP");
         if (maNP == null || maNP.isEmpty())
