@@ -14,20 +14,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
+import com.example.doanungdung2.Model.Assigment;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class User_Quiz_List extends AppCompatActivity {
 
@@ -38,6 +44,7 @@ public class User_Quiz_List extends AppCompatActivity {
     RecyclerView recyclerViewQuizList;
     User_Quiz_List_Custom_Adapter_Recycler_View user_quiz_list_custom_adapter_recycler_view;
     ExerciseHandler exerciseHandler;
+    AssignmentHandler assignmentHandler;
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
 
     @Override
@@ -46,6 +53,7 @@ public class User_Quiz_List extends AppCompatActivity {
         setContentView(R.layout.activity_user_quiz_list);
         addControl();
         exerciseHandler = new ExerciseHandler(User_Quiz_List.this, DB_NAME, null, DB_VERSION);
+        assignmentHandler = new AssignmentHandler(User_Quiz_List.this, DB_NAME, null, DB_VERSION);
 
         setupRecyclerView();
         loadAllQuizList();
@@ -115,8 +123,16 @@ public class User_Quiz_List extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+                String maBaiLam = Admin_Add_Exercise.createAutoExerciseCode("BL");
+                String maBaiTap = exercise.getMaBaiTap();
+                String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+                String thoiGianBatDau = String.valueOf(LocalDateTime.now());
+                Assigment as = new Assigment(maBaiLam, thoiGianBatDau, null, null, 0, 0f, 0, maBaiTap, maNguoiDung);
+                assignmentHandler.insertAssignment(as);
+
                 Intent intent = new Intent(User_Quiz_List.this, User_Quiz_Test.class);
                 intent.putExtra("exercise", exercise);
+                intent.putExtra("maBaiLam", maBaiLam);
                 startActivity(intent);
                 finish();
                 Toast.makeText(User_Quiz_List.this, "Start quiz !!!", Toast.LENGTH_SHORT).show();
