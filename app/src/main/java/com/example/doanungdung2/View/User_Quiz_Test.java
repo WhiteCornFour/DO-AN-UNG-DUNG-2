@@ -230,50 +230,48 @@ public class User_Quiz_Test extends AppCompatActivity {
         }
     }
 
-        private void setUpRecyclerView() {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
-            rvCauHoiQuizTest.setLayoutManager(layoutManager);
-            rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
-            user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
-                @Override
-                public void onItemClick(Question question) {
-                    Log.d("Quesiton: ", question.getNoiDungCauHoi());
-                    maCauHoiSelected = question.getMaCauHoi();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
-                    String cauTraLoi = assignmentDetailHandler.getSelectedAnswerForQuestion(maCauHoiSelected, maBaiLam);
+    private void setUpRecyclerView() {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
+        rvCauHoiQuizTest.setLayoutManager(layoutManager);
+        rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
+        user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
+            @Override
+            public void onItemClick(Question question) {
+                Log.d("Quesiton: ", question.getNoiDungCauHoi());
+                maCauHoiSelected = question.getMaCauHoi();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
+                String cauTraLoi = assignmentDetailHandler.getSelectedAnswerForQuestion(maCauHoiSelected, maBaiLam);
 
-                    if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-                        sharedViewModel.select(question);
-                        if (cauTraLoi != null){
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
-                        }
-                        else {
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
-                        }
-                    } else if (fragment instanceof User_Quiz_Test_True_False_Fragment) {
-                        sharedViewModel.select(question);
-                        if (cauTraLoi != null){
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
-                        }
-                        else {
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
-                        }
-                    }else if (fragment instanceof User_Quiz_Test_Essay_Fragment) {
-                        sharedViewModel.select(question);
-                        if (cauTraLoi != null){
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
-                        }
-                        else {
-                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
-                        }
+                if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+                    sharedViewModel.select(question);
+                    if (cauTraLoi != null){
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                    }
+                    else {
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
+                    }
+                } else if (fragment instanceof User_Quiz_Test_True_False_Fragment) {
+                    sharedViewModel.select(question);
+                    if (cauTraLoi != null){
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                    }
+                    else {
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
+                    }
+                }else if (fragment instanceof User_Quiz_Test_Essay_Fragment) {
+                    sharedViewModel.select(question);
+                    if (cauTraLoi != null){
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                    }
+                    else {
+                        sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
                     }
                 }
             }
         });
         rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
     }
-  
     //Hàm chuyển đổi fragment
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
