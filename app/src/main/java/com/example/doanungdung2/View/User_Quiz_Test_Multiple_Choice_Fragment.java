@@ -75,13 +75,13 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
         addControl(view);
-
+        //lấy thông tin câu hỏi từ Activity về Fragment để set up Data cho câu hỏi
         sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
             if (question != null) {
                 updateQuestionDetails(question);
             }
         });
-
+        //lấy thông tin của đáp án được chọn từ những lần trước từ Activity để load lại câu trả lời trên Fragment
         sharedViewModel_afterClickAnswer.getSelectedAnswer().observe(getViewLifecycleOwner(), answer -> {
             if (answer != null && !answer.isEmpty()) {
                 resetRadioButtons();
@@ -108,6 +108,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     }
 
     void addEvent () {
+        //set up cho các radio button với các text view, cái nào được chọn thì đổi màu text sang brpwm
         rdbFrameLayoutA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,12 +159,14 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
 
     }
 
+    //Hàm gửi câu trả lời lên trên Activity để thực hiện các thao tác
     private void updateAnswerState(String selectedAnswer) {
         // Lưu câu trả lời đã chọn vào ViewModel
         shareViewModelAnswer.setAnswer(selectedAnswer);
         Toast.makeText(getActivity(), "Selected from fragment: " + selectedAnswer, Toast.LENGTH_SHORT).show();
     }
 
+    //Hàm set up Data cho câu hỏi cho Fragment sau khi nhận thông tin từ Activity
     private void updateQuestionDetails(Question question) {
         if (question != null) {
             tvFrameLayoutNoiDungCauHoiMC.setText(question.getNoiDungCauHoi());
@@ -174,7 +177,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
 
         }
     }
-
+    //Set up data cho radiobutton mỗi khi click và gửi đáp án được chọn dưới fragment lên activity
     private void handleRadioButtonClick(RadioButton selectedRadioButton) {
         resetRadioButtons();
         selectedRadioButton.setChecked(true);
@@ -182,6 +185,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
         Toast.makeText(getActivity(), "Selected from fragment: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 
+    //hàm trả radio button về trạng thái ban đầu, thường là khi mới bắt đầu quiz hoặc câu hỏi chưa được người dùng chọn đáp án
     private void resetRadioButtons() {
         rdbFrameLayoutA.setChecked(false);
         rdbFrameLayoutB.setChecked(false);
@@ -194,6 +198,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
         tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
     }
 
+    //thiết lập radio button với đáp án được gửi về từ SharedViewModel
     private void setAnswer(String answer) {
         switch (answer) {
             case "A":
