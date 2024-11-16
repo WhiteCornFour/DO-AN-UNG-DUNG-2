@@ -5,18 +5,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".View.User_Quiz_Test_True_False_Fragment">
+
     <TextView
-        android:id="@+id/tvNDCH_TrueFalse_Quiz_User"
+        android:id="@+id/tvFrameLayoutNoiDungCauHoiTF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10.5pt"
-        android:textColor="@color/black"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
         android:fontFamily="@font/alata"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="40dp"
-        android:text="Nội dung câu hỏi" />
+        android:textColor="@color/brown"
+        android:text="Quiz Question 1"/>
 
     <LinearLayout
         android:layout_width="match_parent"

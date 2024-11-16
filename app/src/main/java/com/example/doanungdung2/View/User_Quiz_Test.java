@@ -214,15 +214,12 @@ public class User_Quiz_Test extends AppCompatActivity {
         Log.d("DEBUG", "Ma dang bai tap: " + maDBT);
         if (maDBT.equals("DBT01")) {
             User_Quiz_Test_Multiple_Choice_Fragment f1 = new User_Quiz_Test_Multiple_Choice_Fragment();
-
             replaceFragment(f1);
-        } else if (maDBT.equals("DBT02")) {
+        } else if (maDBT.equals("DBT03")) {
             User_Quiz_Test_True_False_Fragment f2 = new User_Quiz_Test_True_False_Fragment();
-//            f2.setArguments(bundle);
             replaceFragment(f2);
         } else {
             User_Quiz_Test_Essay_Fragment f3 = new User_Quiz_Test_Essay_Fragment();
-//            f3.setArguments(bundle);
             replaceFragment(f3);
         }
     }
@@ -241,6 +238,14 @@ public class User_Quiz_Test extends AppCompatActivity {
                     String cauTraLoi = assignmentDetailHandler.getSelectedAnswerForQuestion(maCauHoiSelected, maBaiLam);
 
                     if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+                        sharedViewModel.select(question);
+                        if (cauTraLoi != null){
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                        }
+                        else {
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
+                        }
+                    } else if (fragment instanceof User_Quiz_Test_True_False_Fragment) {
                         sharedViewModel.select(question);
                         if (cauTraLoi != null){
                             sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);

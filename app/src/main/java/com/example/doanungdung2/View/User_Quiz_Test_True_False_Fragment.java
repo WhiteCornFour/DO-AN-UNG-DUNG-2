@@ -3,14 +3,21 @@ package com.example.doanungdung2.View;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
+import com.example.doanungdung2.Model.SharedViewModel_Answer;
 import com.example.doanungdung2.R;
 
 /**
@@ -19,9 +26,11 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Quiz_Test_True_False_Fragment extends Fragment {
-    TextView tvNDCH_TrueFalse_Quiz_User;
+    SharedViewModel_Answer shareViewModelAnswer;
+    SharedViewModel sharedViewModel;
+    SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
+    TextView tvFrameLayoutNoiDungCauHoiTF;
     CheckBox cbTrue_Essay_Quiz_User, cbFalse_Essay_Quiz_User;
-    String checkedItem = "";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,18 +65,32 @@ public class User_Quiz_Test_True_False_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        shareViewModelAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_Answer.class);
+        sharedViewModel_afterClickAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_AfterClickAnswer.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__true__false_, container, false);
         addControl(view);
+        //lấy thông tin câu hỏi từ Activity về Fragment để set up Data cho câu hỏi
+        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
+            if (question != null) {
+                updateQuestionDetails(question);
+            }
+        });
+        //lấy thông tin của đáp án được chọn từ những lần trước từ Activity để load lại câu trả lời trên Fragment
+        sharedViewModel_afterClickAnswer.getSelectedAnswer().observe(getViewLifecycleOwner(), answer -> {
+            if (answer != null && !answer.isEmpty()) {
+                resetCheckBoxs();
+                setAnswer(answer);
+            } else {
+                resetCheckBoxs();
+            }
+        });
 
         addEvent();
         return view;
@@ -75,36 +98,57 @@ public class User_Quiz_Test_True_False_Fragment extends Fragment {
 
     void addControl(View view)
     {
-        tvNDCH_TrueFalse_Quiz_User = view.findViewById(R.id.tvNDCH_TrueFalse_Quiz_User);
+        tvFrameLayoutNoiDungCauHoiTF = view.findViewById(R.id.tvFrameLayoutNoiDungCauHoiTF);
         cbTrue_Essay_Quiz_User = view.findViewById(R.id.cbTrue_Essay_Quiz_User);
         cbFalse_Essay_Quiz_User = view.findViewById(R.id.cbFalse_Essay_Quiz_User);
     }
+
     void addEvent() {
         cbTrue_Essay_Quiz_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cbTrue_Essay_Quiz_User.isChecked()) {
-                    cbFalse_Essay_Quiz_User.setChecked(false);
-                    cbFalse_Essay_Quiz_User.setEnabled(false);
-                    checkedItem = "True";
-                } else {
-                    cbFalse_Essay_Quiz_User.setEnabled(true);
-                    checkedItem = "";
-                }
+                handleCheckBoxClick(cbTrue_Essay_Quiz_User);
+                shareViewModelAnswer.setAnswer("True");
             }
         });
         cbFalse_Essay_Quiz_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cbFalse_Essay_Quiz_User.isChecked()) {
-                    cbTrue_Essay_Quiz_User.setChecked(false);
-                    cbTrue_Essay_Quiz_User.setEnabled(false);
-                    checkedItem = "False";
-                } else {
-                    cbTrue_Essay_Quiz_User.setEnabled(true);
-                    checkedItem = "";
-                }
+                handleCheckBoxClick(cbFalse_Essay_Quiz_User);
+                shareViewModelAnswer.setAnswer("False");
             }
         });
+    }
+    //Hàm set up Data cho các câu hỏi, với câu hỏi được truyền về từ Fragment
+    private void updateQuestionDetails(Question question) {
+        if (question != null) {
+            tvFrameLayoutNoiDungCauHoiTF.setText(question.getNoiDungCauHoi());
+        }
+    }
+    //Hàm set up CheckBox để nó hiển thị 1 trong 2 CheckBox true false mà thôi
+    //Đồng thời nhận đáp án và gửi lên Activity qua SharedViewModel
+    private void handleCheckBoxClick(CheckBox selectedCheckBox) {
+        resetCheckBoxs();
+        selectedCheckBox.setChecked(true);
+        shareViewModelAnswer.setAnswer(String.valueOf(selectedCheckBox.getText()));
+    }
+
+    private void resetCheckBoxs() {
+        cbTrue_Essay_Quiz_User.setChecked(false);
+        cbFalse_Essay_Quiz_User.setChecked(false);
+    }
+    //Hàm nhận đáp án từ SharedViewModel để set up CheckBox
+    private void setAnswer(String answer) {
+        if (answer.equals("True")) {
+            cbTrue_Essay_Quiz_User.setChecked(true);
+            cbFalse_Essay_Quiz_User.setChecked(false);
+            return;
+        } else if (answer.equals("False")) {
+            cbFalse_Essay_Quiz_User.setChecked(true);
+            cbTrue_Essay_Quiz_User.setChecked(false);
+        } else {
+            cbTrue_Essay_Quiz_User.setChecked(false);
+            cbFalse_Essay_Quiz_User.setChecked(false);
+        }
     }
 }
