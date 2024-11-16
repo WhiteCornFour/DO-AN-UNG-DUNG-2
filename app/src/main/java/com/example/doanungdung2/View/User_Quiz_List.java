@@ -46,6 +46,7 @@ public class User_Quiz_List extends AppCompatActivity {
     ExerciseHandler exerciseHandler;
     AssignmentHandler assignmentHandler;
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
+    public static String thoiGianBatDau = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,8 @@ public class User_Quiz_List extends AppCompatActivity {
         recyclerViewQuizList.setAdapter(user_quiz_list_custom_adapter_recycler_view);
     }
 
+    public static String getThoiGianBatDau() {return thoiGianBatDau;}
+
     void loadAllQuizList() {
         exerciseArrayList.clear();
         exerciseArrayList = exerciseHandler.loadAllDataOfExerciseByLevel(getMucDoFromFragment());
@@ -126,8 +129,13 @@ public class User_Quiz_List extends AppCompatActivity {
                 String maBaiLam = Admin_Add_Exercise.createAutoExerciseCode("BL");
                 String maBaiTap = exercise.getMaBaiTap();
                 String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
-                String thoiGianBatDau = String.valueOf(LocalDateTime.now());
-                Assigment as = new Assigment(maBaiLam, thoiGianBatDau, null, null, 0, 0f, 0, maBaiTap, maNguoiDung);
+                thoiGianBatDau = String.valueOf(LocalDateTime.now());
+                int lanLam = assignmentHandler.countTimeDoTest(maBaiTap, maNguoiDung);
+//                Log.d("MabaiTap", maBaiTap);
+//                Log.d("ma Nguoi Dung", maNguoiDung);
+//                Log.d("lan lam", String.valueOf(lanLam));
+                Assigment as = new Assigment(maBaiLam, thoiGianBatDau, null,
+                        null, 0, 0f, lanLam, maBaiTap, maNguoiDung);
                 assignmentHandler.insertAssignment(as);
 
                 Intent intent = new Intent(User_Quiz_List.this, User_Quiz_Test.class);

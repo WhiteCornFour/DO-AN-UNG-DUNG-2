@@ -16,6 +16,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doanungdung2.Controller.AssignmentDetailHandler;
+import com.example.doanungdung2.Model.AssigmentDetail;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
@@ -24,10 +26,14 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Quiz_Test_Custom_Adapter.MyViewHolder>{
+
+    private final static String DB_NAME = "AppHocTiengAnh";
+    private final static int DB_VERSION = 1;
     ArrayList<String> dataSource = new ArrayList<>();
     ArrayList<Question> arrayListQuestion = new ArrayList<>();
     ItemClickListener itemClickListener;
-
+    AssignmentDetailHandler assignmentDetailHandler;
+    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
     private int selectedPosition = 0;
 
     public User_Quiz_Test_Custom_Adapter(ArrayList<String> dataSource, ArrayList<Question> arrayListQuestion, ItemClickListener itemClickListener) {
@@ -45,10 +51,12 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        //chon san cau so 1 moi khi hien vao 1 bai test
         if(selectedPosition == 0) {
             Question question1 = arrayListQuestion.get(0);
             itemClickListener.onItemClick(question1);
         }
+
         Question question = arrayListQuestion.get(position);
 
         holder.tvRecyclerViewButtonNumberSoCau.setText(dataSource.get(position));

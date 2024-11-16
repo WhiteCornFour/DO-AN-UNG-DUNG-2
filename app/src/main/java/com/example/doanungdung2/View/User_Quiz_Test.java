@@ -1,5 +1,6 @@
 package com.example.doanungdung2.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,20 +19,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.AssignmentDetailHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.AssigmentDetail;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.ShareViewModel_Answer;
+import com.example.doanungdung2.Model.SharedViewModel_Answer;
 import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.R;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -38,7 +44,8 @@ public class User_Quiz_Test extends AppCompatActivity {
     private static  final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     SharedViewModel sharedViewModel;
-    ShareViewModel_Answer shareViewModelAnswer;
+    SharedViewModel_Answer shareViewModelAnswer;
+    SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
     ImageView imgBackToQuizFragment;
     TextView tvTenBaiTapQuizTest, tvThoiGianLamBai;
     RecyclerView rvCauHoiQuizTest;
@@ -47,12 +54,15 @@ public class User_Quiz_Test extends AppCompatActivity {
     ArrayList<Question> questionArrayList = new ArrayList<>();
     User_Quiz_Test_Custom_Adapter user_quiz_test_custom_adapter;
     ArrayList<String> dataSource = new ArrayList<>();
+    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
     QuestionHandler questionHandler;
     Exercise exercise = new Exercise();
     CountDownTimer countDownTimer;
+    AssignmentHandler assignmentHandler;
     AssignmentDetailHandler assignmentDetailHandler;
     String maCauHoiSelected = "";
     String maBaiLam = "";
+    int tongSoCau = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +70,12 @@ public class User_Quiz_Test extends AppCompatActivity {
         //-------------------------------//
         addControl();
         questionHandler = new QuestionHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
+        assignmentHandler = new AssignmentHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         assignmentDetailHandler = new AssignmentDetailHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        shareViewModelAnswer = new ViewModelProvider(this).get(ShareViewModel_Answer.class);
+        shareViewModelAnswer = new ViewModelProvider(this).get(SharedViewModel_Answer.class);
+        sharedViewModel_afterClickAnswer = new ViewModelProvider(this).get(SharedViewModel_AfterClickAnswer.class);
 
         if (shareViewModelAnswer.getAnswer() != null)
         {
@@ -73,9 +85,6 @@ public class User_Quiz_Test extends AppCompatActivity {
         exercise = getIntentExercise();
         setUpDataForTest(exercise);
 
-        setUpRecyclerView();
-        loadAllQuizTestList();
-
         //Bat dau thoi gian lam bai 1s = 1000
         startTime(Integer.parseInt(exercise.getThoiGian().trim()) * 1000 * 60);
         //Log.d("ThoiGian lam bai", String.valueOf(Integer.parseInt(exercise.getThoiGian().trim()) * 60));
@@ -84,9 +93,11 @@ public class User_Quiz_Test extends AppCompatActivity {
         maBaiLam = intent.getStringExtra("maBaiLam");
 
         Log.d("Ma Bai Lam", maBaiLam);
+        setUpRecyclerView();
+        loadAllQuizTestList();
         int i = 0;
         for (Question q: questionArrayList
-             ) {
+        ) {
             String maChiTietBaiLam = Admin_Add_Exercise.createAutoExerciseCode("CTBL");
             String maCauHoi = q.getMaCauHoi();
             AssigmentDetail assigmentDetail = new AssigmentDetail(maChiTietBaiLam, null, "Sai", maCauHoi, maBaiLam);
@@ -137,14 +148,20 @@ public class User_Quiz_Test extends AppCompatActivity {
                 ketQuaCauTraLoi = "Sai";
             }
             assignmentDetailHandler.upDateAssignmentDetail(maCauHoiSelected, maBaiLam, dapan, ketQuaCauTraLoi);
-
         }
     }
     void addEvent() {
         imgBackToQuizFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                createAlertDialogSubmitTest().show();
+            }
+        });
+
+        btnSubmitQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlertDialogSubmitTest().show();
             }
         });
     }
@@ -168,6 +185,7 @@ public class User_Quiz_Test extends AppCompatActivity {
                 Toast.makeText(User_Quiz_Test.this, "Time's up!", Toast.LENGTH_SHORT).show();
                 MediaPlayer mediaPlayer = MediaPlayer.create(User_Quiz_Test.this, R.raw.success);
                 mediaPlayer.start();
+                updateTestPoint();
                 finish();
             }
         }.start();
@@ -182,47 +200,59 @@ public class User_Quiz_Test extends AppCompatActivity {
     void loadAllQuizTestList() {
         questionArrayList.clear();
         questionArrayList = questionHandler.loadAllDataOfMatchQuestionByExerciseCode(exercise.getMaBaiTap(), exercise.getMucDo());
+        assigmentDetailArrayList = assignmentDetailHandler.loadAssignmentDetail();
         dataSource = convertObjectToString(questionArrayList);
-        user_quiz_test_custom_adapter.setQuizTestList(questionArrayList, dataSource);
+        user_quiz_test_custom_adapter.setQuizTestList(questionArrayList,dataSource);
     }
 
     private void setUpDataForTest(Exercise exercise) {
         tvTenBaiTapQuizTest.setText(exercise.getTenBaiTap());
         tvThoiGianLamBai.setText(exercise.getThoiGian());
-
+        tongSoCau = exercise.getSoCau();
         String maDBT = exercise.getMaDangBaiTap();
+
         Log.d("DEBUG", "Ma dang bai tap: " + maDBT);
         if (maDBT.equals("DBT01")) {
             User_Quiz_Test_Multiple_Choice_Fragment f1 = new User_Quiz_Test_Multiple_Choice_Fragment();
+
             replaceFragment(f1);
         } else if (maDBT.equals("DBT02")) {
             User_Quiz_Test_True_False_Fragment f2 = new User_Quiz_Test_True_False_Fragment();
+//            f2.setArguments(bundle);
             replaceFragment(f2);
         } else {
             User_Quiz_Test_Essay_Fragment f3 = new User_Quiz_Test_Essay_Fragment();
+//            f3.setArguments(bundle);
             replaceFragment(f3);
         }
     }
 
-    private void setUpRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
-        rvCauHoiQuizTest.setLayoutManager(layoutManager);
-        rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
-        user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
-            @Override
-            public void onItemClick(Question question) {
-                Log.d("Quesiton: ", question.getNoiDungCauHoi());
-                maCauHoiSelected = question.getMaCauHoi();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
+        private void setUpRecyclerView() {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_Test.this, RecyclerView.HORIZONTAL, false);
+            rvCauHoiQuizTest.setLayoutManager(layoutManager);
+            rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
+            user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
+                @Override
+                public void onItemClick(Question question) {
+                    Log.d("Quesiton: ", question.getNoiDungCauHoi());
+                    maCauHoiSelected = question.getMaCauHoi();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    Fragment fragment = fragmentManager.findFragmentById(R.id.frameLayoutQuizTest);
+                    String cauTraLoi = assignmentDetailHandler.getSelectedAnswerForQuestion(maCauHoiSelected, maBaiLam);
 
-                if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-                    sharedViewModel.select(question);
+                    if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
+                        sharedViewModel.select(question);
+                        if (cauTraLoi != null){
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                        }
+                        else {
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
+                        }
+                    }
                 }
-            }
-        });
-        rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
-    }
+            });
+            rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
+        }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -230,4 +260,63 @@ public class User_Quiz_Test extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frameLayoutQuizTest, fragment);
         fragmentTransaction.commit();
     }
+
+    public static String tinhTongThoiGian(String thoiGianBatDau, String thoiGianKetThuc) {
+        // Định dạng DateTime ISO-8601
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime startTime = LocalDateTime.parse(thoiGianBatDau, formatter);
+        LocalDateTime endTime = LocalDateTime.parse(thoiGianKetThuc, formatter);
+
+        // Tính tổng thời gian làm bài
+        Duration duration = Duration.between(startTime, endTime);
+        long totalSeconds = duration.getSeconds(); // Thay thế toSeconds()
+
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+
+        // Trả về chuỗi định dạng hh:mm:ss
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    private AlertDialog createAlertDialogSubmitTest() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(User_Quiz_Test.this);
+        builder.setTitle("Submit Assigment");
+        builder.setMessage("Nộp bài tập ");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                updateTestPoint();
+                dialogInterface.dismiss();
+                finish();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder.create();
+    }
+
+    public void updateTestPoint() {
+        String thoiGianKetThuc = String.valueOf(LocalDateTime.now());
+        String thoiGianBatDau = User_Quiz_List.getThoiGianBatDau();
+        String tongThoiGianLamBai = tinhTongThoiGian(thoiGianBatDau, thoiGianKetThuc);
+        int soLuongCauDung = assignmentDetailHandler.countRightAnswer(maBaiLam);
+        float diem = (soLuongCauDung * 10f) / tongSoCau;
+        String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+//        Log.d("thoiGianKetThuc: ", thoiGianKetThuc);
+//        Log.d("thoiGianBatDau", thoiGianBatDau);
+//        Log.d("tongThoiGianLamBai", tongThoiGianLamBai);
+//        Log.d("soLuongCauDung", String.valueOf(soLuongCauDung));
+//        Log.d("diem", String.valueOf(diem));
+//        Log.d("maNguoiDung", maNguoiDung);
+//        Log.d("maBaiTap", exercise.getMaBaiTap());
+//        Log.d("manguoiDung ", maBaiLam);
+        assignmentHandler.updateAssignmentPoint(thoiGianKetThuc, tongThoiGianLamBai, soLuongCauDung, diem,
+                maBaiLam, exercise.getMaBaiTap(), maNguoiDung);
+    }
+
 }

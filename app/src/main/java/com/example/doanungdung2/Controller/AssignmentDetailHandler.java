@@ -1,16 +1,21 @@
 package com.example.doanungdung2.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.doanungdung2.Model.Assigment;
 import com.example.doanungdung2.Model.AssigmentDetail;
 import com.example.doanungdung2.Model.Grammar;
 import com.example.doanungdung2.Model.Question;
+
+import java.util.ArrayList;
 
 public class AssignmentDetailHandler extends SQLiteOpenHelper {
 
@@ -39,6 +44,31 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+    @SuppressLint("Range")
+    public ArrayList<AssigmentDetail> loadAssignmentDetail() {
+        ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiLam + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst()) {
+                do {
+                    AssigmentDetail assigmentDetail = new AssigmentDetail();
+                    assigmentDetail.setMaChiTietBaiLam(cursor.getString(cursor.getColumnIndex(maChiTietBaiLam)));
+                    assigmentDetail.setCauTraLoi(cursor.getString(cursor.getColumnIndex(cauTraLoi)));
+                    assigmentDetail.setKetQuaCauTraLoi(cursor.getString(cursor.getColumnIndex(ketQuaCauTraLoi)));
+                    assigmentDetail.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    assigmentDetail.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                    assigmentDetailArrayList.add(assigmentDetail);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assigmentDetailArrayList;
+    }
+
     public void insertAssignmentDetail(AssigmentDetail assigmentDetail)
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
@@ -68,4 +98,41 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         });
         sqLiteDatabase.close();
     }
+
+    @SuppressLint("Range")
+    public String getSelectedAnswerForQuestion(String maCauHoiInput, String maBaiLamInput) {
+        String answer = null;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT " + cauTraLoi + " FROM " + TABLE_NAME + " WHERE " + maCauHoi + " = ? AND " + maBaiLam + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maCauHoiInput, maBaiLamInput});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                answer = cursor.getString(cursor.getColumnIndex(cauTraLoi));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return answer;
+    }
+
+    public int countRightAnswer(String maBaiLamInput) {
+        int count = 0;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE ketQuaCauTraLoi = 'Đúng' AND maBaiLam = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiLamInput});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    count++;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return count;
+    }
+
+
+
 }
