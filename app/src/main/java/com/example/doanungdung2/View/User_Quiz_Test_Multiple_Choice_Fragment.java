@@ -5,23 +5,18 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doanungdung2.Controller.QuestionHandler;
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.ShareViewModel_Answer;
+import com.example.doanungdung2.Model.SharedViewModel_Answer;
 import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.R;
-
-import java.util.ArrayList;
 
 
 /**
@@ -30,10 +25,11 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
-    ShareViewModel_Answer shareViewModelAnswer;
+    SharedViewModel_Answer shareViewModelAnswer;
+    private SharedViewModel sharedViewModel;
+    SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
     TextView tvFrameLayoutNoiDungCauHoiMC, tvFrameLayoutNDCauAQuizTest, tvFrameLayoutNDCauBQuizTest,tvFrameLayoutNDCauCQuizTest, tvFrameLayoutNDCauDQuizTest;
     RadioButton rdbFrameLayoutA,rdbFrameLayoutB, rdbFrameLayoutC, rdbFrameLayoutD;
-    private SharedViewModel sharedViewModel;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,7 +66,8 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        shareViewModelAnswer = new ViewModelProvider(requireActivity()).get(ShareViewModel_Answer.class);
+        shareViewModelAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_Answer.class);
+        sharedViewModel_afterClickAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_AfterClickAnswer.class);
     }
 
     @Override
@@ -78,9 +75,19 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
         addControl(view);
+
         sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
             if (question != null) {
                 updateQuestionDetails(question);
+            }
+        });
+
+        sharedViewModel_afterClickAnswer.getSelectedAnswer().observe(getViewLifecycleOwner(), answer -> {
+            if (answer != null && !answer.isEmpty()) {
+                resetRadioButtons();
+                setAnswer(answer);
+            } else {
+                resetRadioButtons();
             }
         });
 
@@ -105,6 +112,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 handleRadioButtonClick(rdbFrameLayoutA);
+                updateAnswerState("A");
                 tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.brown));
                 tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
@@ -116,6 +124,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 handleRadioButtonClick(rdbFrameLayoutB);
+                updateAnswerState("B");
                 tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.brown));
                 tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
@@ -127,6 +136,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 handleRadioButtonClick(rdbFrameLayoutC);
+                updateAnswerState("C");
                 tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.brown));
@@ -138,6 +148,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 handleRadioButtonClick(rdbFrameLayoutD);
+                updateAnswerState("D");
                 tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
                 tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
@@ -147,6 +158,12 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
 
     }
 
+    private void updateAnswerState(String selectedAnswer) {
+        // Lưu câu trả lời đã chọn vào ViewModel
+        shareViewModelAnswer.setAnswer(selectedAnswer);
+        Toast.makeText(getActivity(), "Selected from fragment: " + selectedAnswer, Toast.LENGTH_SHORT).show();
+    }
+
     private void updateQuestionDetails(Question question) {
         if (question != null) {
             tvFrameLayoutNoiDungCauHoiMC.setText(question.getNoiDungCauHoi());
@@ -154,20 +171,56 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
             tvFrameLayoutNDCauBQuizTest.setText(question.getCauB());
             tvFrameLayoutNDCauCQuizTest.setText(question.getCauC());
             tvFrameLayoutNDCauDQuizTest.setText(question.getCauD());
+
         }
     }
 
-    void handleRadioButtonClick(RadioButton selectedRadioButton) {
+    private void handleRadioButtonClick(RadioButton selectedRadioButton) {
+        resetRadioButtons();
+        selectedRadioButton.setChecked(true);
+        shareViewModelAnswer.setAnswer(String.valueOf(selectedRadioButton.getText()));
+        Toast.makeText(getActivity(), "Selected from fragment: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void resetRadioButtons() {
         rdbFrameLayoutA.setChecked(false);
         rdbFrameLayoutB.setChecked(false);
         rdbFrameLayoutC.setChecked(false);
         rdbFrameLayoutD.setChecked(false);
-        //chon dap an moi
-        selectedRadioButton.setChecked(true);
-        if (selectedRadioButton.getText() != null)
-        {
-            shareViewModelAnswer.setAnswer(String.valueOf(selectedRadioButton.getText()));
-        }
-        Toast.makeText(getActivity(), "Selected from fragment: " + selectedRadioButton.getText(), Toast.LENGTH_SHORT).show();
+
+        tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
+        tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
+        tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
+        tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
     }
+
+    private void setAnswer(String answer) {
+        switch (answer) {
+            case "A":
+                rdbFrameLayoutA.setChecked(true);
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                break;
+            case "B":
+                rdbFrameLayoutB.setChecked(true);
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                break;
+            case "C":
+                rdbFrameLayoutC.setChecked(true);
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                break;
+            case "D":
+                rdbFrameLayoutD.setChecked(true);
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.brown));
+                break;
+            default:
+                resetRadioButtons();
+                tvFrameLayoutNDCauAQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauBQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauCQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                tvFrameLayoutNDCauDQuizTest.setTextColor(getResources().getColor(R.color.mist));
+                break;
+        }
+    }
+
+
 }
