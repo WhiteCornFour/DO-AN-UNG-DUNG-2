@@ -69,19 +69,20 @@ public class User_Quiz_Test extends AppCompatActivity {
         setContentView(R.layout.activity_user_quiz_test);
         //-------------------------------//
         addControl();
+        //Khởi tạo các Handler
         questionHandler = new QuestionHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         assignmentHandler = new AssignmentHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         assignmentDetailHandler = new AssignmentDetailHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
-
+        //Khởi tạo shareViewModel
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         shareViewModelAnswer = new ViewModelProvider(this).get(SharedViewModel_Answer.class);
         sharedViewModel_afterClickAnswer = new ViewModelProvider(this).get(SharedViewModel_AfterClickAnswer.class);
-
+        //Lấy câu trả lời từ fragment thông qua ShareViewModel để truyền về activity
         if (shareViewModelAnswer.getAnswer() != null)
         {
             shareViewModelAnswer.getAnswer().observe(User_Quiz_Test.this, this::getAnswerFromQuizTest);
         }
-
+        //Nhận intent từ quiz list activity
         exercise = getIntentExercise();
         setUpDataForTest(exercise);
 
@@ -89,12 +90,14 @@ public class User_Quiz_Test extends AppCompatActivity {
         startTime(Integer.parseInt(exercise.getThoiGian().trim()) * 1000 * 60);
         //Log.d("ThoiGian lam bai", String.valueOf(Integer.parseInt(exercise.getThoiGian().trim()) * 60));
         //Log.d("Leght of questionArrayList", String.valueOf(questionArrayList.size()));
+        //Nhận intent từ quiz list activity
         Intent intent = getIntent();
         maBaiLam = intent.getStringExtra("maBaiLam");
+        //Log.d("Ma Bai Lam", maBaiLam);
 
-        Log.d("Ma Bai Lam", maBaiLam);
         setUpRecyclerView();
         loadAllQuizTestList();
+        //Lấy danh sách question có trong exercise để tạo AssignmentDetails tương ứng
         int i = 0;
         for (Question q: questionArrayList
         ) {
@@ -104,9 +107,10 @@ public class User_Quiz_Test extends AppCompatActivity {
             assignmentDetailHandler.insertAssignmentDetail(assigmentDetail);
             Log.d("Thanh cong ", String.valueOf(i++));
         }
+        //Sự kiện
         addEvent();
     }
-
+    //Hàm truyeenf vào 1 list question sau đó chuyển sang 1 list string số thứ tự từ 1 đến độ dài list questions
     ArrayList<String> convertObjectToString (ArrayList<Question> questions) {
         ArrayList<String> data = new ArrayList<>();
         int number = 0;
@@ -133,6 +137,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         btnSubmitQuiz = findViewById(R.id.btnSubmitQuiz);
         frameLayoutQuizTest = findViewById(R.id.frameLayoutQuizTest);
     }
+    //Hàm nhận đáp án từ các fragment gửi qua ShareViewModel_Answer
     void getAnswerFromQuizTest(String dapan)
     {
         String ketQuaCauTraLoi = "Sai";
@@ -151,13 +156,14 @@ public class User_Quiz_Test extends AppCompatActivity {
         }
     }
     void addEvent() {
+        //Xử lý khi ng dùng thoát đột ngột
         imgBackToQuizFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createAlertDialogSubmitTest().show();
             }
         });
-
+        //Xử lý khi ng dùng nộp bài
         btnSubmitQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,7 +196,7 @@ public class User_Quiz_Test extends AppCompatActivity {
             }
         }.start();
     }
-  
+    //Hàm nhận Intent để setup data
     private Exercise getIntentExercise() {
         Intent intent = getIntent();
         Exercise exercise = (Exercise) intent.getSerializableExtra("exercise");
@@ -204,7 +210,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         dataSource = convertObjectToString(questionArrayList);
         user_quiz_test_custom_adapter.setQuizTestList(questionArrayList,dataSource);
     }
-
+    //Mở fragment quiz test tương ứng
     private void setUpDataForTest(Exercise exercise) {
         tvTenBaiTapQuizTest.setText(exercise.getTenBaiTap());
         tvThoiGianLamBai.setText(exercise.getThoiGian());
@@ -253,12 +259,22 @@ public class User_Quiz_Test extends AppCompatActivity {
                         else {
                             sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
                         }
+                    }else if (fragment instanceof User_Quiz_Test_Essay_Fragment) {
+                        sharedViewModel.select(question);
+                        if (cauTraLoi != null){
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
+                        }
+                        else {
+                            sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
+                        }
                     }
                 }
-            });
-            rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
-        }
-
+            }
+        });
+        rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
+    }
+  
+    //Hàm chuyển đổi fragment
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -304,7 +320,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         });
         return builder.create();
     }
-
+    //Cập nhật bài tập sau khi người dùng nộp bài hoặc thoát
     public void updateTestPoint() {
         String thoiGianKetThuc = String.valueOf(LocalDateTime.now());
         String thoiGianBatDau = User_Quiz_List.getThoiGianBatDau();
