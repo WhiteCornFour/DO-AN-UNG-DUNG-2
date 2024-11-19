@@ -163,4 +163,36 @@ public class GrammarHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(query, new String[]{maNguPhap});
         sqLiteDatabase.close();
     }
+    @SuppressLint("Range")
+    public ArrayList<Grammar> searchGrammarByGramCateCode(String maDangNguPhapInput) {
+        ArrayList<Grammar> grammarArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = null;
+        Cursor cursor = null;
+        sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String sql = "SELECT * FROM " + TABLE_NAME +
+                " WHERE MaDangNguPhap = ?";
+
+        // Sử dụng "%" + keyWord + "%" để tìm kiếm chuỗi có chứa từ khóa
+        String[] selectionArgs = new String[]{maDangNguPhapInput};
+        cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst()) {
+                do {
+                    Grammar grammar = new Grammar();
+                    grammar.setMaNguPhap(cursor.getString(cursor.getColumnIndex(maNguPhap)));
+                    grammar.setTenNguPhap(cursor.getString(cursor.getColumnIndex(tenNguPhap)));
+                    grammar.setNoiDung(cursor.getString(cursor.getColumnIndex(noiDung)));
+                    grammar.setCongThuc(cursor.getString(cursor.getColumnIndex(congThuc)));
+                    grammar.setViDu(cursor.getString(cursor.getColumnIndex(viDu)));
+                    grammar.setMaDangNguPhap(cursor.getString(cursor.getColumnIndex(maDangNguPhap)));
+
+                    grammarArrayList.add(grammar);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return grammarArrayList;
+    }
 }
