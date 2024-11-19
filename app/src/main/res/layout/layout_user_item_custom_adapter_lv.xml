@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvTNP"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:textSize="9pt"
+        android:layout_height="60dp"
+        android:textSize="8.5pt"
         android:textColor="@color/black"
-        android:textStyle="bold"
         android:fontFamily="@font/alata"
         android:background="@drawable/boder_item_lv_grammar"
         android:backgroundTint="@color/lime"
         android:layout_marginLeft="30dp"
-        android:paddingStart="30dp"
+        android:paddingStart="20dp"
+        android:paddingTop="5dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
         android:layout_marginTop="3dp"

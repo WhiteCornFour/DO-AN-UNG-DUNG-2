@@ -16,34 +16,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/curved_background_nguoc"
+            android:layout_height="136dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"> <!-- Căn giữa theo trục dọc -->
+            android:background="@drawable/curved_background_nguoc"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"> <!-- Căn giữa theo trục dọc -->
 
             <ImageView
                 android:id="@+id/backToGrammarMainPage_User"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:scaleX="-1"
+                android:layout_marginBottom="30dp"
                 android:layout_weight="0.5"
-                android:layout_marginBottom="20dp"
+                android:scaleX="-1"
                 app:srcCompat="@drawable/arrow" />
 
             <TextView
                 android:id="@+id/tvTenNP_User"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/brown"
-                android:textSize="12pt"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="30dp"
                 android:layout_weight="1.5"
-                android:textStyle="italic"
                 android:fontFamily="@font/alata"
-                android:layout_marginStart="30dp"
-                android:layout_marginBottom="20dp"
-                android:text="Hiện Tại Đơn" />
+                android:text="Hiện Tại Đơn"
+                android:textColor="@color/brown"
+                android:textSize="11pt"
+                android:textStyle="italic" />
         </LinearLayout>
         <TextView
             android:id="@+id/textView49"
@@ -90,6 +91,7 @@
                     android:textColor="@color/red"
                     android:layout_gravity="center"
                     android:textStyle="bold"
+                    android:inputType="textMultiLine"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -117,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:textSize="9pt"
+                    android:inputType="textMultiLine"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
                     android:text="TextView" />
@@ -146,6 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:textSize="9pt"
+                    android:inputType="textMultiLine"
                     android:textColor="@color/black"
                     android:layout_marginLeft="15dp"
                     android:text="TextView" />
