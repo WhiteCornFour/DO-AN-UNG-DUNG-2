@@ -4,7 +4,7 @@ public class GrammarCategory {
     private String maDangNguPhap;
     private String tenDangNguPhap;
     private String moTa;
-
+    boolean selected;
     public GrammarCategory() {
     }
 
@@ -12,6 +12,14 @@ public class GrammarCategory {
         this.maDangNguPhap = maDangNguPhap;
         this.tenDangNguPhap = tenDangNguPhap;
         this.moTa = moTa;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public String getMaDangNguPhap() {

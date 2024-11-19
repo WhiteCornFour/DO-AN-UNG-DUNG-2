@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.GrammarHandler;
@@ -29,149 +30,129 @@ import com.example.doanungdung2.Model.GrammarCategory;
 
 import java.util.ArrayList;
 
-public class Expandable_Grammar extends RecyclerView.Adapter<Expandable_Grammar.MyViewHolder> {
+public class Expandable_Grammar extends ArrayAdapter{
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
+    GrammarHandler grammarHandler;
+    Context context;
+    int layoutItem;
+    User_Item_CustomAdapter_LV adapter_lv;
     ArrayList<GrammarCategory> grammarCategoryArrayList = new ArrayList<>();
     ArrayList<Grammar> grammarArrayList = new ArrayList<>();
-    GrammarHandler grammarHandler;
-    User_Item_CustomAdapter_LV adapter;
-    private ItemClickListener itemCLickListener;
-    private String maNP = "";
-    private int expandedPosition = -1;
-
-    public Expandable_Grammar(ArrayList<GrammarCategory> grammarCategoryArrayList, ItemClickListener itemCLickListener) {
+    String maNP = "";
+    ItemClickListener itemClickListener;
+    public Expandable_Grammar(@NonNull Context context, int layoutItem, @NonNull ArrayList<GrammarCategory> grammarCategoryArrayList, ItemClickListener itemClickListener) {
+        super(context, layoutItem, grammarCategoryArrayList);
+        this.context = context;
+        this.layoutItem = layoutItem;
         this.grammarCategoryArrayList = grammarCategoryArrayList;
-        this.itemCLickListener = itemCLickListener;
+        this.itemClickListener = itemClickListener;
     }
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_expandble_grammar, parent, false);
-        return new MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         GrammarCategory grammarCategory = grammarCategoryArrayList.get(position);
-        holder.tvTDBT.setText(grammarCategory.getTenDangNguPhap());
-        // Kiểm tra nếu item hiện tại là item được mở
-        if (position == expandedPosition)
-        {
-            holder.display.setVisibility(View.VISIBLE);
-        }else
-        {
-            holder.display.setVisibility(View.GONE);
+        grammarHandler = new GrammarHandler(context, DB_NAME, null, DB_VERSION);
+        if (convertView == null)
+            convertView = LayoutInflater.from(context).inflate(layoutItem, parent, false);
+        TextView tvTDBT;
+        tvTDBT = convertView.findViewById(R.id.tvTDBT);
+        tvTDBT.setText(grammarCategory.getTenDangNguPhap());
+        ListView lvNP;
+        lvNP = convertView.findViewById(R.id.lvNP);
+        lvNP.setDivider(null);
+        lvNP.setDividerHeight(0);
+        grammarArrayList = grammarHandler.searchByCodeOrNameGrammar(grammarCategory.getMaDangNguPhap());
+        adapter_lv = new User_Item_CustomAdapter_LV(getContext(), R.layout.layout_user_item_custom_adapter_lv,
+                grammarArrayList);
+        lvNP.setAdapter(adapter_lv);
+        //setListViewHeightToWrapContent(lvNP);
+        LinearLayout display;
+        display = convertView.findViewById(R.id.display);
+        if (grammarCategory.isSelected()) {
+            display.setVisibility(View.VISIBLE);
+        } else {
+            display.setVisibility(View.GONE);
         }
-        holder.itemClicked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //lấy item đang được chọn
-                itemCLickListener.onItemClick(grammarCategory, maNP);
-                //gọi handler cho grammar
-                grammarHandler = new GrammarHandler(view.getContext(),
-                        DB_NAME, null, DB_VERSION);
-                //load grammar có mã dạng ngữ pháp trùng với grammarCate đang được chọn
-                grammarArrayList = grammarHandler.searchByCodeOrNameGrammar(grammarCategory.getMaDangNguPhap());
-                //set up listview
-                if (holder.display.getVisibility() == View.GONE)
-                {
-                    //list đang ẩn thì hiện ra và load data cho list view
-                    TransitionManager.beginDelayedTransition(holder.layoutMother, new AutoTransition());
-                    holder.display.setVisibility(View.VISIBLE);
-                    grammarArrayList = grammarHandler.searchByCodeOrNameGrammar(grammarCategory.getMaDangNguPhap());
-                    //custom cho list view
-                    adapter = new User_Item_CustomAdapter_LV(view.getContext(), R.layout.layout_user_item_custom_adapter_lv,
-                            grammarArrayList);
-                    holder.lvNP.setAdapter(adapter);
-                    setListViewHeightBasedOnChildren(holder.lvNP);
-                    expandedPosition = position;
-                }else {
-                    expandedPosition = -1;
-                    //Người dùng ấn lại 1 lần nữa vào item thì sẽ ẩn list view
-                    TransitionManager.beginDelayedTransition(holder.layoutMother, new AutoTransition());
-                    holder.display.setVisibility(View.GONE);
-                }
-                notifyDataSetChanged(); // Cập nhật toàn bộ view để áp dụng thay đổi
+        // Xử lý sự kiện bấm vào item
+        convertView.setOnClickListener(v -> {
+            toggleSelection(position);
+
+            // Chỉ cập nhật chiều cao nếu item được mở
+            if (grammarCategory.isSelected()) {
+                setListViewHeightToWrapContent(lvNP);
             }
         });
-        //lấy grammar code đang chọn để truyền về main page qua interface itemCLickListener.onItemClick(grammarCategory, maNP);
-        holder.lvNP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvNP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Grammar grammar = grammarArrayList.get(i);
                 maNP = grammar.getMaNguPhap();
-                itemCLickListener.onItemClick(grammarCategory, maNP);  // Gọi khi maNP đã được cập nhật
                 //Log.d("maNP", maNP);
+                itemClickListener.itemClicked(maNP);
             }
         });
-    }
-    @Override
-    public int getItemCount() {
-        return grammarCategoryArrayList.size();
-    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
-    {
-        LinearLayout layoutMother, display;
-        TextView tvTDBT;
-        ListView lvNP;
-        RelativeLayout itemClicked;
-        public MyViewHolder (@NonNull View itemView)
-        {
-            super(itemView);
-            tvTDBT = itemView.findViewById(R.id.tvTDBT);
-            lvNP = itemView.findViewById(R.id.lvNP);
-            lvNP.setDivider(null);
-            lvNP.setDividerHeight(0);
-            layoutMother = itemView.findViewById(R.id.layoutMother);
-            display = itemView.findViewById(R.id.display);
-            itemClicked = itemView.findViewById(R.id.itemClicked);
+        notifyDataSetChanged();
+        return convertView;
+    }
+    public void toggleSelection(int position) {
+        GrammarCategory selectedGrammar = grammarCategoryArrayList.get(position);
+        boolean isSelected = selectedGrammar.isSelected();
+        selectedGrammar.setSelected(!isSelected);
+
+        // Bỏ chọn tất cả các item khác
+        for (int i = 0; i < grammarCategoryArrayList.size(); i++) {
+            if (i != position) {
+                grammarCategoryArrayList.get(i).setSelected(false);
+            }
         }
+        // Cập nhật giao diện
+        notifyDataSetChanged();
     }
-    @SuppressLint("NotifyDataSetChanged")
-    public void setGrammarCategoryAL(ArrayList<GrammarCategory> newList) {
-        this.grammarCategoryArrayList = newList;
-        notifyDataSetChanged(); // Notify adapter of data change
+    public interface ItemClickListener
+    {
+        void itemClicked(String maNP);
     }
-    public interface ItemClickListener {
-        void onItemClick(GrammarCategory grammarCategory, String maNP);
-    }
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        // Lấy adapter hiện tại của ListView (dữ liệu sẽ được hiển thị qua adapter)
+    public void setListViewHeightToWrapContent(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
 
-        // Nếu ListView chưa có dữ liệu (adapter là null), thoát phương thức
-        if (listAdapter == null) {
+        if (listAdapter == null || listAdapter.getCount() == 0) {
             return;
         }
 
-        // Khởi tạo biến để tính tổng chiều cao của tất cả các item trong ListView
         int totalHeight = 0;
+        View listItem = null;
 
-        // Lặp qua từng item trong adapter để tính chiều cao của nó
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            // Lấy item view tại vị trí 'i' trong adapter
-            View listItem = listAdapter.getView(i, null, listView);
-
-            // Đo kích thước của item (width và height)
-            listItem.measure(0, 0);
-
-            // Cộng chiều cao của item vào totalHeight
-            totalHeight += listItem.getMeasuredHeight();
+        // Tạm thời hiển thị ListView nếu nó đang ẩn
+        boolean wasGone = (listView.getVisibility() == View.GONE);
+        if (wasGone) {
+            listView.setVisibility(View.VISIBLE);
         }
 
-        // Lấy layout params hiện tại của ListView
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            listItem = listAdapter.getView(i, listItem, listView);
+
+            if (listItem != null) {
+                listItem.measure(
+                        View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY),
+                        View.MeasureSpec.UNSPECIFIED
+                );
+                totalHeight += listItem.getMeasuredHeight();
+            }
+        }
+
+        int dividerHeight = listView.getDividerHeight() * (listAdapter.getCount() - 1);
+        int finalHeight = totalHeight + dividerHeight;
+
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-
-        // Thiết lập chiều cao mới cho ListView bằng tổng chiều cao của tất cả các item
-        // và thêm vào chiều cao của các divider (nếu có) giữa các item
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-
-        // Áp dụng layout params mới cho ListView để thay đổi kích thước
+        params.height = finalHeight;
         listView.setLayoutParams(params);
-
-        // Yêu cầu ListView sắp xếp lại layout dựa trên kích thước mới
         listView.requestLayout();
+
+        // Khôi phục trạng thái ẩn nếu ListView ban đầu bị ẩn
+        if (wasGone) {
+            listView.setVisibility(View.GONE);
+        }
     }
 }

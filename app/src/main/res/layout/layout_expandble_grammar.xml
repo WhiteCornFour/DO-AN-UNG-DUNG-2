@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/layoutMother"
-    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/itemClicked"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
         <TextView
             android:id="@+id/tvTDBT"
@@ -31,14 +31,15 @@
         android:id="@+id/display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingEnd="25dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/lvNP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"/>
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
     </LinearLayout>
 </LinearLayout>
