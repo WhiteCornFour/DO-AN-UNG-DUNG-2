@@ -62,7 +62,7 @@ public class Expandable_Grammar extends ArrayAdapter{
         lvNP = convertView.findViewById(R.id.lvNP);
         lvNP.setDivider(null);
         lvNP.setDividerHeight(0);
-        grammarArrayList = grammarHandler.searchByCodeOrNameGrammar(grammarCategory.getMaDangNguPhap());
+        grammarArrayList = grammarHandler.searchGrammarByGramCateCode(grammarCategory.getMaDangNguPhap());
         adapter_lv = new User_Item_CustomAdapter_LV(getContext(), R.layout.layout_user_item_custom_adapter_lv,
                 grammarArrayList);
         lvNP.setAdapter(adapter_lv);

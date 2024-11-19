@@ -115,7 +115,7 @@ public class User_Grammar_MainPage_Fragment extends Fragment {
             @Override
             public void itemClicked(String maNP) {
                 //Log.d("maNP mainpage: ", maNP);
-                if (maNP.isEmpty() || maNP.equals(null))
+                if (maNP.isEmpty() || maNP == null)
                 {
                     Toast.makeText(getActivity(), "Null Grammar Code!", Toast.LENGTH_SHORT).show();
                 }else {
