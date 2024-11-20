@@ -32,7 +32,7 @@
             android:text="TRANG CHỦ ADMIN" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/tvTenADKhiLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -41,6 +41,6 @@
             android:textStyle="bold"
             android:textSize="8pt"
             android:layout_gravity="center"
-            android:text="Xin chào Ngô Hoàng Nam đã quay trở lại !" />
+            android:text="Xin chào Ngô Hoàng Nam đã quay trở lại!" />
     </LinearLayout>
 </FrameLayout>

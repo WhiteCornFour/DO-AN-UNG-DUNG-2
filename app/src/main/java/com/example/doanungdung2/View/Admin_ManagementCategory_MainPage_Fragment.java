@@ -1,5 +1,9 @@
 package com.example.doanungdung2.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.doanungdung2.R;
 
@@ -16,7 +21,7 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class Admin_ManagementCategory_MainPage_Fragment extends Fragment {
-
+    TextView tvTenADKhiLogin;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,10 +60,16 @@ public class Admin_ManagementCategory_MainPage_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin__danh_muc_quan_ly_, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin__danh_muc_quan_ly_, container, false);
+        tvTenADKhiLogin = view.findViewById(R.id.tvTenADKhiLogin);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("ThongTinAdmin", MODE_PRIVATE);
+        String tenAd= sharedPreferences.getString("tenAdmin", null);
+        tvTenADKhiLogin.setText("Xin chào " + tenAd + " đã quay trở lại!");
+        return view;
     }
 }

@@ -91,8 +91,6 @@ public class Admin_Delete_SampleSentence extends AppCompatActivity {
                 }
             }
         });
-
-
         imgSearchForDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,22 +103,20 @@ public class Admin_Delete_SampleSentence extends AppCompatActivity {
                 lvDSDelete.setAdapter(adapter_lv);
             }
         });
-
-
         lvDSDelete.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (sampleSentenceArrayList.size() == 0) {
-                    sampleSentence = dataOfSearch.get(i);
-                } else {
+                if (sampleSentenceArrayList.size() != 0) {
+
                     sampleSentence = sampleSentenceArrayList.get(i);
+                } else if (dataOfSearch.size() != 0){
+                    sampleSentence = dataOfSearch.get(i);
                 }
                 String code = sampleSentence.getMaMauCau();
                 createDialog(code);
                 return true;
             }
         });
-
         btnDeleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,13 +128,16 @@ public class Admin_Delete_SampleSentence extends AppCompatActivity {
                             break;
                         }
                     }
-                } else {
+                } else if (dataOfSearch.size() != 0){
                     for (boolean checked : checkedForSearch) {
                         if (checked) {
                             anyChecked = true;
                             break;
                         }
                     }
+                }else {
+                    Toast.makeText(Admin_Delete_SampleSentence.this, "Vui lòng chọn 1 phần tử trước khi xóa!",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 if (!anyChecked) {
@@ -174,10 +173,10 @@ public class Admin_Delete_SampleSentence extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 sampleSentenceHandler.deleteSampleSentence(code);
-                if (sampleSentenceArrayList.size() == 0) {
-                    dataOfSearch.remove(sampleSentence);
-                } else {
+                if (sampleSentenceArrayList.size() != 0) {
                     sampleSentenceArrayList.remove(sampleSentence);
+                } else if (dataOfSearch.size() != 0){
+                    dataOfSearch.remove(sampleSentence);
                 }
                 adapter_lv.notifyDataSetChanged();
                 Toast.makeText(Admin_Delete_SampleSentence.this, "Xóa mẫu câu thành công!", Toast.LENGTH_SHORT).show(); // Hiển thị thông báo

@@ -113,11 +113,11 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Kiểm ta array có rỗng hay không, nếu rỗng thì hiển thị array cho chức năng search
-                if (exerciseArrayList.size() == 0)
+                if (exerciseArrayList.size() != 0)
                 {
-                    exercise = dataOfSearch.get(i);
-                }else {
                     exercise = exerciseArrayList.get(i);
+                }else if (dataOfSearch.size() != 0){
+                    exercise = dataOfSearch.get(i);
                 }
                 String maBT = exercise.getMaBaiTap();
                 createDialog(maBT);
@@ -138,7 +138,7 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
                             break;
                         }
                     }
-                }else
+                }else if (dataOfSearch.size() != 0)
                 {
                     for (boolean checked : checkedForSearch) {
                         if (checked) {
@@ -146,6 +146,10 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
                             break;
                         }
                     }
+                }else
+                {
+                    Toast.makeText(Admin_Delete_Exercise.this, "Vui lòng 1 chọn phần tử trước khi xóa!",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 if (!anyChecked) {
@@ -184,12 +188,12 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
                 dialog.dismiss();
                 exerciseHandler.deleteExerciseByCode(maBaiTap);
                 // Cập nhật danh sách bằng cách xóa phần tử tương ứng
-                if (exerciseArrayList.size() == 0)
-                {
-                    dataOfSearch.remove(exercise);
-                }else
+                if (exerciseArrayList.size() != 0)
                 {
                     exerciseArrayList.remove(exercise);
+                }else if (dataOfSearch.size() != 0)
+                {
+                    dataOfSearch.remove(exercise);
                 }
                 // Thông báo cho adapter biết dữ liệu đã thay đổi
                 adapter_lv.notifyDataSetChanged();
@@ -226,18 +230,18 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
     }
     private void deleteSelectedExercise() {
         ArrayList<Exercise> exerToDelete = new ArrayList<>();
-        if(exerciseArrayList.size() == 0)
-        {
-            for (int i = 0; i < checkedForSearch.length; i++) {
-                if (checkedForSearch[i]) {
-                    exerToDelete.add(dataOfSearch.get(i));
-                }
-            }
-        }else
+        if(exerciseArrayList.size() != 0)
         {
             for (int i = 0; i < checkedSates.length; i++) {
                 if (checkedSates[i]) {
                     exerToDelete.add(exerciseArrayList.get(i));
+                }
+            }
+        }else if (dataOfSearch.size() != 0)
+        {
+            for (int i = 0; i < checkedForSearch.length; i++) {
+                if (checkedForSearch[i]) {
+                    exerToDelete.add(dataOfSearch.get(i));
                 }
             }
         }
@@ -245,15 +249,15 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
             exerciseHandler.deleteExerciseByCode(ex.getMaBaiTap());
             exerciseArrayList.remove(ex);
         }
-        if (exerciseArrayList.size() == 0)
-        {
-            loadDataForSearch(maDBT);
-        }else
+        if (exerciseArrayList.size() != 0)
         {
             checkedSates = new boolean[exerciseArrayList.size()];
             loadAllDataExercise();
+        }else if (dataOfSearch.size() != 0)
+        {
+            loadDataForSearch(maDBT);
         }
-
         Toast.makeText(this, "Xóa bài tập thành công!", Toast.LENGTH_SHORT).show();
+        adapter_lv.notifyDataSetChanged();
     }
 }
