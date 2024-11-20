@@ -1,5 +1,6 @@
 package com.example.doanungdung2.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.doanungdung2.Model.Assigment;
+import com.example.doanungdung2.Model.Exercise;
+
+import java.util.ArrayList;
 
 public class AssignmentHandler extends SQLiteOpenHelper {
 
@@ -90,5 +94,73 @@ public class AssignmentHandler extends SQLiteOpenHelper {
                 tongThoiGianLamBaiInput, String.valueOf(soLuongCauDungInput), String.valueOf(diemInput),
         maBaiLamInput, maBaiTapInput, maNguoiDungInput});
         sqLiteDatabase.close();
+    }
+    @SuppressLint("Range")
+    public ArrayList<Assigment> loadDataAssignmentByUserCode(String maNguoiDungInput)
+    {
+        ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * from " + TABLE_NAME + " Where MaNguoiDung = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maNguoiDungInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    Assigment assigment = new Assigment();
+                    assigment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                    assigment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
+                    assigment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));
+                    assigment.setTongThoiGianLamBai(cursor.getString(cursor.getColumnIndex(tongThoiGianLamBai)));
+                    assigment.setSoLuongCauDung(Integer.parseInt(cursor.getString(cursor.getColumnIndex(soLuongCauDung))));
+                    assigment.setDiem(Float.parseFloat(cursor.getString(cursor.getColumnIndex(diem))));
+                    assigment.setLanLam(Integer.parseInt(cursor.getString(cursor.getColumnIndex(lanLam))));
+                    assigment.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    assigment.setMaNguoiDung(cursor.getString(cursor.getColumnIndex(maNguoiDung)));
+                    assigmentArrayList.add(assigment);
+                }while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assigmentArrayList;
+    }
+    @SuppressLint("Range")
+    public ArrayList<Assigment> searchAssignmentByNameOrCode(String keyWord, String maNguoiDungInput)
+    {
+        ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+        String sql = "SELECT * FROM " + TABLE_NAME +
+                " WHERE (" + thoiGianBatDau + " LIKE ? " +
+                " OR " + diem + " LIKE ? " +
+                " OR " + maBaiTap + " LIKE ? ) " +
+                " AND MaNguoiDung = ?";
+
+        String keywordPattern = "%" + keyWord + "%"; // Mẫu tìm kiếm
+        String[] selectionArgs = new String[]{keywordPattern, keywordPattern, keywordPattern, maNguoiDungInput};
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, selectionArgs);
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                do {
+                    Assigment assigment = new Assigment();
+                    assigment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                    assigment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
+                    assigment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));
+                    assigment.setTongThoiGianLamBai(cursor.getString(cursor.getColumnIndex(tongThoiGianLamBai)));
+                    assigment.setSoLuongCauDung(Integer.parseInt(cursor.getString(cursor.getColumnIndex(soLuongCauDung))));
+                    assigment.setDiem(Float.parseFloat(cursor.getString(cursor.getColumnIndex(diem))));
+                    assigment.setLanLam(Integer.parseInt(cursor.getString(cursor.getColumnIndex(lanLam))));
+                    assigment.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    assigment.setMaNguoiDung(cursor.getString(cursor.getColumnIndex(maNguoiDung)));
+                    assigmentArrayList.add(assigment);
+                }while (cursor.moveToNext());
+
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assigmentArrayList;
     }
 }

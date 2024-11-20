@@ -132,7 +132,28 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return count;
     }
-
-
-
+    @SuppressLint("Range")
+    public ArrayList<AssigmentDetail> loadAssignmentDetailsForTestDetail(String maBaiLamInput) {
+        ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiLam + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiLamInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst()) {
+                do {
+                    AssigmentDetail assigmentDetail = new AssigmentDetail();
+                    assigmentDetail.setMaChiTietBaiLam(cursor.getString(cursor.getColumnIndex(maChiTietBaiLam)));
+                    assigmentDetail.setCauTraLoi(cursor.getString(cursor.getColumnIndex(cauTraLoi)));
+                    assigmentDetail.setKetQuaCauTraLoi(cursor.getString(cursor.getColumnIndex(ketQuaCauTraLoi)));
+                    assigmentDetail.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    assigmentDetail.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                    assigmentDetailArrayList.add(assigmentDetail);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assigmentDetailArrayList;
+    }
 }

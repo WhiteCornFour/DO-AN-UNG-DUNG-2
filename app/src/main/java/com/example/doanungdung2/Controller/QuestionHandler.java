@@ -295,4 +295,33 @@ public class QuestionHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return check;
     }
+    @SuppressLint("Range")
+    public Question searchInforAboutAQuesByCode(String maCauHoiInput) {
+        Question question = new Question();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maCauHoi + " = ?";
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maCauHoiInput});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    question.setMaCauHoi(cursor.getString(cursor.getColumnIndex(maCauHoi)));
+                    question.setNoiDungCauHoi(cursor.getString(cursor.getColumnIndex(noiDungCauHoi)));
+                    question.setCauA(cursor.getString(cursor.getColumnIndex(cauA)));
+                    question.setCauB(cursor.getString(cursor.getColumnIndex(cauB)));
+                    question.setCauC(cursor.getString(cursor.getColumnIndex(cauC)));
+                    question.setCauD(cursor.getString(cursor.getColumnIndex(cauD)));
+                    question.setDapAn(cursor.getString(cursor.getColumnIndex(dapAn)));
+                    question.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    question.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    question.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return question;
+    }
 }
