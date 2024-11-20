@@ -51,7 +51,7 @@ public class Admin_MainPage extends AppCompatActivity {
         String tenAdmin = intent.getStringExtra("tenAdmin");
         String emailAdmin = intent.getStringExtra("emailAdmin");
 
-        SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("ThongTinAdmin", MODE_PRIVATE);
         //Kiểm tra thông tin của admin đc gửi bằng intent có null hay không, nếu null thì hiển thị thông tin đã đc lưu dưới local trc đó
         if (tenAdmin != null || emailAdmin != null)
         {

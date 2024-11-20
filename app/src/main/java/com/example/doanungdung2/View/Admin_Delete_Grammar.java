@@ -103,7 +103,7 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
                 if (grammarArrayList.size() != 0)
                 {
                     grammar = grammarArrayList.get(i);
-                }else {
+                }else if (searchData.size() != 0){
                     grammar = searchData.get(i);
                 }
                 String maNP = grammar.getMaNguPhap();
@@ -125,7 +125,7 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
                             break;
                         }
                     }
-                }else {
+                }else if (searchData.size() != 0){
                     for (boolean s: checkStateSearch
                          ) {
                         if (s)
@@ -134,6 +134,8 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
                             break;
                         }
                     }
+                }else {
+                    Toast.makeText(Admin_Delete_Grammar.this, "Chọn 1 phần tử trước khi xóa!", Toast.LENGTH_SHORT).show();
                 }
 
                 if (!check)
@@ -176,7 +178,7 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
                 if (grammarArrayList.size() != 0)
                 {
                     grammarArrayList.remove(grammar);
-                }else
+                }else if (searchData.size() != 0)
                 {
                     searchData.remove(grammar);
                 }
@@ -223,7 +225,7 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
                 if (checkStates[i])
                     listToDelete.add(grammarArrayList.get(i));
             }
-        }else {
+        }else if (searchData.size() != 0){
             for (int i = 0; i < checkStateSearch.length; i++)
             {
                 if (checkStateSearch[i])
@@ -239,9 +241,11 @@ public class Admin_Delete_Grammar extends AppCompatActivity {
         {
             loadAllDataLV();
             checkStates = new boolean[grammarArrayList.size()];
-        }else
+        }else if (searchData.size() != 0)
         {
             loadDataForSearch(maDNP);
         }
+        Toast.makeText(this, "Xóa bài tập thành công!", Toast.LENGTH_SHORT).show();
+        adapter_lv.notifyDataSetChanged();
     }
 }
