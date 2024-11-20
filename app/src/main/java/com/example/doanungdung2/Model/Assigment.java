@@ -1,6 +1,8 @@
 package com.example.doanungdung2.Model;
 
-public class Assigment {
+import java.io.Serializable;
+
+public class Assigment implements Serializable {
     String maBaiLam;
     String thoiGianBatDau;
     String thoiGianKetThuc;
