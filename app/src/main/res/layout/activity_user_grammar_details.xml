@@ -16,50 +16,46 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="136dp"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/curved_background_nguoc"
+            android:backgroundTint="@color/green"
             android:gravity="center_vertical"
             android:orientation="horizontal"> <!-- Căn giữa theo trục dọc -->
 
             <ImageView
                 android:id="@+id/backToGrammarMainPage_User"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="30dp"
-                android:layout_weight="0.5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
                 android:scaleX="-1"
                 app:srcCompat="@drawable/arrow" />
 
-            <TextView
-                android:id="@+id/tvTenNP_User"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="30dp"
                 android:layout_weight="1.5"
-                android:fontFamily="@font/alata"
-                android:text="Hiện Tại Đơn"
-                android:textColor="@color/brown"
-                android:textSize="11pt"
-                android:textStyle="italic" />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/textView49"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
-            android:textSize="9pt"
-            android:textColor="@color/black"
-            android:fontFamily="@font/alata"
-            android:text="Thông tin chi tiết" />
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tvTenNP_User"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/alata"
+                    android:text="Hiện Tại Đơn"
+                    android:textColor="@color/brown"
+                    android:textSize="11pt"
+                    android:layout_marginRight="18dp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/backgr_user_search_history_white"
+            android:backgroundTint="#E0F3E3"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
@@ -73,25 +69,37 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView58"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="10pt"
-                    android:textColor="@color/teal_700"
-                    android:textStyle="bold"
-                    android:text="Công thức:" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/famulor"/>
+                    <TextView
+                        android:id="@+id/textView58"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="9pt"
+                        android:textColor="@color/teal_700"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
+                        android:text="Công thức:" />
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/tvCTGrammar_User"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:textSize="9pt"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
                     android:inputType="textMultiLine"
+                    android:textColor="@color/brown"
+                    android:background="@drawable/backgr_admin_white"
+                    android:padding="10dp"
+                    android:textStyle="bold"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -104,14 +112,24 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView61"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="10pt"
-                    android:textColor="@color/teal_700"
-                    android:textStyle="bold"
-                    android:text="Nội dung:" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/content"/>
+                    <TextView
+                        android:id="@+id/textView100"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="9pt"
+                        android:textColor="@color/teal_700"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
+                        android:text="Nội dung:" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvNDGrammar_User"
@@ -120,8 +138,9 @@
                     android:layout_marginTop="20dp"
                     android:textSize="9pt"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/brown"
+                    android:background="@drawable/backgr_admin_white"
+                    android:padding="10dp"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -134,14 +153,24 @@
                 android:layout_marginBottom="30dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView63"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="10pt"
-                    android:textColor="@color/teal_700"
-                    android:textStyle="bold"
-                    android:text="Ví dụ:" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/example_icon"/>
+                    <TextView
+                        android:id="@+id/textView108"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="9pt"
+                        android:textColor="@color/teal_700"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="7dp"
+                        android:text="Ví dụ:" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvVDGrammar_User"
@@ -150,8 +179,9 @@
                     android:layout_marginTop="20dp"
                     android:textSize="9pt"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="15dp"
+                    android:textColor="@color/brown"
+                    android:background="@drawable/backgr_admin_white"
+                    android:padding="10dp"
                     android:text="TextView" />
             </LinearLayout>
 

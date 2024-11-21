@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/lime"
     android:orientation="vertical"
     tools:context=".View.User_Grammar_MainPage_Fragment">
 
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/curved_background_nguoc"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <ImageView
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:text="Want to strengthen \nwhat you've learned?"
                 android:textColor="@color/black"
                 android:textSize="12pt"
@@ -58,27 +58,14 @@
 
         </LinearLayout>
 
-
-
-
-
-        <TextView
-            android:id="@+id/textView48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:text="Grammar List"
-            android:textColor="@color/black"
-            android:textSize="12pt"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:layout_margin="3dp"
-            android:background="@drawable/backgr_user_search_history_white"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="#EDEEEF"
+            android:background="@drawable/backgr_user_radius_quiz_test"
             android:orientation="vertical">
 
             <ListView

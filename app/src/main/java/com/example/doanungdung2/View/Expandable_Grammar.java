@@ -3,6 +3,7 @@ package com.example.doanungdung2.View;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.transition.AutoTransition;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -60,8 +62,22 @@ public class Expandable_Grammar extends ArrayAdapter{
         tvTDBT.setText(grammarCategory.getTenDangNguPhap());
         ListView lvNP;
         lvNP = convertView.findViewById(R.id.lvNP);
+
         lvNP.setDivider(null);
         lvNP.setDividerHeight(0);
+
+        // Vô hiệu hóa cuộn của ListView
+        lvNP.setVerticalScrollBarEnabled(false); // Tắt thanh cuộn dọc
+        lvNP.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
+
+        // Vô hiệu hóa scrolling cache để tiết kiệm bộ nhớ và hiệu suất
+        lvNP.setScrollingCacheEnabled(false);
+
+        // Tắt over-scroll (cuộn quá giới hạn)
+        lvNP.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        ImageView imgExpand_Grammar;
+        imgExpand_Grammar = convertView.findViewById(R.id.imgExpand_Grammar);
         grammarArrayList = grammarHandler.searchGrammarByGramCateCode(grammarCategory.getMaDangNguPhap());
         adapter_lv = new User_Item_CustomAdapter_LV(getContext(), R.layout.layout_user_item_custom_adapter_lv,
                 grammarArrayList);
@@ -71,8 +87,10 @@ public class Expandable_Grammar extends ArrayAdapter{
         display = convertView.findViewById(R.id.display);
         if (grammarCategory.isSelected()) {
             display.setVisibility(View.VISIBLE);
+            imgExpand_Grammar.setScaleY(1);
         } else {
             display.setVisibility(View.GONE);
+            imgExpand_Grammar.setScaleY(-1);
         }
         // Xử lý sự kiện bấm vào item
         convertView.setOnClickListener(v -> {
@@ -86,10 +104,13 @@ public class Expandable_Grammar extends ArrayAdapter{
         lvNP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Grammar grammar = grammarArrayList.get(i);
-                maNP = grammar.getMaNguPhap();
-                //Log.d("maNP", maNP);
-                itemClickListener.itemClicked(maNP);
+                if (grammarArrayList != null && i < grammarArrayList.size()) {
+                    Grammar grammar = grammarArrayList.get(i);
+                    maNP = grammar.getMaNguPhap();
+                    itemClickListener.itemClicked(maNP);
+                } else {
+                    Log.e("Expandable_Grammar", "Danh sách trống hoặc chỉ số không hợp lệ!");
+                }
             }
         });
 

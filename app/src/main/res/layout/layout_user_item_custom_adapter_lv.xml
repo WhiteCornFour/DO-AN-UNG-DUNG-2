@@ -3,21 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tvTNP"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:textSize="8.5pt"
-        android:textColor="@color/black"
-        android:fontFamily="@font/alata"
         android:background="@drawable/boder_item_lv_grammar"
-        android:backgroundTint="@color/lime"
+        android:backgroundTint="@color/green"
         android:layout_marginLeft="30dp"
-        android:paddingStart="20dp"
-        android:paddingTop="5dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:layout_marginTop="3dp"
-        android:text="Tên ngữ pháp" />
+        android:layout_marginBottom="3dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/arrowverysmall"/>
+        <TextView
+            android:id="@+id/tvTNP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="8.5pt"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alata"
+            android:layout_gravity="center"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:text="Tên ngữ pháp" />
+    </LinearLayout>
 </LinearLayout>
