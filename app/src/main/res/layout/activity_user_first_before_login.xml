@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lime">
+
+    <ImageView
+        android:id="@+id/image_icescream"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ice_scream"
+        android:scaleType="centerCrop" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingTop="120dp">
+
+        <RelativeLayout
+            android:layout_width="329dp"
+            android:layout_height="140dp"
+            android:background="@drawable/khung_chat_2"
+            android:padding="19dp">
+
+            <TextView
+                android:id="@+id/tvXinChao"
+                android:layout_width="300dp"
+                android:layout_height="58dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="15dp"
+                android:text="Xin chào! Tôi là HÀ GIA LINH"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/monkeyImage"
+            android:layout_width="275dp"
+            android:layout_height="253dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="Monkey waving"
+            android:src="@drawable/monkey_test" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="310dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/backgr_button_green"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="Tiếp theo" />
+
+</RelativeLayout>

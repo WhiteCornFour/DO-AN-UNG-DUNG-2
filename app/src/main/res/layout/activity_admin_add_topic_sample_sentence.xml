@@ -172,8 +172,8 @@
                     android:id="@+id/imgAnhChuDe"
                     android:layout_width="match_parent"
                     android:layout_height="85dp"
-                    android:layout_marginRight="70dp"
-                    android:layout_marginLeft="70dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginLeft="80dp"
                     android:background="@drawable/custom_admin_edit_text"
                     app:srcCompat="@android:drawable/ic_menu_gallery" />
             </LinearLayout>

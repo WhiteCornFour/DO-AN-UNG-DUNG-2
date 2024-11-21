@@ -5,14 +5,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.example.doanungdung2.Model.TopicSentence;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,17 +37,17 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    private int currentPosition = -1;
+//    private int currentPosition = -1;
 
 
     TopicSentenceHandler topicSentenceHandler;
     ArrayList<TopicSentence> topicSentencesArrayList = new ArrayList<>();
     ArrayList<SampleSentence> sampleSentencesArrayList = new ArrayList<>();
     ListView lvTopic;
-    Button btnX_us;
+    TextToSpeech textToSpeech;
+    ImageView imgSound;
     SampleSentenceHandler sampleSentenceHandler;
-    SampleSentence sampleSentence;
-    User_Sentence_Dialog_lv user_sentence_dialog_lv;
+    //    User_Sentence_Dialog_lv user_sentence_dialog_lv;
     User_Sentence_CustomAdapter_LV user_sentence_customAdapter_lv;
 
 
@@ -95,10 +97,26 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__sentences, container, false);
         addControl(view);
+
         topicSentenceHandler = new TopicSentenceHandler(getContext(), DB_NAME, null, DB_VERSION);
         sampleSentenceHandler = new SampleSentenceHandler(getContext(), DB_NAME, null, DB_VERSION);
-        loadDataListView();
 
+//        textToSpeech = new TextToSpeech(getContext(), status -> {
+//            if (status != TextToSpeech.ERROR) {
+//                textToSpeech.setLanguage(Locale.US); // Set ngôn ngữ là tiếng anh
+//            }
+//        });
+
+        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US); // ngon ngu chon la US
+                }
+            }
+        });
+
+        loadDataListView();
         addEvent();
         return view;
     }
@@ -117,25 +135,41 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
+    }
+
     private void loadDataListView() {
         topicSentencesArrayList = topicSentenceHandler.loadAllDataOfTopicSentence();
         user_sentence_customAdapter_lv = new User_Sentence_CustomAdapter_LV(getActivity(), R.layout.custom_user_sentence_lv, topicSentencesArrayList);
         lvTopic.setAdapter(user_sentence_customAdapter_lv);
     }
 
+    private void speakText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            //TextToSpeech.QUEUE_FLUSH:Cách thức xử lý hàng đợi của các lệnh phát âm.
+            //QUEUE_FLUSH có nghĩa là xóa hết các văn bản đang chờ trong hàng đợi và phát âm văn bản mới ngay lập tức.
+        }
+    }
+
     private void showDialog(TopicSentence topicSentence) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_sentences, null);
-        dialogView.setBackgroundResource(R.drawable.custom_vienden);
+//        dialogView.setBackgroundResource(R.drawable.custom_vienden_green);
 
         builder.setView(dialogView);
 
         TextView tvTopicTitle = dialogView.findViewById(R.id.tvTopicTitle_us);
         TextView tvTopicContent = dialogView.findViewById(R.id.tvTopicContent_us);
         ListView lvDialog = dialogView.findViewById(R.id.lvdialog_us);
-        LinearLayout LnSupportDia = dialogView.findViewById(R.id.supportDialog);
-        Button btnX_us = dialogView.findViewById(R.id.btnX_us);
+        ImageView imgX_us = dialogView.findViewById(R.id.imgX_us);
 
         tvTopicTitle.setText(topicSentence.getTenChuDeMauCau());
         tvTopicContent.setText(topicSentence.getMoTa());
@@ -147,38 +181,28 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
         lvDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SampleSentence selectedSentence = dialogSampleSentences.get(position);
-                TextView tvSp_MC = dialogView.findViewById(R.id.tvSp_MC);
-                TextView tvSP_PD = dialogView.findViewById(R.id.tvSp_PD);
+                dialogAdapter.toggleSelection(position);
 
-                tvSp_MC.setText(selectedSentence.getMauCau());
-                Log.d("mauCau", selectedSentence.getMauCau() + "phienDich" + selectedSentence.getPhienDich());
 
-                if (LnSupportDia.getVisibility() == View.GONE)
-                {
-                    LnSupportDia.setVisibility(View.VISIBLE);
-                    tvSP_PD.setText(selectedSentence.getPhienDich());
-
-                } else {
-                    LnSupportDia.setVisibility(View.GONE);
-                }
+                ImageView imgSound = view.findViewById(R.id.imgSound);
+                imgSound.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String sentence = dialogSampleSentences.get(position).getMauCau();
+                        speakText(sentence);
+                    }
+                });
             }
-
         });
 
         AlertDialog dialog = builder.create();
         dialog.show();
-        btnX_us.setOnClickListener(new View.OnClickListener() {
+
+        imgX_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
-//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-//        layoutParams.copyFrom(dialog.getWindow().getAttributes());
-//        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        dialog.getWindow().setAttributes(layoutParams);
     }
 }

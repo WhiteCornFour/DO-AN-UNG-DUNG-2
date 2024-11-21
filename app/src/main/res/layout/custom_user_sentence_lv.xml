@@ -1,15 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/custom_vienxanhsang"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/custom_vienxam_nentrang"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -20,40 +22,44 @@
 
             <ImageView
                 android:id="@+id/imgAnhCDMC_Us"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
-                android:background="@drawable/custom_edit_text"
+                android:padding="5dp"
                 android:contentDescription="Ảnh chủ đề" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="0.8"
-            android:paddingStart="8dp">
+            android:paddingStart="10dp">
+
 
             <TextView
                 android:id="@+id/tvCDMC_Us"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="8pt"
-                android:gravity="center"
-                android:layout_marginTop="3dp"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="Chủ đề mẫu câu" />
+                android:text="Chủ đề mẫu câu"
+                android:layout_marginBottom="5dp" />
+
 
             <TextView
                 android:id="@+id/tvMoTaCDMC_Us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="6pt"
+                android:text="Mô Tả chủ đề mẫu câu"
+                android:textSize="12sp"
+                android:textColor="@color/black"
                 android:textStyle="italic"
-                android:text="Mô Tả chủ đề mẫu câu" />
+                android:layout_marginTop="3dp"
+                android:gravity="start"
+                android:layout_marginBottom="5dp" />
 
         </LinearLayout>
 
