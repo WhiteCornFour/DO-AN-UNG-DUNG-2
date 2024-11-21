@@ -1,13 +1,13 @@
 package com.example.doanungdung2.Model;
 
-public class AssigmentDetail {
+public class AssignmentDetail {
     String maChiTietBaiLam;
     String cauTraLoi;
     String ketQuaCauTraLoi;
     String maCauHoi;
     String maBaiLam;
 
-    public AssigmentDetail(String maChiTietBaiLam, String cauTraLoi, String ketQuaCauTraLoi, String maCauHoi, String maBaiLam) {
+    public AssignmentDetail(String maChiTietBaiLam, String cauTraLoi, String ketQuaCauTraLoi, String maCauHoi, String maBaiLam) {
         this.maChiTietBaiLam = maChiTietBaiLam;
         this.cauTraLoi = cauTraLoi;
         this.ketQuaCauTraLoi = ketQuaCauTraLoi;
@@ -15,7 +15,7 @@ public class AssigmentDetail {
         this.maBaiLam = maBaiLam;
     }
 
-    public AssigmentDetail() {
+    public AssignmentDetail() {
     }
 
     public String getMaChiTietBaiLam() {

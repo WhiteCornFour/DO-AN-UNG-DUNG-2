@@ -1,165 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".View.User_Details_Information" >
+    tools:context=".View.User_Details_Information">
 
-    <LinearLayout
+    <!-- Nút quay lại -->
+    <ImageView
+        android:id="@+id/backToQuizMainPage"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:fontFamily="@font/alata"
+        android:text="Your Profiles"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/backToQuizMainPage"
+        app:layout_constraintStart_toEndOf="@id/backToQuizMainPage"
+        app:layout_constraintTop_toTopOf="@id/backToQuizMainPage"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgAVT_User"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="52dp"
+        android:contentDescription="Avatar"
+        android:padding="3dp"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:shapeAppearanceOverlay="@style/Circular"
+        app:strokeColor="@color/brown"
+        app:strokeWidth="2dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/boder_item_lv_grammar"
-        android:orientation="horizontal">
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:enabled="false"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgAVT_User"
+        app:startIconDrawable="@drawable/custom_user_name_icon"
+        app:startIconTint="@color/mist">
 
-        <ImageView
-            android:id="@+id/backToQuizMainPage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="0.5"
-            android:scaleX="-1"
-            app:srcCompat="@drawable/arrow" />
-
-        <TextView
-            android:id="@+id/textView62"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtNameUser"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:textSize="12pt"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
             android:fontFamily="@font/alata"
-            android:text="PROFILE DETAILS" />
-    </LinearLayout>
+            android:textColorHint="@color/brown"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:textColor="@color/mist"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <!-- Số điện thoại -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:enabled="false"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutName"
+        app:startIconDrawable="@drawable/custom_phone_icon"
+        app:startIconTint="@color/mist">
 
-        <LinearLayout
-            android:layout_marginTop="30dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtPhoneUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:fontFamily="@font/alata"
+            android:textColorHint="@color/brown"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textColor="@color/mist" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/imgAVT_User"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="110dp"
-                android:padding="3dp"
-                app:srcCompat="@drawable/logo" />
+    <!-- Email -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:enabled="false"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutPhone"
+        app:startIconDrawable="@drawable/custom_email_icon"
+        app:startIconTint="@color/mist">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="50dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backgr_button_green"
-            android:backgroundTint="@color/green"
-            android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvTenUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/alata"
-                android:paddingLeft="80dp"
-                android:paddingTop="15dp"
-                android:paddingRight="80dp"
-                android:paddingBottom="15dp"
-                android:text="Full name: Ngô Hoàng Nam"
-                android:textColor="@color/black"
-                android:textSize="7pt"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backgr_button_green"
-            android:backgroundTint="@color/green"
-            android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvSDTUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="7pt"
-                android:fontFamily="@font/alata"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="75dp"
-                android:paddingRight="75dp"
-                android:text="Phone number: 0786901063" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/backgr_button_green"
-            android:backgroundTint="@color/green"
-            android:layout_gravity="center"
-            android:layout_marginBottom="70dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvEmailUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="7pt"
-                android:fontFamily="@font/alata"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:text="Emai: hoangnam18102004@gmail.com"
-                />
-        </LinearLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEmailUser"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/lime"
-            android:background="@drawable/cured_background_xuoi"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:textColorHint="@color/brown"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/mist" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/imgLogoutAcc"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:layout_marginRight="100dp"
-                app:srcCompat="@drawable/logout" />
+    <Button
+        android:id="@+id/btnEditUser"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="@font/alata"
+        android:text="Edit Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutEmail" />
 
-            <Button
-                android:id="@+id/btnEditUser"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:background="@drawable/boder_item_lv_grammar"
-                android:backgroundTint="@color/green"
-                android:textColor="@color/black"
-                android:layout_marginRight="23dp"
-                android:text="Edit Profile" />
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+
+    <View
+        android:layout_width="411dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/curved_background_footer_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEditUser"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

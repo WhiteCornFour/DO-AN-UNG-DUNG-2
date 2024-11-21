@@ -1,5 +1,6 @@
 package com.example.doanungdung2.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.doanungdung2.Model.Assigment;
+import com.example.doanungdung2.Model.Assignment;
 
 public class AssignmentHandler extends SQLiteOpenHelper {
 
@@ -41,7 +42,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
 
     }
 
-    public void insertAssignment(Assigment assigment) {
+    public void insertAssignment(Assignment assigment) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
 
         String query = "INSERT INTO " + TABLE_NAME + " (maBaiLam, thoiGianBatDau, thoiGianKetThuc, tongThoiGianLamBai, " +
@@ -90,5 +91,29 @@ public class AssignmentHandler extends SQLiteOpenHelper {
                 tongThoiGianLamBaiInput, String.valueOf(soLuongCauDungInput), String.valueOf(diemInput),
         maBaiLamInput, maBaiTapInput, maNguoiDungInput});
         sqLiteDatabase.close();
+    }
+
+    @SuppressLint("Range")
+    public Assignment loadAssignmentResult(String maBaiLamInput) {
+        Assignment assignment = new Assignment();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE maBaiLam = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiLamInput});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                assignment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                assignment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
+                assignment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));
+                assignment.setTongThoiGianLamBai(cursor.getString(cursor.getColumnIndex(tongThoiGianLamBai)));
+                assignment.setSoLuongCauDung(cursor.getInt(cursor.getColumnIndex(soLuongCauDung)));
+                assignment.setDiem(cursor.getFloat(cursor.getColumnIndex(diem)));
+                assignment.setLanLam(cursor.getInt(cursor.getColumnIndex(lanLam)));
+                assignment.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                assignment.setMaNguoiDung(cursor.getString(cursor.getColumnIndex(maNguoiDung)));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assignment;
     }
 }

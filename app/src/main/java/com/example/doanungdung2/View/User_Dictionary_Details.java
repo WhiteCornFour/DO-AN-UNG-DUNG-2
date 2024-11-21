@@ -13,13 +13,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.doanungdung2.Controller.HistoryHandler;
 import com.example.doanungdung2.Model.Dictionary;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 public class User_Dictionary_Details extends AppCompatActivity {
-
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
     TextView tvTuTiengAnhDictionary, tvTuTiengVietDictionary, tvLoaiTuDictionary, tvGioiTuDictionary, tvCachPhatAmDictionary, tvNguCanhDictionary, tvNguCanhTVDictionary;
     ImageView imgBackToDictionaryFragment, imgTuVung, imgBookMark;
+    HistoryHandler historyHandler;
+    String maNguoiDung = "";
+    String maTuVung= "";
     boolean isBookmarked = false;
 
     @Override
@@ -27,11 +33,14 @@ public class User_Dictionary_Details extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dictionary_details);
         addControl();
-
+        historyHandler = new HistoryHandler(User_Dictionary_Details.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
         Dictionary dictionary = (Dictionary) intent.getSerializableExtra("dictionary");
-        setUpTextView(dictionary);
 
+        maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+        maTuVung = dictionary.getMaTuVung();
+        checkBookmarkStatus();
+        setUpTextView(dictionary);
         addEvent();
     }
 
@@ -59,37 +68,35 @@ public class User_Dictionary_Details extends AppCompatActivity {
         imgBookMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isBookmarked) {
-                    ObjectAnimator fadeOut = ObjectAnimator.ofFloat(imgBookMark, "alpha", 1f, 0f); //hieu ung mo dan roi hien len
-                    fadeOut.setDuration(300);
-                    fadeOut.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            imgBookMark.setImageResource(R.drawable.baseline_bookmark_border_24); //doi hinh khi bookmark bi doi
-                            ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imgBookMark, "alpha", 0f, 1f); // hieu ung mo dan roi mat di
-                            fadeIn.setDuration(300); // Thời gian animation
-                            fadeIn.start(); //bat dau hieu ung fade in
-                        }
-                    });
-                    fadeOut.start(); //bat dau hieu ung
-                } else {
-                    ObjectAnimator fadeOut = ObjectAnimator.ofFloat(imgBookMark, "alpha", 1f, 0f); // Fade out
-                    fadeOut.setDuration(300);
-                    fadeOut.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            imgBookMark.setImageResource(R.drawable.baseline_bookmark_added_24_focus); //doi hinh
-                            ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imgBookMark, "alpha", 0f, 1f); // Fade in
-                            fadeIn.setDuration(300);
-                            fadeIn.start(); //bat dau hieu ung fade in
-                        }
-                    });
-                    fadeOut.start(); //ket thuc hieu ung lam mo
-                }
+                ObjectAnimator fadeOut = ObjectAnimator.ofFloat(imgBookMark, "alpha", 1f, 0f);
+                fadeOut.setDuration(300);
 
-                isBookmarked = !isBookmarked;
+                fadeOut.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (isBookmarked) {
+                            imgBookMark.setImageResource(R.drawable.baseline_bookmark_border_24);
+                            historyHandler.updateDictionaryBookmark(null, maTuVung, maNguoiDung); // Bỏ bookmark
+                        } else {
+                            imgBookMark.setImageResource(R.drawable.baseline_bookmark_added_24_focus);
+                            historyHandler.updateDictionaryBookmark("Save", maTuVung, maNguoiDung); // Thêm bookmark
+                        }
+
+                        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(imgBookMark, "alpha", 0f, 1f);
+                        fadeIn.setDuration(300);
+                        fadeIn.start();
+
+                        // Cập nhật trạng thái
+                        isBookmarked = !isBookmarked;
+                    }
+                });
+
+                fadeOut.start();
             }
         });
+
+
+
     }
 
     void setUpTextView(Dictionary dictionary) {
@@ -108,5 +115,18 @@ public class User_Dictionary_Details extends AppCompatActivity {
         } else {
             imgTuVung.setImageResource(R.drawable.no_img); // Hình ảnh mặc định nếu không có
         }
+    }
+
+    private void checkBookmarkStatus() {
+        String currentStatus = historyHandler.getDictionaryBookmarkStatus(maTuVung, maNguoiDung);
+
+        if ("Save".equals(currentStatus)) {
+            imgBookMark.setImageResource(R.drawable.baseline_bookmark_added_24_focus);
+            isBookmarked = true;
+        } else {
+            imgBookMark.setImageResource(R.drawable.baseline_bookmark_border_24);
+            isBookmarked = false;
+        }
+
     }
 }

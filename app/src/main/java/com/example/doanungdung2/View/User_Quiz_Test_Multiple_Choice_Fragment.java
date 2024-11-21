@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.SharedViewModel_Answer;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.R;
 
@@ -26,7 +26,7 @@ import com.example.doanungdung2.R;
  */
 public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     SharedViewModel_Answer shareViewModelAnswer;
-    private SharedViewModel sharedViewModel;
+    private SharedViewModel_Questions sharedViewModel_questions;
     SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
     TextView tvFrameLayoutNoiDungCauHoiMC, tvFrameLayoutNDCauAQuizTest, tvFrameLayoutNDCauBQuizTest,tvFrameLayoutNDCauCQuizTest, tvFrameLayoutNDCauDQuizTest;
     RadioButton rdbFrameLayoutA,rdbFrameLayoutB, rdbFrameLayoutC, rdbFrameLayoutD;
@@ -65,7 +65,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(requireActivity()).get(SharedViewModel_Questions.class);
         shareViewModelAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_Answer.class);
         sharedViewModel_afterClickAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_AfterClickAnswer.class);
     }
@@ -76,7 +76,7 @@ public class User_Quiz_Test_Multiple_Choice_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__multiple__choice_, container, false);
         addControl(view);
         //lấy thông tin câu hỏi từ Activity về Fragment để set up Data cho câu hỏi
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
+        sharedViewModel_questions.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
             if (question != null) {
                 updateQuestionDetails(question);
             }

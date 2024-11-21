@@ -230,4 +230,26 @@
             sqLiteDatabase.close();
             return exerciseArrayList;
         }
+
+        @SuppressLint("Range")
+        public Exercise convertCodeToExercise(String maBaiTapInput) {
+            Exercise exercise = new Exercise();
+            SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE maBaiTap = ?";
+            Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiTapInput});
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    exercise.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                    exercise.setTenBaiTap(cursor.getString(cursor.getColumnIndex(tenBaiTap)));
+                    exercise.setSoCau(cursor.getInt(cursor.getColumnIndex(soCau)));
+                    exercise.setMucDo(cursor.getString(cursor.getColumnIndex(mucDo)));
+                    exercise.setThoiGian(cursor.getString(cursor.getColumnIndex(thoiGian)));
+                    exercise.setMoTa(cursor.getString(cursor.getColumnIndex(moTa)));
+                    exercise.setMaDangBaiTap(cursor.getString(cursor.getColumnIndex(maDangBaiTap)));
+                }
+                cursor.close();
+            }
+            sqLiteDatabase.close();
+            return exercise;
+        }
     }

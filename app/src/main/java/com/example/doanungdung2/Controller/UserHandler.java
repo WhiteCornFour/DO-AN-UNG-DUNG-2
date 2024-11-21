@@ -194,4 +194,27 @@ public class UserHandler extends SQLiteOpenHelper {
         user.getEmail(), user.getAnhNguoiDung(), user.getMaNguoiDung()});
         sqLiteDatabase.close();
     }
+
+    public boolean checkEnterOldPasswordIsRight(String maNguoiDungInput, String oldPassword) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        boolean isMatch = false;
+        sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + maNguoiDung + " = ? AND " + matKhau + " = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{maNguoiDungInput, oldPassword});
+
+        if (cursor != null && cursor.getCount() > 0) {
+            isMatch = true;
+        }
+        return isMatch;
+    }
+
+    public void updateUserPassword(String newPassword, String maNguoiDungInput)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String query = "Update " + TABLE_NAME + " Set MatKhau = ?" +
+                " Where MaNguoiDung = ?";
+        sqLiteDatabase.execSQL(query, new String[]{newPassword, maNguoiDungInput});
+        sqLiteDatabase.close();
+    }
+
 }

@@ -1,29 +1,23 @@
 package com.example.doanungdung2.View;
 
-import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.AssignmentDetailHandler;
-import com.example.doanungdung2.Model.AssigmentDetail;
+import com.example.doanungdung2.Model.AssignmentDetail;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Quiz_Test_Custom_Adapter.MyViewHolder>{
 
@@ -33,7 +27,7 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
     ArrayList<Question> arrayListQuestion = new ArrayList<>();
     ItemClickListener itemClickListener;
     AssignmentDetailHandler assignmentDetailHandler;
-    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
     private int selectedPosition = 0;
 
     public User_Quiz_Test_Custom_Adapter(ArrayList<String> dataSource, ArrayList<Question> arrayListQuestion, ItemClickListener itemClickListener) {

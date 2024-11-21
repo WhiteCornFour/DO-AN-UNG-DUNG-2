@@ -3,37 +3,29 @@ package com.example.doanungdung2.View;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.Dictionary;
+import com.example.doanungdung2.Model.Assignment;
 import com.example.doanungdung2.Model.Exercise;
-import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class User_Quiz_List extends AppCompatActivity {
 
@@ -42,7 +34,7 @@ public class User_Quiz_List extends AppCompatActivity {
     TextView tvLevelQuizList;
     ImageView imgBackToQuizFragment;
     RecyclerView recyclerViewQuizList;
-    User_Quiz_List_Custom_Adapter_Recycler_View user_quiz_list_custom_adapter_recycler_view;
+    User_Quiz_List_CustomAdapter_RecyclerView user_quiz_list_custom_adapter_recycler_view;
     ExerciseHandler exerciseHandler;
     AssignmentHandler assignmentHandler;
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
@@ -89,7 +81,7 @@ public class User_Quiz_List extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_List.this, RecyclerView.VERTICAL, false);
         recyclerViewQuizList.setLayoutManager(layoutManager);
         recyclerViewQuizList.setItemAnimator(new DefaultItemAnimator());
-        user_quiz_list_custom_adapter_recycler_view = new User_Quiz_List_Custom_Adapter_Recycler_View(exerciseArrayList, new User_Quiz_List_Custom_Adapter_Recycler_View.ItemClickListener() {
+        user_quiz_list_custom_adapter_recycler_view = new User_Quiz_List_CustomAdapter_RecyclerView(exerciseArrayList, new User_Quiz_List_CustomAdapter_RecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(Exercise exercise) {
                 showTakingQuizDialog(exercise);
@@ -134,7 +126,7 @@ public class User_Quiz_List extends AppCompatActivity {
 //                Log.d("MabaiTap", maBaiTap);
 //                Log.d("ma Nguoi Dung", maNguoiDung);
 //                Log.d("lan lam", String.valueOf(lanLam));
-                Assigment as = new Assigment(maBaiLam, thoiGianBatDau, null,
+                Assignment as = new Assignment(maBaiLam, thoiGianBatDau, null,
                         null, 0, 0f, lanLam, maBaiTap, maNguoiDung);
                 assignmentHandler.insertAssignment(as);
 

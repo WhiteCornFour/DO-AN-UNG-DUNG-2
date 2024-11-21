@@ -4,11 +4,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
+import com.example.doanungdung2.Model.SharedViewModel_User;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -26,43 +31,52 @@ import android.widget.Toast;
 public class User_Details_Information extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    ImageView backToQuizMainPage, imgAVT_User, imgLogoutAcc;
-    TextView tvTenUser, tvSDTUser, tvEmailUser;
+    ImageView backToQuizMainPage, imgAVT_User;
+    TextInputEditText edtNameUser, edtPhoneUser, edtEmailUser;
     Button btnEditUser;
     User user;
-    User userLoad;
     UserHandler userHandler;
-    @SuppressLint("SetTextI18n")
+    SharedViewModel_User sharedViewModel_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details_information);
         addControl();
+
+        sharedViewModel_user = new ViewModelProvider(this).get(SharedViewModel_User.class);
+
         userHandler = new UserHandler(User_Details_Information.this, DB_NAME, null, DB_VERSION);
-        Intent intent = getIntent();
-        //user = new User();
-        String tkReciveFromQuiz = intent.getStringExtra("tkFromQuizToDetail");
-        String mkReciveFromQuiz = intent.getStringExtra("mkFromQuizToDetail");
-        if (tkReciveFromQuiz != null && mkReciveFromQuiz != null)
-        {
-            user = userHandler.getUserInfo(tkReciveFromQuiz, mkReciveFromQuiz);
-            loadDataUser(user);
-        }else {
-            //Intent intent = getIntent();
-            String tk = intent.getStringExtra("username");
-            String mk = intent.getStringExtra("password");
-            if (tk != null && mk != null)
-            {
-                Log.d("tk on Resume details", tk);
-                Log.d("mk on Resume details", mk);
-                //userLoad = new User();
-                userLoad = userHandler.getUserInfo(tk, mk);
-                loadDataUser(userLoad);
-            }else
-            {
+
+        user = getIntentUser();
+        sharedViewModel_user.setUser(user);
+        sharedViewModel_user.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+//                Log.d("Ten Nguoi deung: Your Profile: ", user.getTenNguoiDung());
+//                if (user.getTaiKhoan() != null && user.getMatKhau() != null)
+//                {
+//                    loadDataUser(user);
+//                }else {
+//                    //Intent intent = getIntent();
+//                    String tk = intent.getStringExtra("username");
+//                    String mk = intent.getStringExtra("password");
+//                    if (tk != null && mk != null)
+//                    {
+//                        Log.d("tk on Resume details", tk);
+//                        Log.d("mk on Resume details", mk);
+//                        //userLoad = new User();
+//                        userLoad = userHandler.getUserInfo(tk, mk);
+//                        loadDataUser(userLoad);
+//                    }else
+//                    {
+//                        loadDataUser(user);
+//                    }
+//                }
                 loadDataUser(user);
             }
-        }
+        });
+
         addEvent();
     }
 
@@ -92,59 +106,54 @@ public class User_Details_Information extends AppCompatActivity {
 //        }
     }
 
-    void addControl()
-    {
+    void addControl() {
         backToQuizMainPage = findViewById(R.id.backToQuizMainPage);
         imgAVT_User = findViewById(R.id.imgAVT_User);
-        imgLogoutAcc = findViewById(R.id.imgLogoutAcc);
-        tvTenUser = findViewById(R.id.tvTenUser);
-        tvSDTUser = findViewById(R.id.tvSDTUser);
-        tvEmailUser = findViewById(R.id.tvEmailUser);
+        edtNameUser = findViewById(R.id.edtNameUser);
+        edtPhoneUser = findViewById(R.id.edtPhoneUser);
+        edtEmailUser = findViewById(R.id.edtEmailUser);
         btnEditUser = findViewById(R.id.btnEditUser);
     }
-    void addEvent()
-    {
+
+    void addEvent() {
         backToQuizMainPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(User_Details_Information.this, User_Profile.class);
+                intent.putExtra("userBackFromPageToProfile", user);
+                startActivity(intent);
                 finish();
-            }
-        });
-        imgLogoutAcc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAlertDialog().show();
             }
         });
         btnEditUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(User_Details_Information.this, User_Edit_Detail_Informations.class);
-                if (userLoad != null)
-                {
-                    intent.putExtra("tkFromDetailToEdit", userLoad.getTaiKhoan());
-                    intent.putExtra("mkFromDetailToEdit", userLoad.getMatKhau());
-                    Log.d("tkFromDetailToEdit: ",userLoad.getTaiKhoan());
-                    Log.d("mkFromDetailToEdit: ",userLoad.getMatKhau());
-                }else if (user != null)
-                {
-                    intent.putExtra("tkFromDetailToEdit", user.getTaiKhoan());
-                    intent.putExtra("mkFromDetailToEdit", user.getMatKhau());
-                    Log.d("tkFromDetailToEdit: ",user.getTaiKhoan());
-                    Log.d("mkFromDetailToEdit: ",user.getMatKhau());
-                }
+                intent.putExtra("userToEditProfile", user);
+//                if (userLoad != null)
+//                {
+//                    intent.putExtra("tkFromDetailToEdit", userLoad.getTaiKhoan());
+//                    intent.putExtra("mkFromDetailToEdit", userLoad.getMatKhau());
+//                    Log.d("tkFromDetailToEdit: ",userLoad.getTaiKhoan());
+//                    Log.d("mkFromDetailToEdit: ",userLoad.getMatKhau());
+//                }else if (user != null)
+//                {
+//                    intent.putExtra("tkFromDetailToEdit", user.getTaiKhoan());
+//                    intent.putExtra("mkFromDetailToEdit", user.getMatKhau());
+//                    Log.d("tkFromDetailToEdit: ",user.getTaiKhoan());
+//                    Log.d("mkFromDetailToEdit: ",user.getMatKhau());
+//                }
                 startActivity(intent);
                 finish();
             }
         });
     }
-    @SuppressLint("SetTextI18n")
-    void loadDataUser(User user)
-    {
+
+    void loadDataUser(User user) {
         if (user != null) {
-            tvTenUser.setText("Full name: " + user.getTenNguoiDung());
-            tvEmailUser.setText("Email: " + user.getEmail());
-            tvSDTUser.setText("Phone number: " + user.getSoDienThoai());
+            edtNameUser.setText(user.getTenNguoiDung());
+            edtPhoneUser.setText(user.getSoDienThoai());
+            edtEmailUser.setText(user.getEmail());
             byte[] anhNguoiDung = user.getAnhNguoiDung();
             if (anhNguoiDung == null || anhNguoiDung.length == 0) {
                 imgAVT_User.setImageResource(R.drawable.avt);
@@ -154,24 +163,14 @@ public class User_Details_Information extends AppCompatActivity {
             }
         }
     }
-    private AlertDialog createAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(User_Details_Information.this);
-        builder.setTitle("COMFIRM");
-        builder.setMessage("Are you sure you want to sign out of your account?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(new Intent(User_Details_Information.this,
-                        User_Login.class));
-                finish();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-        return builder.create();
+
+    private User getIntentUser() {
+        Intent intent = getIntent();
+        User userIntent = (User) intent.getSerializableExtra("userFromProfileToUDI");
+        if (userIntent == null) {
+            userIntent = (User) intent.getSerializableExtra("userBackFromUEDIToUDI");
+        }
+        return userIntent;
     }
+
 }

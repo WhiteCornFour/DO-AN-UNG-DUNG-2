@@ -3,9 +3,11 @@ package com.example.doanungdung2.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
+import com.example.doanungdung2.Model.SharedViewModel_User;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -38,24 +40,23 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
     private static final int DB_VERSION = 1;
     ImageView backToProfile, imgEditImg_User, imgEditAVT_User;
     EditText edtFullName_User, edtPhoneNumber_User, edtEmail_User;
-    Button btnComfirmEdit_User;
+    Button btnConfirmEdit_User;
     UserHandler userHandler;
     User userOld;
     User userNew;
+    SharedViewModel_User sharedViewModel_user;
     byte[] imageBytes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit_detail_informations);
         addControl();
+        sharedViewModel_user = new ViewModelProvider(this).get(SharedViewModel_User.class);
+
         userHandler = new UserHandler(User_Edit_Detail_Informations.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
         userOld = new User();
-        String tk = intent.getStringExtra("tkFromDetailToEdit");
-        String mk = intent.getStringExtra("mkFromDetailToEdit");
-        Log.d("tk: ", tk);
-        Log.d("mk: ", mk);
-        userOld = userHandler.getUserInfo(tk, mk);
+        userOld = (User) intent.getSerializableExtra("userToEditProfile");
         if (userOld != null)
         {
             edtFullName_User.setText(userOld.getTenNguoiDung());
@@ -80,7 +81,7 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
         edtFullName_User = findViewById(R.id.edtFullName_User);
         edtPhoneNumber_User = findViewById(R.id.edtPhoneNumber_User);
         edtEmail_User = findViewById(R.id.edtEmail_User);
-        btnComfirmEdit_User = findViewById(R.id.btnComfirmEdit_User);
+        btnConfirmEdit_User = findViewById(R.id.btnConfirmEdit_User);
     }
     void addEvent()
     {
@@ -90,17 +91,16 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                 Intent intent = new Intent(User_Edit_Detail_Informations.this, User_Details_Information.class);
                 if (userNew != null)
                 {
-                    intent.putExtra("username", userNew.getTaiKhoan());
-                    intent.putExtra("password", userNew.getMatKhau());
+                    intent.putExtra("userBackFromUEDIToUDI", userNew);
                 }else if (userOld != null)
                 {
-                    intent.putExtra("username", userOld.getTaiKhoan());
-                    intent.putExtra("password", userOld.getMatKhau());
+                    intent.putExtra("userBackFromUEDIToUDI", userOld);
                 }
                 startActivity(intent);
                 finish();
             }
         });
+
         imgEditImg_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,19 +108,25 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-        btnComfirmEdit_User.setOnClickListener(new View.OnClickListener() {
+        btnConfirmEdit_User.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tenNguoiDung = edtFullName_User.getText().toString();
                 String sdt = edtPhoneNumber_User.getText().toString();
                 String email = edtEmail_User.getText().toString();
+
+                //Kiểm tra nếu ảnh người dùng không đổi thì trả lại ảnh cũ
+                if (imageBytes == null && userOld.getAnhNguoiDung() != null) {
+                    imageBytes = userOld.getAnhNguoiDung();
+                }
                 userNew = new User(userOld.getMaNguoiDung(), tenNguoiDung, userOld.getTaiKhoan(), userOld.getMatKhau(),
                         sdt, email, imageBytes);
                 //Kiểm tra dữ liệu nhập vào có trống hay sai định dạng hay không
                 if (validInforInput(userNew))
                 {
                     //Kiểm tra tên và ảnh có thay đổi mới hay chỉ là tên và ảnh cũ
-                    if (!Objects.equals(userNew.getTenNguoiDung(), userOld.getTenNguoiDung()) || !Arrays.equals(userNew.getAnhNguoiDung(), userOld.getAnhNguoiDung()))
+                    if (!Objects.equals(userNew.getTenNguoiDung(), userOld.getTenNguoiDung()) ||
+                            !Arrays.equals(userNew.getAnhNguoiDung(), userOld.getAnhNguoiDung()))
                     {
                         //Kiểm tra xem người dùng có nhập số điện mới hay không
                         if (!Objects.equals(userNew.getSoDienThoai(), userOld.getSoDienThoai()))
@@ -130,51 +136,51 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                             //Nếu trong db chưa tồn tại 1 sdt mới mà người dùng nhập vào thì cho ng dùng cập nhật
                             if (!checkPhone)
                             {
+                                sharedViewModel_user.setUser(userNew);
                                 createAlertDialog(userNew).show();
-                            }else
-                            {
+                            } else {
                                 Toast.makeText(User_Edit_Detail_Informations.this,
                                         "This phone number already exists!", Toast.LENGTH_SHORT).show();
                             }
                             //Nếu người dùng nhập vào 1 email mới thì kiểm tra xem trong data đã có email này chưa
-                        }else if (!Objects.equals(userNew.getEmail(), userOld.getEmail()))
+                        } else if (!Objects.equals(userNew.getEmail(), userOld.getEmail()))
                         {
                             //Nếu chưa tồn tại email nào như vậy thì cho người dùng cập nhật với email mới
                             boolean checkEmail = userHandler.checkPhoneAndEmailBeforeUpdate(email);
                             if (!checkEmail)
                             {
+                                sharedViewModel_user.setUser(userNew);
                                 createAlertDialog(userNew).show();
-                            }else
-                            {
+                            } else {
                                 Toast.makeText(User_Edit_Detail_Informations.this,
                                         "This email already exists!", Toast.LENGTH_SHORT).show();
                             }
                             //nếu như email và sđt cũ thì không cần kiểm tra cho phép người dùng cập những thông tin thay đổi
                             //như là tên or ảnh
-                        }else {
-                            imgEditAVT_User.setDrawingCacheEnabled(true);
-                            imgEditAVT_User.buildDrawingCache();
-                            Bitmap bitmap = imgEditAVT_User.getDrawingCache();
+                        } else {
+//                            imgEditAVT_User.setDrawingCacheEnabled(true);
+//                            imgEditAVT_User.buildDrawingCache();
+//                            Bitmap bitmap = imgEditAVT_User.getDrawingCache();
+//
+//                            // Chuyển đổi Bitmap thành byte array
+//                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//                            imageBytes = byteArrayOutputStream.toByteArray();
+//
+//                            Log.d("ImageData", "Image length: " + (imageBytes != null ? imageBytes.length : "null"));
+//                            User user = new User(userOld.getMaNguoiDung(), tenNguoiDung, userOld.getTaiKhoan(), userOld.getMatKhau(),
+//                                    sdt, email, imageBytes);
 
-                            // Chuyển đổi Bitmap thành byte array
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                            imageBytes = byteArrayOutputStream.toByteArray();
-
-                            Log.d("ImageData", "Image length: " + (imageBytes != null ? imageBytes.length : "null"));
-                            User user = new User(userOld.getMaNguoiDung(), tenNguoiDung, userOld.getTaiKhoan(), userOld.getMatKhau(),
-                                    sdt, email, imageBytes);
-
-                            createAlertDialog(user).show();
+                            sharedViewModel_user.setUser(userNew);
+                            createAlertDialog(userNew).show();
                             // Tắt Drawing Cache của ImageView
-                            imgEditAVT_User.setDrawingCacheEnabled(false);
+//                            imgEditAVT_User.setDrawingCacheEnabled(false);
                         }
-                    }else
-                    {
+                    } else {
                         Toast.makeText(User_Edit_Detail_Informations.this, "Your information has not changed!",
                                 Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(User_Edit_Detail_Informations.this,
                             "Please check your information again!", Toast.LENGTH_SHORT).show();
                 }

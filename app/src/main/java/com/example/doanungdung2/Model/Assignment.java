@@ -1,6 +1,6 @@
 package com.example.doanungdung2.Model;
 
-public class Assigment {
+public class Assignment {
     String maBaiLam;
     String thoiGianBatDau;
     String thoiGianKetThuc;
@@ -11,7 +11,7 @@ public class Assigment {
     String maBaiTap;
     String maNguoiDung;
 
-    public Assigment(String maBaiLam, String thoiGianBatDau, String thoiGianKetThuc, String tongThoiGianLamBai, int soLuongCauDung, float diem, int lanLam, String maBaiTap, String maNguoiDung) {
+    public Assignment(String maBaiLam, String thoiGianBatDau, String thoiGianKetThuc, String tongThoiGianLamBai, int soLuongCauDung, float diem, int lanLam, String maBaiTap, String maNguoiDung) {
         this.maBaiLam = maBaiLam;
         this.thoiGianBatDau = thoiGianBatDau;
         this.thoiGianKetThuc = thoiGianKetThuc;
@@ -23,7 +23,7 @@ public class Assigment {
         this.maNguoiDung = maNguoiDung;
     }
 
-    public Assigment() {
+    public Assignment() {
     }
 
     public String getMaBaiLam() {

@@ -1,19 +1,14 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.AssigmentDetail;
-import com.example.doanungdung2.Model.Grammar;
-import com.example.doanungdung2.Model.Question;
+import com.example.doanungdung2.Model.AssignmentDetail;
 
 import java.util.ArrayList;
 
@@ -45,8 +40,8 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
 
     }
     @SuppressLint("Range")
-    public ArrayList<AssigmentDetail> loadAssignmentDetail() {
-        ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    public ArrayList<AssignmentDetail> loadAssignmentDetail() {
+        ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiLam + " = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
@@ -54,7 +49,7 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         {
             if (cursor.moveToFirst()) {
                 do {
-                    AssigmentDetail assigmentDetail = new AssigmentDetail();
+                    AssignmentDetail assigmentDetail = new AssignmentDetail();
                     assigmentDetail.setMaChiTietBaiLam(cursor.getString(cursor.getColumnIndex(maChiTietBaiLam)));
                     assigmentDetail.setCauTraLoi(cursor.getString(cursor.getColumnIndex(cauTraLoi)));
                     assigmentDetail.setKetQuaCauTraLoi(cursor.getString(cursor.getColumnIndex(ketQuaCauTraLoi)));
@@ -69,7 +64,7 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         return assigmentDetailArrayList;
     }
 
-    public void insertAssignmentDetail(AssigmentDetail assigmentDetail)
+    public void insertAssignmentDetail(AssignmentDetail assigmentDetail)
     {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
 

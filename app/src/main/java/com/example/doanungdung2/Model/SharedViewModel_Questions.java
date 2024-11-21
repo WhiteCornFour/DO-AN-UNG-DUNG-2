@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.doanungdung2.Model.Question;
-
-public class SharedViewModel extends ViewModel {
+public class SharedViewModel_Questions extends ViewModel {
     private final MutableLiveData<Question> selectedQuestion = new MutableLiveData<>();
 
     public void select(Question question) {

@@ -9,17 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Model.Dictionary;
-import com.example.doanungdung2.Model.History;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
 
-public class User_History_Custom_Adapter_Recycler_View extends RecyclerView.Adapter<User_History_Custom_Adapter_Recycler_View.MyViewHolder> {
+public class User_History_CustomAdapter_RecyclerView extends RecyclerView.Adapter<User_History_CustomAdapter_RecyclerView.MyViewHolder> {
 
     ArrayList<Dictionary> dictionaryArrayList = new ArrayList<>();
     ItemClickListener itemClickListener;
 
-    public User_History_Custom_Adapter_Recycler_View(ArrayList<Dictionary> dictionaryArrayList, ItemClickListener itemClickListener) {
+    public User_History_CustomAdapter_RecyclerView(ArrayList<Dictionary> dictionaryArrayList, ItemClickListener itemClickListener) {
         this.dictionaryArrayList = dictionaryArrayList;
         this.itemClickListener = itemClickListener;
     }
