@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_margin="5dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgAnhTuVungBMW"
+        app:strokeColor="@color/shape_green"
+        app:strokeWidth="1dp"
+        app:shapeAppearanceOverlay="@style/RoundSquare"
+        android:scaleType="center"
+        android:padding="5dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTuVungBMW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:textColor="@color/brown"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="Apple" />
+
+        <TextView
+            android:id="@+id/tvLoaiTuBMW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:textColor="@color/mist"
+            android:textStyle="italic"
+            android:textSize="10sp"
+            android:text="Danh từ (n)"/>
+    </LinearLayout>
+</LinearLayout>

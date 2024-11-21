@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.Model.SharedViewModel_Answer;
 import com.example.doanungdung2.R;
@@ -25,7 +25,7 @@ import com.example.doanungdung2.R;
  * create an instance of this fragment.
  */
 public class User_Quiz_Test_Essay_Fragment extends Fragment {
-    SharedViewModel sharedViewModel;
+    SharedViewModel_Questions sharedViewModelQuestions;
     SharedViewModel_Answer sharedViewModelAnswer;
     SharedViewModel_AfterClickAnswer sharedViewModelAfterClickAnswer;
     TextView tvNDCH_Essay_Quiz_User;
@@ -69,7 +69,7 @@ public class User_Quiz_Test_Essay_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         //Khởi tạo các shareViewModel
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModelQuestions = new ViewModelProvider(requireActivity()).get(SharedViewModel_Questions.class);
         sharedViewModelAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_Answer.class);
         sharedViewModelAfterClickAnswer = new ViewModelProvider(requireActivity()).get(SharedViewModel_AfterClickAnswer.class);
     }
@@ -81,7 +81,7 @@ public class User_Quiz_Test_Essay_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user__quiz__test__essay_, container, false);
         addControl(view);
         //Nhận thông tin của 1 question đang được trên recyclerview để hiển thị lên fragment
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
+        sharedViewModelQuestions.getSelectedQuestion().observe(getViewLifecycleOwner(), question -> {
             if (question != null)
             {
                 showInforQuestion(question);

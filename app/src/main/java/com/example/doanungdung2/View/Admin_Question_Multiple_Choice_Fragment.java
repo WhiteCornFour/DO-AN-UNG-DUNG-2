@@ -1,7 +1,7 @@
 package com.example.doanungdung2.View;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
 
     private EditText edtCauASuaCauHoi, edtCauBSuaCauHoi, edtCauCSuaCauHoi, edtCauDSuaCauHoi;
     private Spinner spinnerDapAnTNCH;
-    private SharedViewModel sharedViewModel;
+    private SharedViewModel_Questions sharedViewModel_questions;
 
     public Admin_Question_Multiple_Choice_Fragment() {
         // Required empty public constructor
@@ -41,7 +41,7 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(requireActivity()).get(SharedViewModel_Questions.class);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Admin_Question_Multiple_Choice_Fragment extends Fragment {
         setupSpinner();
 
         // Quan sát thay đổi từ ViewModel
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateQuestionDetails);
+        sharedViewModel_questions.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateQuestionDetails);
 
         return view;
     }

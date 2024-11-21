@@ -160,9 +160,9 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         imgUserAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), User_Details_Information.class);
-                intent.putExtra("tkFromQuizToDetail", tk);
-                intent.putExtra("mkFromQuizToDetail", mk);
+                Intent intent = new Intent(getActivity(), User_Profile.class);
+                intent.putExtra("tkFromQuizToProfile", tk);
+                intent.putExtra("mkFromQuizToProfile", mk);
                 Log.d("tkFromQuizToDetail: ",tk);
                 Log.d("mkFromQuizToDetail: ",mk);
                 startActivity(intent);

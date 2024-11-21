@@ -8,17 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
 
-public class User_Quiz_List_Custom_Adapter_Recycler_View extends RecyclerView.Adapter<User_Quiz_List_Custom_Adapter_Recycler_View.MyViewHolder>{
+public class User_Quiz_List_CustomAdapter_RecyclerView extends RecyclerView.Adapter<User_Quiz_List_CustomAdapter_RecyclerView.MyViewHolder>{
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
     ItemClickListener itemClickListener;
 
-    public User_Quiz_List_Custom_Adapter_Recycler_View(ArrayList<Exercise> exerciseArrayList, ItemClickListener itemClickListener) {
+    public User_Quiz_List_CustomAdapter_RecyclerView(ArrayList<Exercise> exerciseArrayList, ItemClickListener itemClickListener) {
         this.exerciseArrayList = exerciseArrayList;
         this.itemClickListener = itemClickListener;
     }

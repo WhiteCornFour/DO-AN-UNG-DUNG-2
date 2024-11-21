@@ -1,7 +1,7 @@
 package com.example.doanungdung2.View;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
@@ -11,16 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.R;
-
-import java.util.ArrayList;
 
 public class Admin_Question_True_False_Fragment extends Fragment {
 
     private static final String[] ANSWER_OPTIONS = {"True", "False"};
     private Spinner spinnerCorrectAnswer;
-    private SharedViewModel sharedViewModel;
+    private SharedViewModel_Questions sharedViewModel_questions;
 
     public Admin_Question_True_False_Fragment() {
         // Required empty public constructor
@@ -39,7 +37,7 @@ public class Admin_Question_True_False_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize the ViewModel
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(requireActivity()).get(SharedViewModel_Questions.class);
     }
 
     @Override
@@ -65,7 +63,7 @@ public class Admin_Question_True_False_Fragment extends Fragment {
 
     private void observeViewModel() {
         // Observe selected question from the ViewModel
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateSpinnerSelection);
+        sharedViewModel_questions.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateSpinnerSelection);
     }
 
     private void updateSpinnerSelection(Question question) {

@@ -1,7 +1,7 @@
 package com.example.doanungdung2.View;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.R;
 
 /**
@@ -24,7 +24,7 @@ public class Admin_Question_Essay_Fragment extends Fragment {
     private EditText edtDapAnDungTuLuan;
     private TextView tvTuLuanVaDBT;
     private ExercisesCategoryHandler exercisesCategoryHandler;
-    private SharedViewModel sharedViewModel;
+    private SharedViewModel_Questions sharedViewModel_questions;
 
     // Database constants
     private static final String DB_NAME = "AppHocTiengAnh";
@@ -37,7 +37,7 @@ public class Admin_Question_Essay_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(requireActivity()).get(SharedViewModel_Questions.class);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Admin_Question_Essay_Fragment extends Fragment {
         exercisesCategoryHandler = new ExercisesCategoryHandler(getContext(), DB_NAME, null, DB_VERSION);
 
         // Observe the selected question from the SharedViewModel
-        sharedViewModel.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateUIWithQuestionData);
+        sharedViewModel_questions.getSelectedQuestion().observe(getViewLifecycleOwner(), this::updateUIWithQuestionData);
 
         return view;
     }

@@ -1,19 +1,10 @@
 package com.example.doanungdung2.View;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.DictionaryHandler;
@@ -35,10 +25,8 @@ import com.example.doanungdung2.Controller.HistoryHandler;
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.History;
-import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -59,7 +47,7 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
     ArrayList<Dictionary> dictionaryArrayList = new ArrayList<>();
     ArrayList<Dictionary> filteredDictionaryList = new ArrayList<>();
     ArrayAdapter<String> adapter;
-    User_History_Custom_Adapter_Recycler_View user_history_custom_adapter_recycler_view;
+    User_History_CustomAdapter_RecyclerView user_history_custom_adapter_recycler_view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -143,9 +131,11 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
                         String maTuVung = dictionaryResult.getMaTuVung();
                         String maLichSu = createAutoHistoryCode("LS");
                         String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+                        String uaThich = historyHandler.getDictionaryBookmarkStatus(maTuVung, maNguoiDung);
+//                        Log.d("uaThich", uaThich);
 
                         //them lich su tim kiem
-                        History history = new History(maLichSu, maTuVung, maNguoiDung, null);
+                        History history = new History(maLichSu, maTuVung, maNguoiDung, uaThich);
                         //xoa lich su cu them lich su moi
                         historyHandler.deleteHistory(maTuVung, maNguoiDung);
                         historyHandler.insertHistory(history);
@@ -230,7 +220,7 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rvSearchHistory.setLayoutManager(layoutManager);
         rvSearchHistory.setItemAnimator(new DefaultItemAnimator());
-        user_history_custom_adapter_recycler_view = new User_History_Custom_Adapter_Recycler_View(dictionaryArrayList, new User_History_Custom_Adapter_Recycler_View.ItemClickListener() {
+        user_history_custom_adapter_recycler_view = new User_History_CustomAdapter_RecyclerView(dictionaryArrayList, new User_History_CustomAdapter_RecyclerView.ItemClickListener() {
             @Override
             public void onItemClick(Dictionary dictionary) {
                 Intent intent = new Intent(getActivity(), User_Dictionary_Details.class);

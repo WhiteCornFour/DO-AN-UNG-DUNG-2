@@ -164,9 +164,9 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
-                android:textStyle="bold"
+                android:text="Master"
                 android:textColor="@color/brown"
-                android:text="Master" />
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

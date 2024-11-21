@@ -163,4 +163,28 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return assigmentArrayList;
     }
+
+    @SuppressLint("Range")
+    public Assignment loadAssignmentResult(String maBaiLamInput) {
+        Assignment assignment = new Assignment();
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE maBaiLam = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiLamInput});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                assignment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
+                assignment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
+                assignment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));
+                assignment.setTongThoiGianLamBai(cursor.getString(cursor.getColumnIndex(tongThoiGianLamBai)));
+                assignment.setSoLuongCauDung(cursor.getInt(cursor.getColumnIndex(soLuongCauDung)));
+                assignment.setDiem(cursor.getFloat(cursor.getColumnIndex(diem)));
+                assignment.setLanLam(cursor.getInt(cursor.getColumnIndex(lanLam)));
+                assignment.setMaBaiTap(cursor.getString(cursor.getColumnIndex(maBaiTap)));
+                assignment.setMaNguoiDung(cursor.getString(cursor.getColumnIndex(maNguoiDung)));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return assignment;
+    }
 }

@@ -26,11 +26,11 @@ import android.widget.Toast;
 import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.AssignmentDetailHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
-import com.example.doanungdung2.Model.AssigmentDetail;
+import com.example.doanungdung2.Model.AssignmentDetail;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.Model.SharedViewModel_Answer;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.R;
 
@@ -43,7 +43,7 @@ import java.util.Locale;
 public class User_Quiz_Test extends AppCompatActivity {
     private static  final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    SharedViewModel sharedViewModel;
+    SharedViewModel_Questions sharedViewModel_questions;
     SharedViewModel_Answer shareViewModelAnswer;
     SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
     ImageView imgBackToQuizFragment;
@@ -54,7 +54,7 @@ public class User_Quiz_Test extends AppCompatActivity {
     ArrayList<Question> questionArrayList = new ArrayList<>();
     User_Quiz_Test_Custom_Adapter user_quiz_test_custom_adapter;
     ArrayList<String> dataSource = new ArrayList<>();
-    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
     QuestionHandler questionHandler;
     Exercise exercise = new Exercise();
     CountDownTimer countDownTimer;
@@ -74,7 +74,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         assignmentHandler = new AssignmentHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         assignmentDetailHandler = new AssignmentDetailHandler(User_Quiz_Test.this, DB_NAME, null, DB_VERSION);
         //Khởi tạo shareViewModel
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(this).get(SharedViewModel_Questions.class);
         shareViewModelAnswer = new ViewModelProvider(this).get(SharedViewModel_Answer.class);
         sharedViewModel_afterClickAnswer = new ViewModelProvider(this).get(SharedViewModel_AfterClickAnswer.class);
         //Lấy câu trả lời từ fragment thông qua ShareViewModel để truyền về activity
@@ -103,7 +103,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         ) {
             String maChiTietBaiLam = Admin_Add_Exercise.createAutoExerciseCode("CTBL");
             String maCauHoi = q.getMaCauHoi();
-            AssigmentDetail assigmentDetail = new AssigmentDetail(maChiTietBaiLam, null, "Sai", maCauHoi, maBaiLam);
+            AssignmentDetail assigmentDetail = new AssignmentDetail(maChiTietBaiLam, null, "Sai", maCauHoi, maBaiLam);
             assignmentDetailHandler.insertAssignmentDetail(assigmentDetail);
             Log.d("Thanh cong ", String.valueOf(i++));
         }
@@ -244,7 +244,7 @@ public class User_Quiz_Test extends AppCompatActivity {
                 String cauTraLoi = assignmentDetailHandler.getSelectedAnswerForQuestion(maCauHoiSelected, maBaiLam);
 
                 if (fragment instanceof User_Quiz_Test_Multiple_Choice_Fragment) {
-                    sharedViewModel.select(question);
+                    sharedViewModel_questions.select(question);
                     if (cauTraLoi != null){
                         sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
                     }
@@ -252,7 +252,7 @@ public class User_Quiz_Test extends AppCompatActivity {
                         sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
                     }
                 } else if (fragment instanceof User_Quiz_Test_True_False_Fragment) {
-                    sharedViewModel.select(question);
+                    sharedViewModel_questions.select(question);
                     if (cauTraLoi != null){
                         sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
                     }
@@ -260,7 +260,7 @@ public class User_Quiz_Test extends AppCompatActivity {
                         sharedViewModel_afterClickAnswer.setSelectedAnswer(null);
                     }
                 }else if (fragment instanceof User_Quiz_Test_Essay_Fragment) {
-                    sharedViewModel.select(question);
+                    sharedViewModel_questions.select(question);
                     if (cauTraLoi != null){
                         sharedViewModel_afterClickAnswer.setSelectedAnswer(cauTraLoi);
                     }
@@ -336,6 +336,9 @@ public class User_Quiz_Test extends AppCompatActivity {
 //        Log.d("manguoiDung ", maBaiLam);
         assignmentHandler.updateAssignmentPoint(thoiGianKetThuc, tongThoiGianLamBai, soLuongCauDung, diem,
                 maBaiLam, exercise.getMaBaiTap(), maNguoiDung);
+        Intent intent = new Intent(User_Quiz_Test.this, User_Quiz_Result.class);
+        intent.putExtra("maBaiLamTR", maBaiLam);
+        startActivity(intent);
     }
 
 }

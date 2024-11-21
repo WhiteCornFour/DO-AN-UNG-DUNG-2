@@ -1,6 +1,5 @@
 package com.example.doanungdung2.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,10 +25,9 @@ import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.ExercisesCategoryHandler;
 import com.example.doanungdung2.Controller.QuestionHandler;
-import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
 import com.example.doanungdung2.Model.Question;
-import com.example.doanungdung2.Model.SharedViewModel;
+import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
@@ -41,7 +38,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
 
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    SharedViewModel sharedViewModel;
+    SharedViewModel_Questions sharedViewModel_questions;
     EditText edtSuaCHSearch, edtSuaMaCauHoi, edtSuaNoiDungCauHoi;
     ImageView imgBackToMainPageSCH,imgSuaCHSearch;
     RecyclerView rvSuaCHSearch;
@@ -66,7 +63,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         exercisesCategoryHandler = new ExercisesCategoryHandler(Admin_Edit_Questions.this, DB_NAME, null, DB_VERSION);
 
         dsDangBaiTap = exercisesCategoryHandler.loadAllDataOfExercisesCategory();
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        sharedViewModel_questions = new ViewModelProvider(this).get(SharedViewModel_Questions.class);
         spinnerMucDoCHCreate();
         spinnerDangBaiTapCHCreate();
         spinnerDangBaiTapCH.setEnabled(false);
@@ -253,7 +250,7 @@ public class Admin_Edit_Questions extends AppCompatActivity {
         admin_edit_questions_customAdapter = new Admin_Edit_Questions_CustomAdapter(questionArrayListResult, new Admin_Edit_Questions_CustomAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Question question) {
-                sharedViewModel.select(question);
+                sharedViewModel_questions.select(question);
 
                 edtSuaMaCauHoi.setText(question.getMaCauHoi());
                 edtSuaNoiDungCauHoi.setText(question.getNoiDungCauHoi());

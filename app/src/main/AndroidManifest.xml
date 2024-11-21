@@ -24,6 +24,34 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
         <activity
+            android:name=".View.User_Two_Step_Verification"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
+            android:name=".View.User_Change_My_Password"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User.MC" />
+        <activity
+            android:name=".View.User_Privacy"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
+            android:name=".View.User_Report"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User.MC" />
+        <activity
+            android:name=".View.User_BookmarkWord"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
+            android:name=".View.User_Profile"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
+            android:name=".View.User_Quiz_Result"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+        <activity
             android:name=".View.User_Quiz_Test"
             android:exported="false"
             android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
@@ -38,11 +66,11 @@
         <activity
             android:name=".View.User_Details_Information"
             android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User.MC" />
         <activity
             android:name=".View.User_Edit_Detail_Informations"
             android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User.MC" />
         <activity
             android:name=".View.User_Grammar_Details"
             android:exported="false"
