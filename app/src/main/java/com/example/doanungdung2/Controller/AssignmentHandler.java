@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.Exercise;
+import com.example.doanungdung2.Model.Assignment;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
 
     }
 
-    public void insertAssignment(Assigment assigment) {
+    public void insertAssignment(Assignment assigment) {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
 
         String query = "INSERT INTO " + TABLE_NAME + " (maBaiLam, thoiGianBatDau, thoiGianKetThuc, tongThoiGianLamBai, " +
@@ -96,9 +95,9 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
     @SuppressLint("Range")
-    public ArrayList<Assigment> loadDataAssignmentByUserCode(String maNguoiDungInput)
+    public ArrayList<Assignment> loadDataAssignmentByUserCode(String maNguoiDungInput)
     {
-        ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+        ArrayList<Assignment> assigmentArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
         String query = "Select * from " + TABLE_NAME + " Where MaNguoiDung = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maNguoiDungInput});
@@ -107,7 +106,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst())
             {
                 do {
-                    Assigment assigment = new Assigment();
+                    Assignment assigment = new Assignment();
                     assigment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
                     assigment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
                     assigment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));
@@ -126,9 +125,9 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         return assigmentArrayList;
     }
     @SuppressLint("Range")
-    public ArrayList<Assigment> searchAssignmentByNameOrCode(String keyWord, String maNguoiDungInput)
+    public ArrayList<Assignment> searchAssignmentByNameOrCode(String keyWord, String maNguoiDungInput)
     {
-        ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+        ArrayList<Assignment> assigmentArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = "SELECT * FROM " + TABLE_NAME +
                 " WHERE (" + thoiGianBatDau + " LIKE ? " +
@@ -144,7 +143,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst())
             {
                 do {
-                    Assigment assigment = new Assigment();
+                    Assignment assigment = new Assignment();
                     assigment.setMaBaiLam(cursor.getString(cursor.getColumnIndex(maBaiLam)));
                     assigment.setThoiGianBatDau(cursor.getString(cursor.getColumnIndex(thoiGianBatDau)));
                     assigment.setThoiGianKetThuc(cursor.getString(cursor.getColumnIndex(thoiGianKetThuc)));

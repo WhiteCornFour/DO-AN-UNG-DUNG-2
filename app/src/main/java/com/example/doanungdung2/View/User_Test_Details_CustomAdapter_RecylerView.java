@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.QuestionHandler;
-import com.example.doanungdung2.Model.AssigmentDetail;
+import com.example.doanungdung2.Model.AssignmentDetail;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
@@ -24,9 +24,9 @@ public class User_Test_Details_CustomAdapter_RecylerView extends
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     QuestionHandler questionHandler;
-    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
 
-    public User_Test_Details_CustomAdapter_RecylerView(ArrayList<AssigmentDetail> assigmentDetails) {
+    public User_Test_Details_CustomAdapter_RecylerView(ArrayList<AssignmentDetail> assigmentDetails) {
         this.assigmentDetailArrayList = assigmentDetails;
     }
 
@@ -42,7 +42,7 @@ public class User_Test_Details_CustomAdapter_RecylerView extends
     @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        AssigmentDetail assigmentDetail = assigmentDetailArrayList.get(position);
+        AssignmentDetail assigmentDetail = assigmentDetailArrayList.get(position);
         if (Objects.equals(assigmentDetail.getKetQuaCauTraLoi(), "Đúng"))
         {
             holder.tvKetQuaCauTraLoi.setText("Correct");

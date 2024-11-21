@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/curved_background_nguoc"
+            android:background="@drawable/curved_background_footer_2"
             android:backgroundTint="@color/green"
             android:gravity="center_vertical"
             android:orientation="horizontal"> <!-- Căn giữa theo trục dọc -->

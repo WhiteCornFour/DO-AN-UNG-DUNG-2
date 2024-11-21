@@ -128,8 +128,8 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         return count;
     }
     @SuppressLint("Range")
-    public ArrayList<AssigmentDetail> loadAssignmentDetailsForTestDetail(String maBaiLamInput) {
-        ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    public ArrayList<AssignmentDetail> loadAssignmentDetailsForTestDetail(String maBaiLamInput) {
+        ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + maBaiLam + " = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiLamInput});
@@ -137,7 +137,7 @@ public class AssignmentDetailHandler extends SQLiteOpenHelper {
         {
             if (cursor.moveToFirst()) {
                 do {
-                    AssigmentDetail assigmentDetail = new AssigmentDetail();
+                    AssignmentDetail assigmentDetail = new AssignmentDetail();
                     assigmentDetail.setMaChiTietBaiLam(cursor.getString(cursor.getColumnIndex(maChiTietBaiLam)));
                     assigmentDetail.setCauTraLoi(cursor.getString(cursor.getColumnIndex(cauTraLoi)));
                     assigmentDetail.setKetQuaCauTraLoi(cursor.getString(cursor.getColumnIndex(ketQuaCauTraLoi)));

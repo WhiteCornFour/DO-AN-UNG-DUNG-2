@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.ExerciseHandler;
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.Exercise;
+import com.example.doanungdung2.Model.Assignment;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class User_Test_Result_CustomAdapter_RecylerView extends
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     ExerciseHandler exerciseHandler;
-    ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+    ArrayList<Assignment> assigmentArrayList = new ArrayList<>();
     ItemClickListener itemClickListener;
 
-    public User_Test_Result_CustomAdapter_RecylerView(ArrayList<Assigment> assigmentArrayList, ItemClickListener itemClickListener) {
+    public User_Test_Result_CustomAdapter_RecylerView(ArrayList<Assignment> assigmentArrayList, ItemClickListener itemClickListener) {
         this.assigmentArrayList = assigmentArrayList;
         this.itemClickListener = itemClickListener;
     }
@@ -42,7 +41,7 @@ public class User_Test_Result_CustomAdapter_RecylerView extends
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Assigment assigment = assigmentArrayList.get(position);
+        Assignment assigment = assigmentArrayList.get(position);
         String tenBT = exerciseHandler.getNameExerciseByCode(assigment.getMaBaiTap());
         holder.tvTenBT_TestList.setText(tenBT);
         holder.tvLL_TestList.setText("Do assignment the " + String.valueOf(assigment.getLanLam()) + "th time");
@@ -79,9 +78,9 @@ public class User_Test_Result_CustomAdapter_RecylerView extends
     }
     public interface ItemClickListener
     {
-        void itemClicked(Assigment assigment, String tenBT, String maND);
+        void itemClicked(Assignment assigment, String tenBT, String maND);
     }
-    public void setAssigmentArrayList(ArrayList<Assigment> newList)
+    public void setAssigmentArrayList(ArrayList<Assignment> newList)
     {
         this.assigmentArrayList = newList;
         notifyDataSetChanged();

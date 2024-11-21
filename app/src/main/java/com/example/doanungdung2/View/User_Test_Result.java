@@ -3,14 +3,12 @@ package com.example.doanungdung2.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.GrammarCategory;
+import com.example.doanungdung2.Model.Assignment;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
@@ -28,7 +26,7 @@ import java.util.Collections;
 public class User_Test_Result extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    ArrayList<Assigment> assigmentArrayList = new ArrayList<>();
+    ArrayList<Assignment> assigmentArrayList = new ArrayList<>();
     User_Test_Result_CustomAdapter_RecylerView adapter_recylerView;
     AssignmentHandler assignmentHandler;
     ExerciseHandler exerciseHandler;
@@ -46,13 +44,13 @@ public class User_Test_Result extends AppCompatActivity {
         user = (User) intent.getSerializableExtra("userFromProfileToTestListResult");
         assignmentHandler = new AssignmentHandler(User_Test_Result.this, DB_NAME, null, DB_VERSION);
         exerciseHandler = new ExerciseHandler(User_Test_Result.this, DB_NAME, null, DB_VERSION);
-        maND = "ND01";
+        maND = user.getMaNguoiDung();
         if (maND == null || maND.isEmpty())
         {
 
         }else
         {
-            setUpRecylerView();
+            setUpRecyclerView();
             setUpDataRecylerView(maND);
         }
 
@@ -122,7 +120,7 @@ public class User_Test_Result extends AppCompatActivity {
             }
         });
     }
-    void setUpRecylerView()
+    void setUpRecyclerView()
     {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Test_Result.this, RecyclerView.VERTICAL, false);
         //recylerview_TestResult.addItemDecoration(new DividerItemDecoration(User_Test_Result.this, DividerItemDecoration.VERTICAL));
@@ -130,7 +128,7 @@ public class User_Test_Result extends AppCompatActivity {
         recylerview_TestResult.setItemAnimator(new DefaultItemAnimator());
         adapter_recylerView = new User_Test_Result_CustomAdapter_RecylerView(assigmentArrayList, new User_Test_Result_CustomAdapter_RecylerView.ItemClickListener() {
             @Override
-            public void itemClicked(Assigment assigment, String tenBT, String maND) {
+            public void itemClicked(Assignment assigment, String tenBT, String maND) {
                 Log.d("Ma assignment dang xem chi tiet: ", assigment.getMaBaiTap());
                 Intent intent = new Intent(User_Test_Result.this, User_Test_Details.class);
                 intent.putExtra("assignmentFromResults", assigment);
@@ -148,7 +146,7 @@ public class User_Test_Result extends AppCompatActivity {
         Collections.reverse(assigmentArrayList);
         adapter_recylerView.setAssigmentArrayList(assigmentArrayList);
     }
-    void setUpDataRecylerViewBySearchData(ArrayList<Assigment> newList)
+    void setUpDataRecylerViewBySearchData(ArrayList<Assignment> newList)
     {
         Collections.reverse(newList);
         adapter_recylerView.setAssigmentArrayList(newList);

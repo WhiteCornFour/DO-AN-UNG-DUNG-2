@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.AssignmentDetailHandler;
-import com.example.doanungdung2.Model.Assigment;
-import com.example.doanungdung2.Model.AssigmentDetail;
+import com.example.doanungdung2.Model.Assignment;
+import com.example.doanungdung2.Model.AssignmentDetail;
 import com.example.doanungdung2.R;
 
 import android.content.Intent;
@@ -27,7 +27,7 @@ public class User_Test_Details extends AppCompatActivity {
             tvTongThoiGian_TestList_TestDT, tvDiem_TestList_TestDT;
     RecyclerView recylerViewTestDetails;
     AssignmentDetailHandler assignmentDetailHandler;
-    ArrayList<AssigmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
     String maND = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class User_Test_Details extends AppCompatActivity {
         addControl();
         assignmentDetailHandler = new AssignmentDetailHandler(User_Test_Details.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
-        Assigment assigment = (Assigment) intent.getSerializableExtra("assignmentFromResults");
+        Assignment assigment = (Assignment) intent.getSerializableExtra("assignmentFromResults");
         String tenBT = intent.getStringExtra("tenBTFromResults");
         maND = intent.getStringExtra("maNDFromResults");
         setUpDataToShowTextView(assigment, tenBT, maND);
@@ -44,7 +44,7 @@ public class User_Test_Details extends AppCompatActivity {
         addEvent();
     }
 
-    private void setUpDataToShowTextView(Assigment assigment, String tenBT, String maND) {
+    private void setUpDataToShowTextView(Assignment assigment, String tenBT, String maND) {
         tvTenBT_TestList_TestDT.setText(tenBT);
         tvLL_TestList_TestDT.setText("Do assignment the " + String.valueOf(assigment.getLanLam()) + "th time");
         tvNgayLam_TestList_TestDT.setText(assigment.getThoiGianBatDau());
@@ -76,7 +76,7 @@ public class User_Test_Details extends AppCompatActivity {
         tvDiem_TestList_TestDT = findViewById(R.id.tvDiem_TestList_TestDT);
         recylerViewTestDetails = findViewById(R.id.recylerViewTestDetails);
     }
-    void setUpRecyclerView(Assigment assigment)
+    void setUpRecyclerView(Assignment assigment)
     {
         assigmentDetailArrayList = assignmentDetailHandler.loadAssignmentDetailsForTestDetail(assigment.getMaBaiLam());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Test_Details.this, RecyclerView.VERTICAL, false);
