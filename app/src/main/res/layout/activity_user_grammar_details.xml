@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/curved_background_footer_2"
+            android:background="@drawable/backgr_uonluon_nguoc"
             android:backgroundTint="@color/green"
             android:gravity="center_vertical"
             android:orientation="horizontal"> <!-- Căn giữa theo trục dọc -->
@@ -94,13 +94,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="9pt"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/brown"
                     android:background="@drawable/backgr_admin_white"
+                    android:fontFamily="@font/adlam_display"
+                    android:inputType="textMultiLine"
                     android:padding="10dp"
-                    android:textStyle="bold"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/brown"
+                    android:textSize="9pt"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -136,12 +137,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="9pt"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/brown"
                     android:background="@drawable/backgr_admin_white"
+                    android:fontFamily="@font/adlam_display"
+                    android:inputType="textMultiLine"
                     android:padding="10dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/brown"
+                    android:textSize="9pt" />
             </LinearLayout>
 
             <LinearLayout
@@ -177,12 +179,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:textSize="9pt"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/brown"
                     android:background="@drawable/backgr_admin_white"
+                    android:fontFamily="@font/adlam_display"
+                    android:inputType="textMultiLine"
                     android:padding="10dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/brown"
+                    android:textSize="9pt" />
             </LinearLayout>
 
         </LinearLayout>

@@ -44,12 +44,15 @@ public class User_Test_Result extends AppCompatActivity {
         user = (User) intent.getSerializableExtra("userFromProfileToTestListResult");
         assignmentHandler = new AssignmentHandler(User_Test_Result.this, DB_NAME, null, DB_VERSION);
         exerciseHandler = new ExerciseHandler(User_Test_Result.this, DB_NAME, null, DB_VERSION);
-        maND = user.getMaNguoiDung();
-        if (maND == null || maND.isEmpty())
-        {
 
+        String maNDFromDetail = intent.getStringExtra("maNDFromDetails");
+        if (user == null)
+        {
+            setUpRecyclerView();
+            setUpDataRecylerView(maNDFromDetail);
         }else
         {
+            maND = user.getMaNguoiDung();
             setUpRecyclerView();
             setUpDataRecylerView(maND);
         }
@@ -57,12 +60,12 @@ public class User_Test_Result extends AppCompatActivity {
         addEvent();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.popBackStack();
+//    }
 
 //    @Override
 //    protected void onResume() {

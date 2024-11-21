@@ -97,6 +97,15 @@ public class User_Test_Details_CustomAdapter_RecylerView extends
         }else if (question.getDapAn().equals("D"))
         {
             noiDungDapAnDung = question.getCauD();
+        }else if (question.getDapAn().equals("True"))
+        {
+            noiDungDapAnDung = "";
+        }else if (question.getDapAn().equals("False"))
+        {
+            noiDungDapAnDung = "";
+        }else
+        {
+            noiDungDapAnDung = question.getDapAn();
         }
         return noiDungDapAnDung;
     }
@@ -114,6 +123,14 @@ public class User_Test_Details_CustomAdapter_RecylerView extends
         }else if (cauTraLoi.equals("D"))
         {
             noiDungCauTraLoi = question.getCauD();
+        }else if (cauTraLoi.equals("True")) {
+            noiDungCauTraLoi = "";
+        }else if (cauTraLoi.equals("False"))
+        {
+            noiDungCauTraLoi = "";
+        }else
+        {
+            noiDungCauTraLoi = question.getDapAn();
         }
         return noiDungCauTraLoi;
     }

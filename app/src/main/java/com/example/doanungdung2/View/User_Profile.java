@@ -86,7 +86,7 @@ public class User_Profile extends AppCompatActivity {
                 Intent intent = new Intent(User_Profile.this, User_Test_Result.class);
                 intent.putExtra("userFromProfileToTestListResult", user);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
 
