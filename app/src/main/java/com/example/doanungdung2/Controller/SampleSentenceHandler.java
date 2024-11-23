@@ -235,9 +235,11 @@ public class SampleSentenceHandler extends SQLiteOpenHelper {
                 do {
                     String ss = cursor.getString(cursor.getColumnIndex(mauCau));
                     String pd = cursor.getString(cursor.getColumnIndex(phienDich));
+                    String thsd = cursor.getString(cursor.getColumnIndex(tinhHuongSuDung));
                     SampleSentence sentence = new SampleSentence();
                     sentence.setMauCau(ss);
                     sentence.setPhienDich(pd);
+                    sentence.setTinhHuongSuDung(thsd);
                     sampleSentences.add(sentence);
                 } while (cursor.moveToNext());
             }

@@ -7,6 +7,8 @@ public class SampleSentence {
     String MauCau;
     String phienDich;
     String tinhHuongSuDung;
+    boolean selected;
+
 
     public SampleSentence() {
     }
@@ -19,6 +21,12 @@ public class SampleSentence {
         this.tinhHuongSuDung = tinhHuongSuDung;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
     public void setMaMauCau(String maMauCau) {
         this.maMauCau = maMauCau;
     }

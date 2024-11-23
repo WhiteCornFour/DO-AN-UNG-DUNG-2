@@ -18,7 +18,7 @@ public class System_Intro_App extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(System_Intro_App.this, User_Login.class));
+                startActivity(new Intent(System_Intro_App.this, User_First_Before_Login.class));
                 finish();
             }
         }, 6000);

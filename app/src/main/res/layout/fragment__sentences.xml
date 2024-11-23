@@ -36,7 +36,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:background="@drawable/custom_bgr_sentences">
+        android:background="@drawable/custom_vienxam_xanhdam">
 
         <TextView
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
-            android:background="@drawable/custom_bgr_sentence_xanhdam">
+            android:background="@drawable/custom_vienden_green">
 
             <ListView
                 android:id="@+id/lvTopic"
@@ -64,6 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"/>
 
         </LinearLayout>

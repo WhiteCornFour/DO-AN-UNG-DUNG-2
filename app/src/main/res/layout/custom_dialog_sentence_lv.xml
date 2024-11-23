@@ -1,35 +1,92 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginTop="3dp"
-    android:background="@drawable/custom_vienxam"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_vienxam_nentrang"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             android:paddingEnd="8dp">
 
             <TextView
-                android:id="@+id/tvMC_Us"
-                android:layout_width="match_parent"
+                android:id="@+id/tvTHSD_Us"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10pt"
-                android:layout_marginTop="7dp"
-                android:layout_marginLeft="30dp"
+                android:textSize="9pt"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="mẫu câu" />
+                android:fontFamily="@font/alata"
+                android:text="Tình huống sử dụng" />
 
         </LinearLayout>
-
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/supportDia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/custom_vienxam_nentrang"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvSp_MC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="8pt"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:text="Mẫu câu bằng tiếng anh" />
+
+        <TextView
+            android:id="@+id/tvSp_PD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alata"
+            android:textColor="@color/black"
+            android:textSize="8pt"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/custom_vienphiendich"
+            android:text="Phiên dịch" />
+
+        <ImageView
+            android:id="@+id/imgSound"
+            android:layout_width="65dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_vienden_nentrang"
+            android:src="@drawable/img_sound" />
+    </LinearLayout>
 </LinearLayout>
+
+    </LinearLayout>

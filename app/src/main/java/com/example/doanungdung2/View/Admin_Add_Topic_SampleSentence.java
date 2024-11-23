@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -39,6 +40,7 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
     private static final int DB_VERSION = 1;
     private static final int PICK_IMAGE_REQUEST = 1;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,7 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
 
         String maCDMC = generateMaChuDeMauCau();
         edtMaAddCDMC.setText(maCDMC);
+
     }
 
     void addControl() {
@@ -88,7 +91,6 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
             }
         });
 
-        //dachinhsua
         lvAddCDMC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,17 +100,24 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
                 edtMaAddCDMC.setText(mc.getMaChuDeMauCau());
 
                 byte[] imageBytes = mc.getAnhChuDeMauCau();
-                if (imageBytes != null) {
+                if (imageBytes != null && imageBytes.length > 0) {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                     imgAnhChuDe.setImageBitmap(bitmap);
                 } else {
                     imgAnhChuDe.setImageResource(R.drawable.image_default);
                 }
+                edtTenAddCDMC.setFocusable(false);
+                edtTenAddCDMC.setClickable(false);
+                edtTenAddCDMC.setInputType(InputType.TYPE_NULL); // Vô hiệu hóa bàn phím
 
+                edtMoTaAddCDMC.setFocusable(false);
+                edtMoTaAddCDMC.setClickable(false);
+                edtMoTaAddCDMC.setInputType(InputType.TYPE_NULL);
+
+                imgAnhChuDe.setClickable(false); // Không cho phép đổi ảnh
             }
         });
 
-        //dachinhsua
         btnLamMoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +140,6 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
     }
 
 
-    //dachinhsua
     private void Reset() {
         if (edtTenAddCDMC.getText().toString().trim().isEmpty()
                 && edtMoTaAddCDMC.getText().toString().trim().isEmpty()
@@ -144,7 +152,16 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
             edtMaAddCDMC.setText(generateMaChuDeMauCau());
             imgAnhChuDe.setImageResource(R.drawable.image_default);
         }
+        edtTenAddCDMC.setFocusable(true);
+        edtTenAddCDMC.setFocusableInTouchMode(true);
+        edtTenAddCDMC.setClickable(true);
+        edtTenAddCDMC.setInputType(InputType.TYPE_CLASS_TEXT);
 
+        edtMoTaAddCDMC.setFocusable(true);
+        edtMoTaAddCDMC.setFocusableInTouchMode(true);
+        edtMoTaAddCDMC.setClickable(true);
+        edtMoTaAddCDMC.setInputType(InputType.TYPE_CLASS_TEXT);
+        imgAnhChuDe.setClickable(true);
 }
 
     private void addTopicSentence() {
@@ -165,17 +182,22 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
 
         // Lấy ảnh và chuyển thành byte array
         Bitmap image = ((BitmapDrawable) imgAnhChuDe.getDrawable()).getBitmap();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
         //
         TopicSentence mc = new TopicSentence();
         mc.setTenChuDeMauCau(tenCDMC);
         mc.setMoTa(moTa);
         mc.setMaChuDeMauCau(maCDMC);
+        mc.setAnhChuDeMauCau(imageBytes);
 
 
         boolean isAdded = topicSentenceHandler.addTopicSentence(mc, image);
         if (isAdded) {
             Toast.makeText(this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
+
             topicSentenceArrayList.add(mc);
             admin_Add_Topic_SampleSentence_CustomAdapter_LV.notifyDataSetChanged();
 
@@ -208,12 +230,14 @@ public class Admin_Add_Topic_SampleSentence extends AppCompatActivity {
                 selectedImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
-                // Cập nhật đối tượng với ảnh
-                TopicSentence currentTopicSentence = topicSentenceArrayList.get(requestCode);
-                currentTopicSentence.setAnhChuDeMauCau(imageBytes);
+                // Cập nhật đối tượng TopicSentence với ảnh mới
+                int position = lvAddCDMC.getCheckedItemPosition();
+                if (position >= 0 && position < topicSentenceArrayList.size()) {
+                    TopicSentence currentTopicSentence = topicSentenceArrayList.get(position);
+                    currentTopicSentence.setAnhChuDeMauCau(imageBytes);
 
-                admin_Add_Topic_SampleSentence_CustomAdapter_LV.notifyDataSetChanged();
-
+                    admin_Add_Topic_SampleSentence_CustomAdapter_LV.notifyDataSetChanged();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Lỗi khi chọn ảnh", Toast.LENGTH_SHORT).show();

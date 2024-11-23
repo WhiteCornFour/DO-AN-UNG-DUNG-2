@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class TopicSentenceHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final String TABLE_NAME = "ChuDeMauCau";
     private static final String maChuDeMauCau = "MaChuDeMauCau";
@@ -61,7 +60,6 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
                     if (imageBytes != null) {
                         topicSentence.setAnhChuDeMauCau(imageBytes);
                     }
-
                     topicSentenceArrayList.add(topicSentence);
                 } while (cursor.moveToNext());
             }
@@ -264,6 +262,7 @@ public class TopicSentenceHandler extends SQLiteOpenHelper {
 
             long result = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
             added = result != -1;
+
 
         } catch (SQLiteException e) {
             e.printStackTrace();
