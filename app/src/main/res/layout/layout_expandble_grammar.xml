@@ -55,8 +55,8 @@
         android:layout_marginBottom="5dp"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/lvNP"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewNP"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"

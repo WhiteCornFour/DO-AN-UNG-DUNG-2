@@ -1,28 +1,19 @@
 package com.example.doanungdung2.View;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
-import android.transition.AutoTransition;
-import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.util.Log;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanungdung2.Controller.GrammarHandler;
@@ -57,32 +48,30 @@ public class Expandable_Grammar extends ArrayAdapter{
         grammarHandler = new GrammarHandler(context, DB_NAME, null, DB_VERSION);
         if (convertView == null)
             convertView = LayoutInflater.from(context).inflate(layoutItem, parent, false);
+
         TextView tvTDBT;
         tvTDBT = convertView.findViewById(R.id.tvTDBT);
         tvTDBT.setText(grammarCategory.getTenDangNguPhap());
-        ListView lvNP;
-        lvNP = convertView.findViewById(R.id.lvNP);
-
-        lvNP.setDivider(null);
-        lvNP.setDividerHeight(0);
-
-        // Vô hiệu hóa cuộn của ListView
-        lvNP.setVerticalScrollBarEnabled(false); // Tắt thanh cuộn dọc
-        lvNP.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
-
-        // Vô hiệu hóa scrolling cache để tiết kiệm bộ nhớ và hiệu suất
-        lvNP.setScrollingCacheEnabled(false);
-
-        // Tắt over-scroll (cuộn quá giới hạn)
-        lvNP.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         ImageView imgExpand_Grammar;
         imgExpand_Grammar = convertView.findViewById(R.id.imgExpand_Grammar);
+
+        RecyclerView recyclerViewNP;
+        recyclerViewNP = convertView.findViewById(R.id.recyclerViewNP);
+        recyclerViewNP.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
         grammarArrayList = grammarHandler.searchGrammarByGramCateCode(grammarCategory.getMaDangNguPhap());
-        adapter_lv = new User_Item_CustomAdapter_LV(getContext(), R.layout.layout_user_item_custom_adapter_lv,
-                grammarArrayList);
-        lvNP.setAdapter(adapter_lv);
-        //setListViewHeightToWrapContent(lvNP);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parent.getContext());
+        recyclerViewNP.setLayoutManager(layoutManager);
+        recyclerViewNP.setItemAnimator(new DefaultItemAnimator());
+        adapter_lv = new User_Item_CustomAdapter_LV(grammarArrayList, new User_Item_CustomAdapter_LV.ItemClickListener() {
+            @Override
+            public void itemClicked(Grammar grammar) {
+                maNP = grammar.getMaNguPhap();
+                itemClickListener.itemClicked(maNP);
+            }
+        });
+
         LinearLayout display;
         display = convertView.findViewById(R.id.display);
         if (grammarCategory.isSelected()) {
@@ -98,22 +87,11 @@ public class Expandable_Grammar extends ArrayAdapter{
 
             // Chỉ cập nhật chiều cao nếu item được mở
             if (grammarCategory.isSelected()) {
-                setListViewHeightToWrapContent(lvNP);
+                setRecyclerViewHeightToWrapContent(recyclerViewNP);
             }
         });
-        lvNP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (grammarArrayList != null && i < grammarArrayList.size()) {
-                    Grammar grammar = grammarArrayList.get(i);
-                    maNP = grammar.getMaNguPhap();
-                    itemClickListener.itemClicked(maNP);
-                } else {
-                    Log.e("Expandable_Grammar", "Danh sách trống hoặc chỉ số không hợp lệ!");
-                }
-            }
-        });
-
+        recyclerViewNP.setAdapter(adapter_lv);
+        setRecyclerViewHeightToWrapContent(recyclerViewNP);
         notifyDataSetChanged();
         return convertView;
     }
@@ -135,45 +113,55 @@ public class Expandable_Grammar extends ArrayAdapter{
     {
         void itemClicked(String maNP);
     }
-    public void setListViewHeightToWrapContent(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-
-        if (listAdapter == null || listAdapter.getCount() == 0) {
+    public void setRecyclerViewHeightToWrapContent(RecyclerView recyclerView) {
+        RecyclerView.Adapter<?> adapter = recyclerView.getAdapter();
+        if (adapter == null || adapter.getItemCount() == 0) {
             return;
         }
-
         int totalHeight = 0;
-        View listItem = null;
-
-        // Tạm thời hiển thị ListView nếu nó đang ẩn
-        boolean wasGone = (listView.getVisibility() == View.GONE);
+        View view = null;
+        // Tạm thời hiển thị RecyclerView nếu nó đang ẩn
+        boolean wasGone = (recyclerView.getVisibility() == View.GONE);
         if (wasGone) {
-            listView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
+        // Lấy layout manager của RecyclerView
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        // Tính chiều cao các item
+        for (int i = 0; i < adapter.getItemCount(); i++) {
+            view = adapter.createViewHolder(recyclerView, adapter.getItemViewType(i)).itemView;
 
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            listItem = listAdapter.getView(i, listItem, listView);
+            // Đo kích thước của item
+            view.measure(
+                    View.MeasureSpec.makeMeasureSpec(recyclerView.getWidth(), View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.UNSPECIFIED
+            );
 
-            if (listItem != null) {
-                listItem.measure(
-                        View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.EXACTLY),
-                        View.MeasureSpec.UNSPECIFIED
-                );
-                totalHeight += listItem.getMeasuredHeight();
+            totalHeight += view.getMeasuredHeight();
+        }
+        // Tính chiều cao của các dividers (nếu có)
+        int dividerHeight = 0;
+        RecyclerView.State state = new RecyclerView.State();  // Khởi tạo state
+        for (int i = 0; i < recyclerView.getItemDecorationCount(); i++) {
+            RecyclerView.ItemDecoration itemDecoration = recyclerView.getItemDecorationAt(i);
+            Rect offsets = new Rect();
+
+            // Tính toán offsets cho mỗi item
+            for (int j = 0; j < adapter.getItemCount(); j++) {
+                itemDecoration.getItemOffsets(offsets, view, recyclerView, state);
+                dividerHeight += offsets.top + offsets.bottom; // Tổng chiều cao của các divider
             }
         }
-
-        int dividerHeight = listView.getDividerHeight() * (listAdapter.getCount() - 1);
+        // Tính chiều cao cuối cùng cho RecyclerView
         int finalHeight = totalHeight + dividerHeight;
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        // Thiết lập chiều cao cho RecyclerView
+        ViewGroup.LayoutParams params = recyclerView.getLayoutParams();
         params.height = finalHeight;
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
-        // Khôi phục trạng thái ẩn nếu ListView ban đầu bị ẩn
+        recyclerView.setLayoutParams(params);
+        recyclerView.requestLayout();
+        // Khôi phục trạng thái ẩn nếu RecyclerView ban đầu bị ẩn
         if (wasGone) {
-            listView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
         }
     }
 }
