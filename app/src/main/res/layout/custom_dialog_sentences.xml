@@ -1,89 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_margin="20dp"
-    android:background="@drawable/backgr_user_search_history_white"
-    android:padding="10dp"
+    android:background="@color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@drawable/custom_vienden"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@drawable/custom_vienxam_xanhdam"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTopicTitle_us"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Topic Title"
-            android:textColor="@color/black"
-            android:textSize="12pt"
-            android:textStyle="bold" />
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/custom_vienden_green"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvTopicContent_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Topic content here"
-            android:textColor="@color/black"
-            android:textSize="8pt"
-            android:textStyle="italic" />
-    </LinearLayout>
-
-    <LinearLayout
-            android:id="@+id/lnSupportDia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/lvdialog_us"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_vienden_lime"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tvTopicTitle_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="Topic Title"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvTopicContent_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center"
+                    android:text="Topic content here"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
 
 
-    </LinearLayout>
-    <include
-        android:id="@+id/supportDialog"
-        layout="@layout/layout_user_sentences_support_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/ln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/custom_vienden_nenxamxanh"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
+                <ListView
+                    android:id="@+id/lvdialog_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="420dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="5dp" />
 
-        <Button
-            android:id="@+id/btnX_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:layout_marginRight="120dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/layout_topicss"
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgX_us"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:textSize="8pt"
-            android:textColor="@color/white"
-            android:text="X" />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:src="@drawable/btn_x" />
 
+    </LinearLayout>
 
 </LinearLayout>
-
-
-
-
-
-
-
-
-
