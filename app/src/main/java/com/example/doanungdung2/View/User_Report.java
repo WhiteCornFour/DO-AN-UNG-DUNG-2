@@ -64,9 +64,6 @@ public class User_Report extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-
-            imgBackToProfileFromReport.setImageURI(selectedImageUri);
 
             // Change the TextView text and colo
             tvImportImageReportStatus.setText("Image have been imported!");

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/changingNewPasswordConstraintLayout"
+    android:id="@+id/verificationCodeConstraintLayout"
     android:layout_width="380dp"
     android:layout_height="wrap_content"
     android:background="@drawable/backgr_user_white"
@@ -19,13 +19,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/layoutEnterOTP"
+            android:id="@+id/layoutEnterCode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_margin="10dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/enterOTPTitle">
+            app:layout_constraintTop_toBottomOf="@+id/enterCodeTitle">
 
             <EditText
                 android:id="@+id/edtFirstNumber"
@@ -61,8 +61,8 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:ems="1"
                 android:fontFamily="@font/alata"
+                android:ems="1"
                 android:textSize="30sp"
                 android:gravity="center"
                 android:background="@drawable/custom_edit_text"
@@ -96,50 +96,21 @@
                 android:background="@drawable/custom_edit_text"
                 android:inputType="number"
                 android:nextFocusDown="@id/btnConfirmNewPassword" />
+
         </LinearLayout>
 
         <TextView
-            android:id="@+id/enterOTPTitle"
+            android:id="@+id/enterCodeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
             android:gravity="center_horizontal"
             android:paddingTop="20dp"
-            android:text="Please enter the new OTP!!"
+            android:text="Please enter the old Code!!"
             android:textColor="@color/brown"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/layoutDialog" />
-
-
-        <LinearLayout
-            android:id="@+id/layoutCountDown"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
-            app:layout_constraintEnd_toEndOf="@+id/layoutEnterOTP"
-            app:layout_constraintStart_toStartOf="@+id/layoutEnterOTP"
-            app:layout_constraintTop_toBottomOf="@+id/layoutEnterOTP">
-
-            <TextView
-                android:id="@+id/tvTimeSMSCountDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60s"
-                android:layout_marginEnd="6dp"
-                android:fontFamily="@font/alata" />
-
-            <TextView
-                android:id="@+id/textView77"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/alata"
-                android:text="until you can send OTP again" />
-        </LinearLayout>
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,41 +118,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutCountDown">
+            app:layout_constraintTop_toBottomOf="@id/layoutEnterCode">
 
             <Button
-                android:id="@+id/btnConfirmNewPassword"
+                android:id="@+id/btnEnterCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/green"
                 android:fontFamily="@font/alata"
-                android:text="Confirm"
+                android:text="Enter"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:cornerRadius="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/btnSendSMSAgain"
+                app:layout_constraintEnd_toStartOf="@+id/btnComeback"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <Button
-                android:id="@+id/btnSendSMSAgain"
+                android:id="@+id/btnComeback"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="@color/mist"
-                android:enabled="false"
+                android:backgroundTint="@color/blue_pastel"
+                android:enabled="true"
                 android:fontFamily="@font/alata"
-                android:text="Send Again"
+                android:text="Comeback"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:cornerRadius="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnConfirmNewPassword"
+                app:layout_constraintStart_toEndOf="@id/btnEnterCode"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -195,21 +166,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/privacy_icon"
+        android:src="@drawable/shield_icon"
         app:layout_constraintBottom_toTopOf="@id/layoutDialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/layoutDialog" />
 
-    <ImageView
-        android:id="@+id/imgExitDialog"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/exit_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

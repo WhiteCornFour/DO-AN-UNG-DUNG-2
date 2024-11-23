@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -47,6 +48,7 @@ public class User_Change_My_Password extends AppCompatActivity {
     TextInputLayout layoutConfirmNewPassword;
     TextInputEditText edtOldPassword_CMP, edtNewPassword_CMP, edtConfirmNewPassword_CMP;
     Button btnChangeMyPassword;
+    CountDownTimer countDownTimer;
     UserHandler userHandler;
     User user = new User();
     String OTPCode = "";
@@ -71,6 +73,7 @@ public class User_Change_My_Password extends AppCompatActivity {
 
     void addControl() {
         imgBackToPrivacyMainPage = findViewById(R.id.imgBackToPrivacyMainPage);
+        layoutConfirmNewPassword = findViewById(R.id.layoutConfirmNewPassword);
         edtOldPassword_CMP = findViewById(R.id.edtOldPassword_CMP);
         edtNewPassword_CMP = findViewById(R.id.edtNewPassword_CMP);
         edtConfirmNewPassword_CMP = findViewById(R.id.edtConfirmNewPassword_CMP);
@@ -123,29 +126,36 @@ public class User_Change_My_Password extends AppCompatActivity {
             }
         });
 
-//        edtConfirmNewPassword_CMP.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                String confirmPassword = s.toString();
-//                if(confirmPassword.equals(edtNewPassword_CMP.toString().trim())) {
-//                    layoutConfirmNewPassword.setHelperText("Your password is the same with confirm password!");
-//                    layoutConfirmNewPassword.setError("");
-//                } else {
-//                    layoutConfirmNewPassword.setHelperText("");
-//                    layoutConfirmNewPassword.setError("The confirm password does not match the new password.");
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        edtConfirmNewPassword_CMP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String confirmPassword = s.toString().trim();
+                String newPassword = edtNewPassword_CMP.getText().toString().trim();
+
+                if (confirmPassword.isEmpty()) {
+                    //neu no roi vao truong hop password trong
+                    layoutConfirmNewPassword.setHelperText("");
+                    layoutConfirmNewPassword.setError("Confirm password cannot be empty.");
+                } else if (confirmPassword.equals(newPassword)) {
+                    //neu ma confirm password giong voi new password
+                    layoutConfirmNewPassword.setHelperText("Your password is the same as the confirm password!");
+                    layoutConfirmNewPassword.setError("");
+                } else {
+                    //nguoc lai neu chung khong giong nhau
+                    layoutConfirmNewPassword.setHelperText("");
+                    layoutConfirmNewPassword.setError("The confirm password does not match the new password.");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
     }
 
     private User getIntentUser() {
@@ -167,8 +177,8 @@ public class User_Change_My_Password extends AppCompatActivity {
             public void onFinish() {
                 tvTimeSMSCountDown.setText("00:00");
                 sendSMSAgain.setEnabled(true);
-                sendSMSAgain.setBackgroundResource(R.color.blue_pastel);
-                Toast.makeText(User_Change_My_Password.this, "You can now send new OTP if you didn't the old one.", Toast.LENGTH_SHORT).show();
+                sendSMSAgain.setBackgroundColor(ContextCompat.getColor(User_Change_My_Password.this, R.color.blue_pastel));
+                Toast.makeText(User_Change_My_Password.this, "You can now send new OTP if you didn't see the old one.", Toast.LENGTH_SHORT).show();
             }
         }.start();
     }
