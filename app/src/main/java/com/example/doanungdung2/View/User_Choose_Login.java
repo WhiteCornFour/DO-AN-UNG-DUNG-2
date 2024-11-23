@@ -17,7 +17,7 @@ public class User_Choose_Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_first_before_login);
+        setContentView(R.layout.activity_user_choose_login);
 
         addControl();
 

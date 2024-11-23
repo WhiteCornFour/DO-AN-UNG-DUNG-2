@@ -57,14 +57,14 @@ public class User_First_Before_Login extends AppCompatActivity {
         });
         tvXinchao.startAnimation(slideIn);
 
-//        btnNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(User_First_Before_Login.this, User_Choose_Login.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(User_First_Before_Login.this, User_Choose_Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 }
