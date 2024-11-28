@@ -116,7 +116,7 @@ public class User_Register extends AppCompatActivity {
 
                     // Nếu không trùng lặp, thực hiện thêm người dùng
                     if (!isDuplicate) {
-                        User user = new User(idUser, nameUser, accountUser, passUser, phoneUser, emailUser, null);
+                        User user = new User(idUser, nameUser, accountUser, passUser, phoneUser, emailUser, "Off", null, null);
                         userHandler.registerNewUserAccount(user);
                         resetEditText();
                         showSuccessRegisterDialog();

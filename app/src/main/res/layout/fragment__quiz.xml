@@ -119,10 +119,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
+                app:backgroundTint="@color/green"
                 android:fontFamily="@font/alata"
-                android:textStyle="bold"
+                android:text="Beginner"
                 android:textColor="@color/brown"
-                android:text="Beginner" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnStarterQuiz"
@@ -130,10 +131,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
+                app:backgroundTint="@color/green"
                 android:fontFamily="@font/alata"
-                android:textStyle="bold"
+                android:text="Starter"
                 android:textColor="@color/brown"
-                android:text="Starter" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnIntermediateQuiz"
@@ -141,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
+                app:backgroundTint="@color/green"
                 android:fontFamily="@font/alata"
                 android:textStyle="bold"
                 android:textColor="@color/brown"
@@ -153,6 +156,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
+                app:backgroundTint="@color/green"
                 android:textStyle="bold"
                 android:textColor="@color/brown"
                 android:text="Proficient" />
@@ -164,6 +168,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/backgr_button_green"
                 android:fontFamily="@font/alata"
+                app:backgroundTint="@color/green"
                 android:text="Master"
                 android:textColor="@color/brown"
                 android:textStyle="bold" />

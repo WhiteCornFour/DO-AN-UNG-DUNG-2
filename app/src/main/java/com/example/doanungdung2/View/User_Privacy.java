@@ -66,6 +66,16 @@ public class User_Privacy extends AppCompatActivity {
                 finish();
             }
         });
+
+        layoutTwoStepVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(User_Privacy.this, User_Two_Step_Verification.class);
+                intent.putExtra("userFromPrivacyToTwoStepVerification", user);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private User getIntentUser() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/takingQuizConstraintLayout"
-    android:layout_width="300dp"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
     android:elevation="2dp"
     android:padding="20dp">
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/enterQuizTitle"
-            android:text="Do you want to enter this quiz ?"
+            android:text="Do you want to enter this quiz?"
             android:textColor="@color/brown"
             android:textSize="20sp"
             android:paddingTop="28dp"
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/quizHint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

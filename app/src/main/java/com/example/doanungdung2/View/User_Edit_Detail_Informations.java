@@ -120,7 +120,7 @@ public class User_Edit_Detail_Informations extends AppCompatActivity {
                     imageBytes = userOld.getAnhNguoiDung();
                 }
                 userNew = new User(userOld.getMaNguoiDung(), tenNguoiDung, userOld.getTaiKhoan(), userOld.getMatKhau(),
-                        sdt, email, imageBytes);
+                        sdt, email, userOld.getCheDoXacNhan(), userOld.getMaXacNhan(), imageBytes);
                 //Kiểm tra dữ liệu nhập vào có trống hay sai định dạng hay không
                 if (validInforInput(userNew))
                 {

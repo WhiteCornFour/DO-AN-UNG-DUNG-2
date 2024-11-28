@@ -1,6 +1,7 @@
 package com.example.doanungdung2.Controller;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +25,8 @@ public class UserHandler extends SQLiteOpenHelper {
     private static final String matKhau = "MatKhau";
     private static final String soDienThoai = "SoDienThoai";
     private static final String email = "Email";
-
+    private static final String cheDoXacNhan = "CheDoXacNhan";
+    private static final String maXacNhan = "MaXacNhan";
     private static final String anhNguoiDung = "AnhNguoiDung";
     private static final String PATH = "/data/data/com.example.doanungdung2/database/AppHocTiengAnh.db";
 
@@ -55,6 +57,9 @@ public class UserHandler extends SQLiteOpenHelper {
                 user.setMatKhau(cursor.getString(3));
                 user.setSoDienThoai(cursor.getString(4));
                 user.setEmail(cursor.getString(5));
+                user.setCheDoXacNhan(cursor.getString(6));
+                user.setMaXacNhan(cursor.getString(7));
+                user.setAnhNguoiDung(cursor.getBlob(8));
                 userArrayList.add(user);
             } while (cursor.moveToNext());
         }
@@ -64,14 +69,22 @@ public class UserHandler extends SQLiteOpenHelper {
     }
 
     public void registerNewUserAccount(User user) {
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        String sql = "INSERT OR IGNORE INTO " + TABLE_NAME + " ("
-                + maNguoiDung + ", " + tenNguoiDung + ", " + taiKhoan + ", " + matKhau + ", " + soDienThoai + ", " + email + ") " +
-                "Values "
-                + "('" + user.getMaNguoiDung() + "','" + user.getTenNguoiDung() + "', '" + user.getTaiKhoan() + "','" + user.getMatKhau() + "', '" + user.getSoDienThoai() + "', '" + user.getEmail() + "')";
-        sqLiteDatabase.execSQL(sql);
-        sqLiteDatabase.close();
+        SQLiteDatabase sqLiteDatabase = sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+            ContentValues values = new ContentValues();
+            values.put(maNguoiDung, user.getMaNguoiDung());
+            values.put(tenNguoiDung, user.getTenNguoiDung());
+            values.put(taiKhoan, user.getTaiKhoan());
+            values.put(matKhau, user.getMatKhau());
+            values.put(soDienThoai, user.getSoDienThoai());
+            values.put(email, user.getEmail());
+            values.put(cheDoXacNhan, user.getCheDoXacNhan());
+            values.put(maXacNhan, user.getMaXacNhan());
+            values.put(anhNguoiDung, user.getAnhNguoiDung());
+
+            sqLiteDatabase.insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+            sqLiteDatabase.close();
     }
+
 
     //Hàm kiểm tra xem soo điện thoại người dùng nhập vào có tồn tại trong db hay ko
     public boolean checkEnterPhoneNumberMatchPhoneDB(String enterPhoneNumber) {
@@ -161,7 +174,9 @@ public class UserHandler extends SQLiteOpenHelper {
                 us.setMatKhau(cursor.getString(3));
                 us.setSoDienThoai(cursor.getString(4));
                 us.setEmail(cursor.getString(5));
-                us.setAnhNguoiDung(cursor.getBlob(6));
+                us.setCheDoXacNhan(cursor.getString(6));
+                us.setMaXacNhan(cursor.getString(7));
+                us.setAnhNguoiDung(cursor.getBlob(8));
             }
             cursor.close();
         }
@@ -214,6 +229,23 @@ public class UserHandler extends SQLiteOpenHelper {
         String query = "Update " + TABLE_NAME + " Set MatKhau = ?" +
                 " Where MaNguoiDung = ?";
         sqLiteDatabase.execSQL(query, new String[]{newPassword, maNguoiDungInput});
+        sqLiteDatabase.close();
+    }
+
+    public void updateCheDoXacNhan(String cheDoXacNhanInput, String maNguoiDungInput) {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String sql = "UPDATE " + TABLE_NAME + " SET " + cheDoXacNhan + " = ? WHERE " + maNguoiDung + " = ?";
+        Log.d("UpdateStatus", "Rows affected: " + sql);
+        sqLiteDatabase.execSQL(sql, new Object[]{ cheDoXacNhanInput, maNguoiDungInput});
+        sqLiteDatabase.close();
+    }
+
+    public void updateUserVerificationCode(String newVerificationCode, String maNguoiDungInput)
+    {
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String query = "Update " + TABLE_NAME + " Set MaXacNhan = ?" + " Where MaNguoiDung = ?";
+        sqLiteDatabase.execSQL(query, new Object[]{newVerificationCode, maNguoiDungInput});
+        Log.d("maNguoiDung and newVerificationCode: ", maNguoiDungInput + newVerificationCode);
         sqLiteDatabase.close();
     }
 

@@ -104,7 +104,7 @@ public class User_Report extends AppCompatActivity {
                 String maBaoCao = Admin_Add_Exercise.createAutoExerciseCode("BC");
                 String noiDungBaoCao = edtReportContent.getText().toString().trim();
                 String ngayBaoCao = String.valueOf(LocalDateTime.now());
-                String trangThaiBaoCao = "Unfinished";
+                String trangThaiBaoCao = "Chưa xử lý";
                 Bitmap anhBaoCao = getBitmapFromImageView(imgBackToProfileFromReport);
                 String maNguoiDung = user.getMaNguoiDung();
 

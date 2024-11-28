@@ -161,10 +161,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), User_Profile.class);
-                intent.putExtra("tkFromQuizToProfile", tk);
-                intent.putExtra("mkFromQuizToProfile", mk);
-                Log.d("tkFromQuizToDetail: ",tk);
-                Log.d("mkFromQuizToDetail: ",mk);
+                intent.putExtra("userFromQuizFragmentToProfile", user);
                 startActivity(intent);
             }
         });
