@@ -1,6 +1,8 @@
 package com.example.doanungdung2.Model;
 
-public class Report {
+import java.io.Serializable;
+
+public class Report implements Serializable {
     private String maBaoCao;
     private String noiDungBaoCao;
     private String ngayBaoCao;
