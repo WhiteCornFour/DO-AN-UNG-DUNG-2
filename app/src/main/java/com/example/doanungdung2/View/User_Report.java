@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -29,6 +30,7 @@ import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 
 public class User_Report extends AppCompatActivity {
@@ -40,6 +42,7 @@ public class User_Report extends AppCompatActivity {
     Button btnInsertPictureReport, btnSendingReport;
     ReportHandler reportHandler;
     User user = new User();
+    Bitmap selectedBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +67,21 @@ public class User_Report extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = android.provider.MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
 
-            // Change the TextView text and colo
-            tvImportImageReportStatus.setText("Image have been imported!");
-            tvImportImageReportStatus.setTextColor(getResources().getColor(R.color.green));
+                tvImportImageReportStatus.setText("Image has been imported!");
+                tvImportImageReportStatus.setTextColor(getResources().getColor(R.color.green));
+
+                this.selectedBitmap = bitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to load image!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 
     void addControl() {
         imgBackToProfileFromReport = findViewById(R.id.imgBackToProfileFromReport);
@@ -105,7 +117,7 @@ public class User_Report extends AppCompatActivity {
                 String noiDungBaoCao = edtReportContent.getText().toString().trim();
                 String ngayBaoCao = String.valueOf(LocalDateTime.now());
                 String trangThaiBaoCao = "Chưa xử lý";
-                Bitmap anhBaoCao = getBitmapFromImageView(imgBackToProfileFromReport);
+                byte[] anhBaoCao = getBytesFromBitmap(selectedBitmap);;
                 String maNguoiDung = user.getMaNguoiDung();
 
                 if(noiDungBaoCao.isEmpty()) {
@@ -118,7 +130,7 @@ public class User_Report extends AppCompatActivity {
                 report.setNoiDungBaoCao(noiDungBaoCao);
                 report.setNgayBaoCao(ngayBaoCao);
                 report.setTrangThaiBaoCao(trangThaiBaoCao);
-                report.setAnhBaoCao(getBytesFromBitmap(anhBaoCao));
+                report.setAnhBaoCao(anhBaoCao);
                 report.setMaNguoiDung(maNguoiDung);
                 showReportConfirmDialog(report);
             }
