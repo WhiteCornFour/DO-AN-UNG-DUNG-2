@@ -168,7 +168,6 @@ public class User_Report extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-
                 reportHandler.insertReport(report);
                 clearInputFields();
                 Toast.makeText(User_Report.this, "Thank you for helping us enhance and develop the app!", Toast.LENGTH_SHORT).show();

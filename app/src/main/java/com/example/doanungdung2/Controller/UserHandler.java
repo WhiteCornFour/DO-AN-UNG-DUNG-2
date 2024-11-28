@@ -249,4 +249,23 @@ public class UserHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    @SuppressLint("Range")
+    public String getNameOfUser(String maNguoiDungInput)
+    {
+        String kq = "";
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select TenNguoiDung From " + TABLE_NAME + " Where MaNguoiDung = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maNguoiDungInput});
+        if (cursor!=null)
+        {
+            if (cursor.moveToFirst())
+            {
+                kq = cursor.getString(cursor.getColumnIndex(tenNguoiDung));
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        Log.d("kq: ", kq);
+        return kq;
+    }
 }
