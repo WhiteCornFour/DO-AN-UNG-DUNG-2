@@ -6,41 +6,100 @@
     android:layout_height="match_parent"
     tools:context=".View.Admin_ManagementCategory_MainPage_Fragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/layout_background_qldanhmuc_fragment"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:src="@drawable/logo_no_background" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/alata"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="12pt"
-            android:layout_gravity="center"
-            android:text="TRANG CHỦ ADMIN" />
+            android:layout_marginTop="30dp"
+            android:background="@drawable/layout_background_qldanhmuc_fragment"
+            android:backgroundTint="#D4E4F4"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTenADKhiLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/alata"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="8pt"
-            android:layout_gravity="center"
-            android:text="Xin chào Ngô Hoàng Nam đã quay trở lại!" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo_no_background" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/alata"
+                android:text="TRANG CHỦ ADMIN"
+                android:textColor="@color/black"
+                android:textSize="11pt"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvTenADKhiLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/alata"
+                android:text="Xin chào Ngô Hoàng Nam đã quay trở lại!"
+                android:textColor="@color/black"
+                android:textSize="8pt"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/backgr_admin_white"
+                android:layout_margin="15dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtSearchReportByDMY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:textSize="8pt"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:textStyle="italic"
+                    android:hint="Ngày, tháng, năm,..." />
+
+                <ImageView
+                    android:id="@+id/imgSearchReportByDMY"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:padding="10dp"
+                    android:background="@drawable/backgr_button_blue"
+                    android:backgroundTint="@color/blue"
+                    android:src="@drawable/search_white" />
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spinnerViewReport_Admin"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewReport_Admin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/backgr_admin_white"
+                android:padding="15dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
