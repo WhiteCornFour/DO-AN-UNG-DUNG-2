@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telephony.SmsManager;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.UserHandler;
-import com.example.doanungdung2.Model.Report;
 import com.example.doanungdung2.Model.SharedViewModel_User;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
@@ -36,9 +34,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class User_Change_My_Password extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
@@ -101,6 +97,11 @@ public class User_Change_My_Password extends AppCompatActivity {
 
                 if(oldPassword.isEmpty() || newPassword.isEmpty() || confirmNewPassword.isEmpty()) {
                     Toast.makeText(User_Change_My_Password.this, "Please fill all the blank before submit!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(newPassword.equals(oldPassword)) {
+                    Toast.makeText(User_Change_My_Password.this, "You can't set your new password equals with your old password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -185,14 +186,14 @@ public class User_Change_My_Password extends AppCompatActivity {
 
     private void showEnterOTPDialog(String newPassword, String maNguoiDung) {
         ConstraintLayout successConstraintLayout = findViewById(R.id.takingReportConstraintLayout);
-        View view = LayoutInflater.from(User_Change_My_Password.this).inflate(R.layout.custom_submit_otp_new_password, successConstraintLayout);
+        View view = LayoutInflater.from(User_Change_My_Password.this).inflate(R.layout.custom_submit_otp_new_password_dialog, successConstraintLayout);
         Button confirmNewPassword = view.findViewById(R.id.btnConfirmNewPassword);
         Button sendSMSAgain = view.findViewById(R.id.btnSendSMSAgain);
         ImageView imgExitDialog = view.findViewById(R.id.imgExitDialog);
         TextView tvTimeSMSCountDown = view.findViewById(R.id.tvTimeSMSCountDown);
         EditText edtFirstNumber = view.findViewById(R.id.edtFirstNumber);
         EditText edtSecondNumber = view.findViewById(R.id.edtSecondNumber);
-        EditText edThirdNumber = view.findViewById(R.id.edtThirdNumber);
+        EditText edtThirdNumber = view.findViewById(R.id.edtThirdNumber);
         EditText edtFourthNumber = view.findViewById(R.id.edtFourthNumber);
         EditText edtFifthNumber = view.findViewById(R.id.edtFifthNumber);
 
@@ -205,26 +206,25 @@ public class User_Change_My_Password extends AppCompatActivity {
         confirmNewPassword.findViewById(R.id.btnConfirmNewPassword).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
                 String OTPSend = edtFirstNumber.getText().toString().trim() +
                         edtSecondNumber.getText().toString().trim() +
-                        edThirdNumber.getText().toString().trim() +
+                        edtThirdNumber.getText().toString().trim() +
                         edtFourthNumber.getText().toString().trim() +
                         edtFifthNumber.getText().toString().trim();
                 if (OTPSend.isEmpty())
                 {
                     Toast.makeText(User_Change_My_Password.this, "Please enter your OTP!", Toast.LENGTH_SHORT).show();
                     return;
-                }else if (!OTPSend.equals(OTPCode))
+                } else if (!OTPSend.equals(OTPCode))
                 {
                     Toast.makeText(User_Change_My_Password.this, "Please check the OTP code again!", Toast.LENGTH_SHORT).show();
                     return;
-                }else
-                {
+                } else {
                     userHandler.updateUserPassword(newPassword, maNguoiDung);
                     sharedViewModel_user.setUser(user);
                     clearInputFields();
-                    Toast.makeText(User_Change_My_Password.this, "You have change password successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(User_Change_My_Password.this, "You have change password successfully!", Toast.LENGTH_SHORT).show();
+                    alertDialog.dismiss();
                 }
             }
         });

@@ -141,10 +141,9 @@ public class User_Profile extends AppCompatActivity {
     private User getUserIntent() {
         Intent intent = getIntent();
         User userIntent = null;
-        String tk = intent.getStringExtra("tkFromQuizToProfile");
-        String mk = intent.getStringExtra("mkFromQuizToProfile");
-        if (tk != null && mk != null) {
-            userIntent = userHandler.getUserInfo(tk, mk);
+        userIntent = (User) intent.getSerializableExtra("userFromQuizFragmentToProfile");
+        if (userIntent == null) {
+            userIntent = (User) intent.getSerializableExtra("userFromMainPageToProfile");
         }
         if (userIntent == null) {
             userIntent = (User) intent.getSerializableExtra("userBackFromPageToProfile");

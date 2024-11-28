@@ -1,12 +1,17 @@
 package com.example.doanungdung2.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -66,18 +71,25 @@ public class User_Login extends AppCompatActivity {
             public void onClick(View v) {
                 String account = edtLoginAccount.getText().toString().trim();
                 String password = edtLoginPassword.getText().toString().trim();
-
+                User us = userHandler.getUserInfo(account, password);
                 boolean isValid = userHandler.validateLogin(account, password);
+                String verificationMode = us.getCheDoXacNhan();
+                String verificationCode = us.getMaXacNhan();
+                Log.d("code va mod verification mode", verificationCode + " , " + verificationMode);
                 if (validateInputs(account, password))
                 {
                     if (isValid) {
-                        Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(User_Login.this, User_MainPage.class);
-                        User us = userHandler.getUserInfo(account, password);
-                        intent.putExtra("user", us);
-                        startActivity(intent);
-                        resetEdt();
-                        finish();
+                        if (verificationMode.equals("On") && verificationCode != null) {
+                            showCheckingVerificationCodeDialog(us);
+                        } else {
+                            Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(User_Login.this, User_MainPage.class);
+                            intent.putExtra("user", us);
+                            startActivity(intent);
+                            resetEdt();
+                            finish();
+                        }
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid account or password", Toast.LENGTH_LONG).show();
                     }
@@ -131,6 +143,63 @@ public class User_Login extends AppCompatActivity {
     void resetEdt() {
         edtLoginAccount.setText("");
         edtLoginPassword.setText("");
+    }
+
+    private void showCheckingVerificationCodeDialog(User us) {
+        ConstraintLayout successConstraintLayout = findViewById(R.id.verificationCodeConstraintLayout);
+        View view = LayoutInflater.from(User_Login.this).inflate(R.layout.custom_enter_verification_code_dialog, successConstraintLayout);
+
+        EditText edtFirstNumber = view.findViewById(R.id.edtFirstNumber);
+        EditText edtSecondNumber = view.findViewById(R.id.edtSecondNumber);
+        EditText edtThirdNumber = view.findViewById(R.id.edtThirdNumber);
+        EditText edtFourthNumber = view.findViewById(R.id.edtFourthNumber);
+        EditText edtFifthNumber = view.findViewById(R.id.edtFifthNumber);
+        Button btnEnterCode = view.findViewById(R.id.btnEnterCode);
+        Button btnComeback = view.findViewById(R.id.btnComeback);
+        String maXacNhan = us.getMaXacNhan();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(User_Login.this);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        btnEnterCode.findViewById(R.id.btnEnterCode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String verificationCode = edtFirstNumber.getText().toString().trim() +
+                        edtSecondNumber.getText().toString().trim() +
+                        edtThirdNumber.getText().toString().trim() +
+                        edtFourthNumber.getText().toString().trim() +
+                        edtFifthNumber.getText().toString().trim();
+                if (verificationCode.isEmpty())
+                {
+                    Toast.makeText(User_Login.this, "Please enter code!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (maXacNhan == null & !maXacNhan.equals(verificationCode)) {
+                    Toast.makeText(User_Login.this, "Verification code is not valid!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(User_Login.this, User_MainPage.class);
+                    intent.putExtra("user", us);
+                    startActivity(intent);
+                    resetEdt();
+                    finish();
+                    alertDialog.dismiss();
+                }
+            }
+
+        });
+        btnComeback.findViewById(R.id.btnComeback).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        if (alertDialog.getWindow() != null) {
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+        }
+        alertDialog.show();
     }
 }
 
