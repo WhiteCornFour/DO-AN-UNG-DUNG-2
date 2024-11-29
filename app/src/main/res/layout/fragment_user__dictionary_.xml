@@ -16,14 +16,13 @@
         android:paddingLeft="20dp"
         android:paddingTop="5dp"
         android:paddingRight="20dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="60dp">
 
         <AutoCompleteTextView
             android:id="@+id/autoCompleteSearchTV"
             android:layout_width="367dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:background="@drawable/custom_user_search_bar_edit_text"
             android:drawableEnd="@drawable/custom_search_icon"
             android:drawablePadding="8dp"

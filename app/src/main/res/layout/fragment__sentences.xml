@@ -31,44 +31,45 @@
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:background="@drawable/custom_vienxam_xanhdam">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text=" CHỦ ĐỀ"
-            android:gravity="center"
-            android:textSize="10pt"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/black"
-            android:background="@drawable/custom_bgr_edt_topic"
-            android:layout_marginTop="15dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:background="@drawable/custom_vienden_green">
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/custom_vienxam_xanhdam"
+            android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lvTopic"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custom_bgr_edt_topic"
+                android:gravity="center"
+                android:text=" CHỦ ĐỀ"
+                android:textColor="@color/black"
+                android:textSize="10pt"
+                android:textStyle="bold" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="7dp"
-                android:layout_marginTop="7dp"/>
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_vienden_green"
+                android:orientation="vertical">
 
+                <ListView
+                    android:id="@+id/lvTopic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="7dp" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
     </LinearLayout>
 
 
