@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 import com.example.doanungdung2.databinding.ActivityMainBinding;
@@ -25,7 +27,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class User_MainPage extends AppCompatActivity {
-
+    private static final String DB_NAME = "AppHocTiengAnh";
+    private static final int DB_VERSION = 1;
 //    LinearLayout quizLayout, dictionaryLayout, grammarLayout, sentencesLayout;
 //    ImageView quizImage, dictionaryImage, grammarImage, sentencesImage;
 //    TextView quizTextView, dictionaryTextView, grammarTextView, sentencesTextView;
@@ -33,6 +36,7 @@ public class User_MainPage extends AppCompatActivity {
     BottomNavigationView bottomNavigationViewUser;
     FloatingActionButton floatingActionButton;
     User user = new User();
+    UserHandler userHandler;
     long pressbackTime;
 //    private int selectedTab = 1;
 
@@ -41,10 +45,24 @@ public class User_MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityUserMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         addControl();
+        //Gọi handler để chuẩn bị lấy thông tin User
+        userHandler = new UserHandler(User_MainPage.this, DB_NAME, null, DB_VERSION);
+
         Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
+        if (intent != null)
+        {
+            user = (User) intent.getSerializableExtra("user");
+        }else {
+            //Khi người dùng ghi nhớ đăng nhập thì vào thẳng trang main
+            //Đồng nghĩa sẽ không nhận được intent
+            //Tiến hành lấy dữ liệu dưới local ThongTinKhachHang để load lên
+            //Dữ liệu này được gán ở ở sự kiện btnLogin của file User_Login
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            user = userHandler.getUserInfo(userName, passWord);
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();

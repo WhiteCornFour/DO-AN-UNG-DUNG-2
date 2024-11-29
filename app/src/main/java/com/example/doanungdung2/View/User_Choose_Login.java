@@ -33,6 +33,7 @@ public class User_Choose_Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(User_Choose_Login.this, User_Login.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -41,6 +42,7 @@ public class User_Choose_Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(User_Choose_Login.this, User_Register.class);
                 startActivity(intent);
+                finish();
             }
         });
 

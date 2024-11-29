@@ -6,8 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.UserHandler;
+import com.example.doanungdung2.Model.FileManager;
 import com.example.doanungdung2.Model.SharedViewModel_User;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
@@ -40,6 +43,14 @@ public class User_Profile extends AppCompatActivity {
         sharedViewModel_user = new ViewModelProvider(this).get(SharedViewModel_User.class);
         userHandler = new UserHandler(User_Profile.this, DB_NAME, null, DB_VERSION);
         user = getUserIntent();
+        if (user == null)
+        {
+            //lấy dữ liệu từ local lên để load thông tin cho người dùng
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            user = userHandler.getUserInfo(userName, passWord);
+        }
         //gan user vao trong sharedViewModel
         sharedViewModel_user.setUser(user);
 //        Log.d("Ten nguoi dung profile: ", user.getTenNguoiDung());
@@ -134,6 +145,12 @@ public class User_Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createAlertDialogLogOut().show();
+                //Khi logout cần clear thông tin của người dùng trong local để tránh trùng lập thông tin
+                FileManager.updateAccountStatus(User_Profile.this, "AccountStatus.txt", "0");
+                SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
             }
         });
     }
@@ -152,13 +169,32 @@ public class User_Profile extends AppCompatActivity {
     }
 
     private void setUpDataForProfile(User user) {
-        tvUserNameProfile.setText(user.getTenNguoiDung());
-        byte[] anhNguoiDung = user.getAnhNguoiDung();
-        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-            imgUserAvatar.setImageResource(R.drawable.avt);
-        } else {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-            imgUserAvatar.setImageBitmap(bitmap);
+        //Thong tin của User được lấy từ ShareViewModel
+        //Tuy nhiên nếu nó tui thì tiến hành lấy từ local
+        if (user != null)
+        {
+            tvUserNameProfile.setText(user.getTenNguoiDung());
+            byte[] anhNguoiDung = user.getAnhNguoiDung();
+            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                imgUserAvatar.setImageResource(R.drawable.avt);
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                imgUserAvatar.setImageBitmap(bitmap);
+            }
+        }else {
+            //Tiến hành lấy thông tin từ local tải lên trang profile hiện tại
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            user = userHandler.getUserInfo(userName, passWord);
+            tvUserNameProfile.setText(user.getTenNguoiDung());
+            byte[] anhNguoiDung = user.getAnhNguoiDung();
+            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                imgUserAvatar.setImageResource(R.drawable.avt);
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                imgUserAvatar.setImageBitmap(bitmap);
+            }
         }
     }
 
@@ -170,7 +206,7 @@ public class User_Profile extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 startActivity(new Intent(User_Profile.this,
-                        User_Login.class));
+                        User_Choose_Login.class));
                 finish();
             }
         });

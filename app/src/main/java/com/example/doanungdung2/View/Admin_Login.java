@@ -70,25 +70,28 @@ public class Admin_Login extends AppCompatActivity {
             public void onClick(View view) {
                 String account = edtLoginAccount_AD.getText().toString();
                 String pass = edtLoginPassword_AD.getText().toString();
+                if (validateInputs(account, pass))
+                {
+                    boolean isValid = adminHandler.validateLoginAdmin(account, pass);
+                    if (isValid) {
+                        Toast.makeText(Admin_Login.this, "Login success", Toast.LENGTH_LONG).show();
+                        ArrayList<Admin> adminArrayList = adminHandler.getNameAndEmailOfAdmin(account, pass);
+                        for (Admin n : adminArrayList) {
+                            tenAdmin = n.getTenAdmin();
+                            emailAdmin = n.getEmail();
+                        }
+                        Intent intent = new Intent(Admin_Login.this,
+                                Admin_MainPage.class);
 
-                boolean isValid = adminHandler.validateLoginAdmin(account, pass);
-                if (isValid) {
-                    Toast.makeText(Admin_Login.this, "Login success", Toast.LENGTH_LONG).show();
-                    ArrayList<Admin> adminArrayList = adminHandler.getNameAndEmailOfAdmin(account, pass);
-                    for (Admin n : adminArrayList) {
-                        tenAdmin = n.getTenAdmin();
-                        emailAdmin = n.getEmail();
+                        intent.putExtra("tenAdmin", tenAdmin);
+                        intent.putExtra("emailAdmin", emailAdmin);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Invalid Account or Password", Toast.LENGTH_LONG).show();
                     }
-                    Intent intent = new Intent(Admin_Login.this,
-                           Admin_MainPage.class);
-//                    Log.d("tenAdmin", tenAdmin);
-//                    Log.d("emailAdmin", emailAdmin);
-                    intent.putExtra("tenAdmin", tenAdmin);
-                    intent.putExtra("emailAdmin", emailAdmin);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Invalid Account or Password", Toast.LENGTH_LONG).show();
+                }else {
+                    return;
                 }
             }
             //}

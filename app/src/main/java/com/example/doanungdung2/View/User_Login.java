@@ -15,21 +15,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.UserHandler;
+import com.example.doanungdung2.Model.FileManager;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 public class User_Login extends AppCompatActivity {
-
+    CheckBox cbswitchStatusLogin;
     EditText edtLoginAccount, edtLoginPassword;
     Button btnLogin;
     TextView tvRegisterNow, tvForgetPasswordLogin, tvLoginAD;
     UserHandler userHandler;
-
     long backpresstime;
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
@@ -64,24 +67,41 @@ public class User_Login extends AppCompatActivity {
         tvRegisterNow = (TextView) findViewById(R.id.tvRegisterNow);
         tvForgetPasswordLogin = (TextView) findViewById(R.id.tvForgotyourpassword);
         tvLoginAD = (TextView) findViewById(R.id.tvLoginAD);
+        cbswitchStatusLogin = findViewById(R.id.cbswitchStatusLogin);
     }
     void addEvent() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Khai báo đối tượng để lưu acc, pass của người dùng vào local
+                SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+
                 String account = edtLoginAccount.getText().toString().trim();
                 String password = edtLoginPassword.getText().toString().trim();
                 User us = userHandler.getUserInfo(account, password);
-                boolean isValid = userHandler.validateLogin(account, password);
+
                 String verificationMode = us.getCheDoXacNhan();
                 String verificationCode = us.getMaXacNhan();
+
+                boolean isValid = userHandler.validateLogin(account, password);
                 Log.d("code va mod verification mode", verificationCode + " , " + verificationMode);
                 if (validateInputs(account, password))
                 {
                     if (isValid) {
                         if (verificationMode.equals("On") && verificationCode != null) {
+                            //Tiến hành lưu 2 thông tin của ng dùng vừa nhập vào local
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("userName", account);
+                            editor.putString("passWord", password);
+                            editor.apply();
                             showCheckingVerificationCodeDialog(us);
                         } else {
+                            //Tiến hành lưu 2 thông tin của ng dùng vừa nhập vào local
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("userName", account);
+                            editor.putString("passWord", password);
+                            editor.apply();
+
                             Toast.makeText(User_Login.this, "Login success", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(User_Login.this, User_MainPage.class);
                             intent.putExtra("user", us);
@@ -125,7 +145,21 @@ public class User_Login extends AppCompatActivity {
                 finish();
             }
         });
-
+        //Sự kiện bật/tắt ghi nhớ đăng nhập
+        cbswitchStatusLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                //Nếu switch ở trạng thái On (Đang được chọn)
+                if (compoundButton.isChecked())
+                {
+                    //Tiến hành cập nhật lại file AccountStatus với trạng thái 1
+                    FileManager.updateAccountStatus(User_Login.this, "AccountStatus.txt", "1");
+                }else {
+                    //Nếu người dùng không ghi nhớ đăng nhập thì cập nhật trạng thái file AccountStatus là 0
+                    FileManager.updateAccountStatus(User_Login.this, "AccountStatus.txt", "0");
+                }
+            }
+        });
 
     }
 
