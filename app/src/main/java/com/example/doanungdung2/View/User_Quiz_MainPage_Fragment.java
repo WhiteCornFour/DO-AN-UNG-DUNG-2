@@ -42,7 +42,6 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     LinearLayout beginnerButton, starterButton, intermediateButton ,proficientButton ,masterButton;
     UserHandler userHandler;
     User user;
-  
     public static String idMaNguoiDungStatic;
     String tk = "";
     String mk = "";
@@ -99,15 +98,41 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                user = (User) result.getSerializable("user");
-                idMaNguoiDungStatic = user.getMaNguoiDung();
-                tvUserNameQuiz.setText(user.getTenNguoiDung());
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("tk", user.getTaiKhoan());
-                editor.putString("mk", user.getMatKhau());
-                editor.apply();
+                //Thông tin của user sẽ nhận từ bundle được gửi từ User_MainPage
+                //Trường hợp có dữ liệu
+                if (result != null) {
+                    user = (User) result.getSerializable("user");
+                    //Dữ liệu của user lấy từ bundle khác null
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
+                        // Lưu thông tin người dùng vào SharedPreferences
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("tk", user.getTaiKhoan());
+                        editor.putString("mk", user.getMatKhau());
+                        editor.apply();
+                    } else {
+                        Log.d("User Error", "User object is null");
+                    }
+                //Trường hợp không có dữ liệu
+                } else {
+                    //lấy dữ liệu từ local lên để load thông tin cho người dùng
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                    String userName = sharedPreferences.getString("userName", null);
+                    String passWord = sharedPreferences.getString("passWord", null);
+                    user = userHandler.getUserInfo(userName, passWord);
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
+                    } else {
+                        Log.d("User Error", "Could not retrieve user from SharedPreferences.");
+                    }
+                }
             }
+
         });
         setRandomWelcomeMessage();
         addEvent();
@@ -121,12 +146,12 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        tk = sharedPreferences.getString("tk", null);
-        mk =  sharedPreferences.getString("mk", null);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+        tk = sharedPreferences.getString("userName", null);
+        mk =  sharedPreferences.getString("passWord", null);
         if (tk == null || mk == null)
         {
-            Log.d("Tk && MK", tk + mk);
+            Log.d("User Quiz Mainpage on Resume Tk && MK", tk + mk);
         }else {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);

@@ -199,7 +199,7 @@ public class Admin_MainPage extends AppCompatActivity {
                 dialog.dismiss(); // Đóng hộp thoại khi người dùng nhấn "OK"
 
                 //Xóa thông tin admin trong local để tránh trùng lặp thông tin khi có admin đăng nhập
-                SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("ThongTinAdmin", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear(); // Xóa tất cả các giá trị trong SharedPreferences
                 editor.apply(); // Hoặc editor.commit();
