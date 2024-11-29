@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.HistoryHandler;
+import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
@@ -27,17 +30,27 @@ public class User_Dictionary_Details extends AppCompatActivity {
     String maNguoiDung = "";
     String maTuVung= "";
     boolean isBookmarked = false;
-
+    UserHandler userHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dictionary_details);
         addControl();
         historyHandler = new HistoryHandler(User_Dictionary_Details.this, DB_NAME, null, DB_VERSION);
+        userHandler = new UserHandler(User_Dictionary_Details.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
         Dictionary dictionary = (Dictionary) intent.getSerializableExtra("dictionary");
 
         maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+        if (maNguoiDung == null)
+        {
+            //lấy dữ liệu từ local lên để load thông tin cho người dùng
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            User user = userHandler.getUserInfo(userName, passWord);
+            maNguoiDung = user.getMaNguoiDung();
+        }
         maTuVung = dictionary.getMaTuVung();
         checkBookmarkStatus();
         setUpTextView(dictionary);

@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.UserHandle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +23,10 @@ import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
+import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Assignment;
 import com.example.doanungdung2.Model.Exercise;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 import java.time.LocalDateTime;
@@ -39,7 +44,7 @@ public class User_Quiz_List extends AppCompatActivity {
     AssignmentHandler assignmentHandler;
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
     public static String thoiGianBatDau = "";
-
+    UserHandler userHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +52,7 @@ public class User_Quiz_List extends AppCompatActivity {
         addControl();
         exerciseHandler = new ExerciseHandler(User_Quiz_List.this, DB_NAME, null, DB_VERSION);
         assignmentHandler = new AssignmentHandler(User_Quiz_List.this, DB_NAME, null, DB_VERSION);
-
+        userHandler = new UserHandler(User_Quiz_List.this, DB_NAME, null, DB_VERSION);
         setupRecyclerView();
         loadAllQuizList();
 
@@ -121,6 +126,15 @@ public class User_Quiz_List extends AppCompatActivity {
                 String maBaiLam = Admin_Add_Exercise.createAutoExerciseCode("BL");
                 String maBaiTap = exercise.getMaBaiTap();
                 String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+                if (maNguoiDung == null)
+                {
+                    //lấy dữ liệu từ local lên để load thông tin cho người dùng
+                    SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                    String userName = sharedPreferences.getString("userName", null);
+                    String passWord = sharedPreferences.getString("passWord", null);
+                    User user = userHandler.getUserInfo(userName, passWord);
+                    maNguoiDung = user.getMaNguoiDung();
+                }
                 thoiGianBatDau = String.valueOf(LocalDateTime.now());
                 int lanLam = assignmentHandler.countTimeDoTest(maBaiTap, maNguoiDung);
 //                Log.d("MabaiTap", maBaiTap);

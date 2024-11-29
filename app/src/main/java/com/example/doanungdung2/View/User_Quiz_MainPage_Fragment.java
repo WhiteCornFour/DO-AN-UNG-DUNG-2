@@ -38,7 +38,6 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     Button btnBeginnerQuiz, btnStarterQuiz, btnIntermediateQuiz ,btnProficientQuiz ,btnMasterQuiz;
     UserHandler userHandler;
     User user;
-  
     public static String idMaNguoiDungStatic;
     String tk = "";
     String mk = "";
@@ -95,25 +94,58 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                user = (User) result.getSerializable("user");
-                idMaNguoiDungStatic = user.getMaNguoiDung();
-                Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
-                tvUserName.setText("Hi, " + user.getTenNguoiDung());
-              
-                byte[] anhNguoiDung = user.getAnhNguoiDung();
-                if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                    imgUserAccount.setImageResource(R.drawable.avt);
-                } else {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                    imgUserAccount.setImageBitmap(bitmap);
-                }
+                //Thông tin của user sẽ nhận từ bundle được gửi từ User_MainPage
+                //Trường hợp có dữ liệu
+                if (result != null) {
+                    user = (User) result.getSerializable("user");
+                    //Dữ liệu của user lấy từ bundle khác null
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
+                        tvUserName.setText("Hi, " + user.getTenNguoiDung());
 
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("tk", user.getTaiKhoan());
-                editor.putString("mk", user.getMatKhau());
-                editor.apply();
+                        byte[] anhNguoiDung = user.getAnhNguoiDung();
+                        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                            imgUserAccount.setImageResource(R.drawable.avt);
+                        } else {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                            imgUserAccount.setImageBitmap(bitmap);
+                        }
+
+                        // Lưu thông tin người dùng vào SharedPreferences
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("tk", user.getTaiKhoan());
+                        editor.putString("mk", user.getMatKhau());
+                        editor.apply();
+                    } else {
+                        Log.d("User Error", "User object is null");
+                    }
+                //Trường hợp không có dữ liệu
+                } else {
+                    //lấy dữ liệu từ local lên để load thông tin cho người dùng
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                    String userName = sharedPreferences.getString("userName", null);
+                    String passWord = sharedPreferences.getString("passWord", null);
+                    user = userHandler.getUserInfo(userName, passWord);
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
+                        tvUserName.setText("Hi, " + user.getTenNguoiDung());
+
+                        byte[] anhNguoiDung = user.getAnhNguoiDung();
+                        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                            imgUserAccount.setImageResource(R.drawable.avt);
+                        } else {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                            imgUserAccount.setImageBitmap(bitmap);
+                        }
+                    } else {
+                        Log.d("User Error", "Could not retrieve user from SharedPreferences.");
+                    }
+                }
             }
+
         });
         addEvent();
         return view;
@@ -126,12 +158,12 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        tk = sharedPreferences.getString("tk", null);
-        mk =  sharedPreferences.getString("mk", null);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+        tk = sharedPreferences.getString("userName", null);
+        mk =  sharedPreferences.getString("passWord", null);
         if (tk == null || mk == null)
         {
-            Log.d("Tk && MK", tk + mk);
+            Log.d("User Quiz Mainpage on Resume Tk && MK", tk + mk);
         }else {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);
