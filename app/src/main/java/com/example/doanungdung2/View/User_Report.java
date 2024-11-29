@@ -117,7 +117,10 @@ public class User_Report extends AppCompatActivity {
                 String noiDungBaoCao = edtReportContent.getText().toString().trim();
                 String ngayBaoCao = String.valueOf(LocalDateTime.now());
                 String trangThaiBaoCao = "Chưa xử lý";
-                byte[] anhBaoCao = getBytesFromBitmap(selectedBitmap);;
+                byte[] anhBaoCao = null;
+                if (selectedBitmap != null) {
+                    anhBaoCao = getBytesFromBitmap(selectedBitmap);
+                }
                 String maNguoiDung = user.getMaNguoiDung();
 
                 if(noiDungBaoCao.isEmpty()) {

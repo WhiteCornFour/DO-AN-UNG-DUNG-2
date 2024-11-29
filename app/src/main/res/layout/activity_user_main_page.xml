@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/floatingActionButton"
         android:backgroundTint="@color/white"
-        app:tint="@color/red_pastel"
+        app:tint="@color/green"
         android:src="@drawable/profile_user_account"
         app:layout_anchor="@id/bottomAppBar"
         app:maxImageSize="40dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>

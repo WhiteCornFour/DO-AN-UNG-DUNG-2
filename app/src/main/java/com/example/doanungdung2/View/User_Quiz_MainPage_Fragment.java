@@ -19,11 +19,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +38,8 @@ import com.example.doanungdung2.R;
 public class User_Quiz_MainPage_Fragment extends Fragment {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    TextView tvUserName;
-    ImageView imgUserAccount;
-    Button btnBeginnerQuiz, btnStarterQuiz, btnIntermediateQuiz ,btnProficientQuiz ,btnMasterQuiz;
+    TextView tvUserNameQuiz, tvWelcomeText;
+    LinearLayout beginnerButton, starterButton, intermediateButton ,proficientButton ,masterButton;
     UserHandler userHandler;
     User user;
     public static String idMaNguoiDungStatic;
@@ -102,16 +106,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                     if (user != null) {
                         idMaNguoiDungStatic = user.getMaNguoiDung();
                         Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
-                        tvUserName.setText("Hi, " + user.getTenNguoiDung());
-
-                        byte[] anhNguoiDung = user.getAnhNguoiDung();
-                        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                            imgUserAccount.setImageResource(R.drawable.avt);
-                        } else {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                            imgUserAccount.setImageBitmap(bitmap);
-                        }
-
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
                         // Lưu thông tin người dùng vào SharedPreferences
                         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -131,15 +126,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                     if (user != null) {
                         idMaNguoiDungStatic = user.getMaNguoiDung();
                         Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
-                        tvUserName.setText("Hi, " + user.getTenNguoiDung());
-
-                        byte[] anhNguoiDung = user.getAnhNguoiDung();
-                        if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                            imgUserAccount.setImageResource(R.drawable.avt);
-                        } else {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                            imgUserAccount.setImageBitmap(bitmap);
-                        }
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
                     } else {
                         Log.d("User Error", "Could not retrieve user from SharedPreferences.");
                     }
@@ -147,6 +134,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
 
         });
+        setRandomWelcomeMessage();
         addEvent();
         return view;
     }
@@ -167,38 +155,22 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         }else {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);
-            tvUserName.setText("Hi, " + user.getTenNguoiDung());
-            byte[] anhNguoiDung = user.getAnhNguoiDung();
-            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                imgUserAccount.setImageResource(R.drawable.avt);
-            } else {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                imgUserAccount.setImageBitmap(bitmap);
-            }
+            tvUserNameQuiz.setText(user.getTenNguoiDung());
         }
     }
 
     void addControl(View view) {
-        tvUserName = view.findViewById(R.id.tvUserName);
-        imgUserAccount = view.findViewById(R.id.imgUserAccount);
-        btnBeginnerQuiz = view.findViewById(R.id.btnBeginnerQuiz);
-        btnStarterQuiz = view.findViewById(R.id.btnStarterQuiz);
-        btnIntermediateQuiz = view.findViewById(R.id.btnIntermediateQuiz);
-        btnProficientQuiz = view.findViewById(R.id.btnProficientQuiz);
-        btnMasterQuiz = view.findViewById(R.id.btnMasterQuiz);
+        tvWelcomeText = view.findViewById(R.id.tvWelcomeText);
+        tvUserNameQuiz = view.findViewById(R.id.tvUserNameQuiz);
+        beginnerButton = view.findViewById(R.id.beginnerButton);
+        starterButton = view.findViewById(R.id.starterButton);
+        intermediateButton = view.findViewById(R.id.intermediateButton);
+        proficientButton = view.findViewById(R.id.proficientButton);
+        masterButton = view.findViewById(R.id.masterButton);
     }
     void addEvent()
     {
-        imgUserAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), User_Profile.class);
-                intent.putExtra("userFromQuizFragmentToProfile", user);
-                startActivity(intent);
-            }
-        });
-
-        btnBeginnerQuiz.setOnClickListener(new View.OnClickListener() {
+        beginnerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -207,7 +179,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnStarterQuiz.setOnClickListener(new View.OnClickListener() {
+        starterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -216,7 +188,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnIntermediateQuiz.setOnClickListener(new View.OnClickListener() {
+        intermediateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -225,7 +197,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnProficientQuiz.setOnClickListener(new View.OnClickListener() {
+        proficientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -234,7 +206,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnMasterQuiz.setOnClickListener(new View.OnClickListener() {
+        masterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -242,7 +214,24 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
 
+    private void setRandomWelcomeMessage() {
+        List<String> welcomeMessages = new ArrayList<>();
+        welcomeMessages.add("It's a great day to start learning English!");
+        welcomeMessages.add("Let’s make today the best day to learn English!");
+        welcomeMessages.add("Every day is a new opportunity to learn English!");
+        welcomeMessages.add("It’s a beautiful day to improve your English skills!");
+        welcomeMessages.add("Learning English is fun – let’s enjoy today’s lesson!");
+        welcomeMessages.add("Today is a perfect day to practice English!");
+        welcomeMessages.add("Let’s take another step toward mastering English today!");
+        welcomeMessages.add("A bright day ahead for improving your English!");
+        welcomeMessages.add("Time to learn and grow – let’s start with English!");
+        welcomeMessages.add("Today is another chance to speak English confidently!");
 
+        Random random = new Random();
+        int randomIndex = random.nextInt(welcomeMessages.size());
+
+        tvWelcomeText.setText(welcomeMessages.get(randomIndex));
     }
 }
