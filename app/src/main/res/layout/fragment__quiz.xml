@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/backgr_user_green"
             android:orientation="horizontal"
