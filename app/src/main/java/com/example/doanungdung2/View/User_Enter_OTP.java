@@ -25,8 +25,8 @@ public class User_Enter_OTP extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     EditText edtEnterOTP;
-    Button btnBackToForgotPass, btnComfirmOTP;
-    
+    Button btnComfirmOTP;
+    TextView tvBackToForgotPass;
     String otpRecive, phoneNumber;
 
     UserHandler userHandler;
@@ -61,13 +61,13 @@ public class User_Enter_OTP extends AppCompatActivity {
     void addControl()
     {
         edtEnterOTP = findViewById(R.id.edtEnterOTP);
-        btnBackToForgotPass = findViewById(R.id.btnBackToForgotPass);
+        tvBackToForgotPass = findViewById(R.id.tvBackToForgotPass);
         btnComfirmOTP = findViewById(R.id.btnComfirmOTP);
     }
 
     void addEvent()
     {
-        btnBackToForgotPass.setOnClickListener(new View.OnClickListener() {
+        tvBackToForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(User_Enter_OTP.this, User_ForgotPassword.class));
