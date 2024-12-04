@@ -2,6 +2,7 @@ package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,11 +27,17 @@ import com.example.doanungdung2.Model.SharedViewModel_User;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 public class User_Profile extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     ImageView imgBackToMainPageUser, imgUserAvatar;
-    LinearLayout linearLayoutMoveToTestListResult, linearLayoutMoveToBookmarkWord, linearLayoutMoveToEditUserAccount, linearLayoutMoveToPrivacy, linearLayoutMoveToReport, linearLayoutLogOut;
+    LinearLayout linearLayoutMoveToTestListResult, linearLayoutMoveToBookmarkWord,
+            linearLayoutMoveToEditUserAccount, linearLayoutMoveToPrivacy, linearLayoutMoveToReport, linearLayoutLogOut;
+    GifImageView gifImageViewTestResult_User, gifImageViewBookMark_User, gifImageViewEdit_User,
+            gifImageViewPrivacy_User, gifImageViewWarning_User, gifImageViewLogout_User;
     TextView tvUserNameProfile;
     UserHandler userHandler;
     SharedViewModel_User sharedViewModel_user;
@@ -81,6 +89,12 @@ public class User_Profile extends AppCompatActivity {
         linearLayoutMoveToPrivacy = findViewById(R.id.linearLayoutMoveToPrivacy);
         linearLayoutMoveToReport = findViewById(R.id.linearLayoutMoveToReport);
         linearLayoutLogOut = findViewById(R.id.linearLayoutLogOut);
+        gifImageViewTestResult_User = findViewById(R.id.gifImageViewTestResult_User);
+        gifImageViewBookMark_User = findViewById(R.id.gifImageViewBookMark_User);
+        gifImageViewEdit_User = findViewById(R.id.gifImageViewEdit_User);
+        gifImageViewPrivacy_User = findViewById(R.id.gifImageViewPrivacy_User);
+        gifImageViewWarning_User = findViewById(R.id.gifImageViewWarning_User);
+        gifImageViewLogout_User = findViewById(R.id.gifImageViewLogout_User);
     }
 
     void addEvent() {
@@ -153,6 +167,13 @@ public class User_Profile extends AppCompatActivity {
                 editor.apply();
             }
         });
+        //Set up gif sẽ động khi người dùng touching
+        setupGifTouchControl(linearLayoutMoveToTestListResult, gifImageViewTestResult_User, R.drawable.complete);
+        setupGifTouchControl(linearLayoutMoveToBookmarkWord, gifImageViewBookMark_User, R.drawable.bookmark);
+        setupGifTouchControl(linearLayoutMoveToEditUserAccount, gifImageViewEdit_User, R.drawable.edituser);
+        setupGifTouchControl(linearLayoutMoveToPrivacy, gifImageViewPrivacy_User, R.drawable.privacygif);
+        setupGifTouchControl(linearLayoutMoveToReport, gifImageViewWarning_User, R.drawable.warning);
+        setupGifTouchControl(linearLayoutLogOut, gifImageViewLogout_User, R.drawable.logoutgif);
     }
 
     private User getUserIntent() {
@@ -218,4 +239,38 @@ public class User_Profile extends AppCompatActivity {
         });
         return builder.create();
     }
+    public void setupGifTouchControl(LinearLayout linearLayout, GifImageView gifImageView, int gifDrawableResId) {
+        try {
+            // Tạo GifDrawable từ tài nguyên
+            GifDrawable gifDrawable = new GifDrawable(gifImageView.getResources(), gifDrawableResId);
+
+            // Đặt trạng thái mặc định là tạm dừng
+            gifDrawable.pause();
+
+            // Thêm sự kiện touch cho GifImageView
+            linearLayout.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN: // Khi chạm vào
+                            gifDrawable.start(); // Phát GIF
+                            break;
+
+                        case MotionEvent.ACTION_UP: // Khi thả tay
+                        case MotionEvent.ACTION_CANCEL: // Khi bị hủy
+                            gifDrawable.pause(); // Dừng GIF
+                            break;
+                    }
+                    return true; // Xử lý sự kiện
+                }
+            });
+
+            // Đặt GifDrawable cho ImageView
+            gifImageView.setImageDrawable(gifDrawable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
