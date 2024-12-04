@@ -15,6 +15,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:src="@drawable/arrowverysmall"/>
+
         <TextView
             android:id="@+id/tvTNP"
             android:layout_width="match_parent"

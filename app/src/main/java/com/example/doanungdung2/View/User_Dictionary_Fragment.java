@@ -1,6 +1,8 @@
 package com.example.doanungdung2.View;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,7 @@ import com.example.doanungdung2.Controller.HistoryHandler;
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.History;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
@@ -201,6 +204,15 @@ public class User_Dictionary_Fragment extends Fragment {
     void loadAllHistory() {
         filteredDictionaryList.clear();
         String maNguoiDungInput = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+        if (maNguoiDungInput == null)
+        {
+            //lấy dữ liệu từ local lên để load thông tin cho người dùng
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            User user = userHandler.getUserInfo(userName, passWord);
+            maNguoiDungInput = user.getMaNguoiDung();
+        }
         ArrayList<History> historyList = historyHandler.loadAllDataOfHistory(maNguoiDungInput);
         for (History history : historyList) {
             for (Dictionary dictionary : dictionaryArrayList) {
