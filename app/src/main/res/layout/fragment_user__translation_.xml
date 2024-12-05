@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.User_Traslation_Fragment">
+    tools:context=".View.User_Translation_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -106,13 +106,13 @@
         app:layout_constraintTop_toBottomOf="@+id/layoutInputContent"
         app:layout_constraintVertical_bias="0.053" />
 
-    <ImageView
-        android:id="@+id/imgViewTranslateMic"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifViewTranslateMic"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="10dp"
         app:tint="@color/shape_green"
-        android:src="@drawable/baseline_mic_24"
+        android:src="@drawable/mic_translate_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOr" />
@@ -128,7 +128,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgViewTranslateMic" />
+        app:layout_constraintTop_toBottomOf="@+id/gifViewTranslateMic" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTranslate"

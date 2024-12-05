@@ -15,11 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +40,9 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 import java.util.ArrayList;
 import java.util.Locale;
 
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link User_Translation_Fragment#newInstance} factory method to
@@ -48,7 +53,7 @@ public class User_Translation_Fragment extends Fragment {
     private static int REQUEST_PERMISSION_CODE = 1;
     Spinner spinnerFromCountry, spinnerToCountry;
     TextInputEditText edtInputContent;
-    ImageView imgViewTranslateMic;
+    GifImageView gifViewTranslateMic;
     MaterialButton btnTranslate;
     TextView tvTextTranslate;
     ArrayAdapter<String> fromAdapter;
@@ -119,7 +124,7 @@ public class User_Translation_Fragment extends Fragment {
         spinnerFromCountry = view.findViewById(R.id.spinnerFromCountry);
         spinnerToCountry = view.findViewById(R.id.spinnerToCountry);
         edtInputContent = view.findViewById(R.id.edtInputContent);
-        imgViewTranslateMic = view.findViewById(R.id.imgViewTranslateMic);
+        gifViewTranslateMic = view.findViewById(R.id.gifViewTranslateMic);
         btnTranslate = view.findViewById(R.id.btnTranslate);
         tvTextTranslate = view.findViewById(R.id.tvTextTranslate);
     }
@@ -170,7 +175,7 @@ public class User_Translation_Fragment extends Fragment {
 
 
 
-        imgViewTranslateMic.setOnClickListener(new View.OnClickListener() {
+        gifViewTranslateMic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Kiểm tra và yêu cầu quyền nếu chưa được cấp để mở microphone
@@ -190,6 +195,7 @@ public class User_Translation_Fragment extends Fragment {
                 }
             }
         });
+
     }
 
     @Override
@@ -274,4 +280,5 @@ public class User_Translation_Fragment extends Fragment {
             }
         });
     }
+
 }
