@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView26"
+                android:id="@+id/imgCuteAnimalRandom"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -353,7 +353,7 @@
             android:layout_margin="20dp"
             android:layout_marginBottom="50dp"
             android:background="@drawable/backgr_beginner_button"
-            android:backgroundTint="#F69794"
+            android:backgroundTint="@color/red_background"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -388,7 +388,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/adlam_display"
                         android:text="Master"
-                        android:textColor="#E6FF0000"
+                        android:textColor="@color/red"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 

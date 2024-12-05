@@ -1,6 +1,8 @@
 package com.example.doanungdung2.View;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -17,6 +20,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.DictionaryHandler;
@@ -28,6 +33,7 @@ import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -39,6 +45,8 @@ public class User_Dictionary_Fragment extends Fragment {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     RecyclerView rvSearchHistory;
+    TextView tvTuTiengAnh, tvViDuTiengAnh;
+    ImageView imgViewAnhTuVung, imgAudioTuTiengAnh;
     AutoCompleteTextView autoCompleteSearchTV;
     HistoryHandler historyHandler;
     UserHandler userHandler;
@@ -47,6 +55,7 @@ public class User_Dictionary_Fragment extends Fragment {
     ArrayList<Dictionary> filteredDictionaryList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     User_History_CustomAdapter_RecyclerView user_history_custom_adapter_recycler_view;
+    TextToSpeech textToSpeech;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,13 +114,28 @@ public class User_Dictionary_Fragment extends Fragment {
 
         setupRecyclerView();
         loadAllHistory();
+        setUpRandomWord();
+
         addEvent();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 
     void addControl(View view) {
         rvSearchHistory = view.findViewById(R.id.rvSearchHistory);
         autoCompleteSearchTV = view.findViewById(R.id.autoCompleteSearchTV);
+        tvViDuTiengAnh = view.findViewById(R.id.tvViDuTiengAnh);
+        tvTuTiengAnh = view.findViewById(R.id.tvTuTiengAnh);
+        imgViewAnhTuVung = view.findViewById(R.id.imgViewAnhTuVung);
+        imgAudioTuTiengAnh = view.findViewById(R.id.imgAudioTuTiengAnh);
     }
 
     void addEvent() {
@@ -228,6 +252,59 @@ public class User_Dictionary_Fragment extends Fragment {
             }
         });
         rvSearchHistory.setAdapter(user_history_custom_adapter_recycler_view);
+    }
+
+    private void speakText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            //TextToSpeech.QUEUE_FLUSH:Cách thức xử lý hàng đợi của các lệnh phát âm.
+            //QUEUE_FLUSH có nghĩa là xóa hết các văn bản đang chờ trong hàng đợi và phát âm văn bản mới ngay lập tức.
+        }
+    }
+
+    String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
+    void setUpRandomWord() {
+        if (!dictionaryArrayList.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(dictionaryArrayList.size());
+            Dictionary randomWord = dictionaryArrayList.get(randomIndex);
+
+            String formattedWord = capitalizeFirstLetter(randomWord.getTuTiengAnh());
+            tvTuTiengAnh.setText(formattedWord);
+            tvViDuTiengAnh.setText("Exp: " + randomWord.getViDu());
+            byte[] anhNguoiDung = randomWord.getAnhTuVung();
+            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
+                imgViewAnhTuVung.setImageResource(R.drawable.no_img);
+            } else {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
+                imgViewAnhTuVung.setImageBitmap(bitmap);
+            }
+            textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if (status != TextToSpeech.ERROR) {
+                        textToSpeech.setLanguage(Locale.US); // ngon ngu chon la US
+                    }
+                }
+            });
+
+            imgAudioTuTiengAnh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    speakText(randomWord.getTuTiengAnh());
+                }
+            });
+
+
+        } else {
+            Toast.makeText(getActivity(), "Try again something went wrong!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
