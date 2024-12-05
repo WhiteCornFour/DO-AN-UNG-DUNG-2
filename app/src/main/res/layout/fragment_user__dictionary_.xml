@@ -52,9 +52,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imageView26"
+                android:id="@+id/imgViewAnhTuVung"
                 android:layout_width="140dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/RoundSquare"
                 app:strokeColor="@color/shape_green"
@@ -98,7 +98,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/imgAudio_CustomAdapter"
+                        android:id="@+id/imgAudioTuTiengAnh"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         app:shapeAppearanceOverlay="@style/RoundSquare"
@@ -142,6 +142,5 @@
             android:background="@drawable/backgr_user_search_history_white"
             android:padding="20dp" />
     </LinearLayout>
-
 
 </FrameLayout>

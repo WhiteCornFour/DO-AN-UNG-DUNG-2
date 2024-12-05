@@ -110,11 +110,15 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
     void addEvent() {
         tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button);
         tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
+        tvDictionaryChoose.setTextColor(getContext().getColor(R.color.white));
+        tvTranslationChoose.setTextColor(getContext().getColor(R.color.shape_green));
         tvDictionaryChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button);
                 tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
+                tvDictionaryChoose.setTextColor(getContext().getColor(R.color.white));
+                tvTranslationChoose.setTextColor(getContext().getColor(R.color.shape_green));
                 replaceFragment(new User_Dictionary_Fragment());
             }
         });
@@ -125,7 +129,9 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
             public void onClick(View v) {
                 tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button);
                 tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
-                replaceFragment(new User_Traslation_Fragment());
+                tvDictionaryChoose.setTextColor(getContext().getColor(R.color.shape_green));
+                tvTranslationChoose.setTextColor(getContext().getColor(R.color.white));
+                replaceFragment(new User_Translation_Fragment());
             }
         });
     }

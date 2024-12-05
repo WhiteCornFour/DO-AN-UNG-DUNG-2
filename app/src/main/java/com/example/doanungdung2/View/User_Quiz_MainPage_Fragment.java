@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -39,6 +40,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     TextView tvUserNameQuiz, tvWelcomeText;
+    ImageView imgCuteAnimalRandom;
+    LinearLayout layoutHeader;
     LinearLayout beginnerButton, starterButton, intermediateButton ,proficientButton ,masterButton;
     UserHandler userHandler;
     User user;
@@ -135,6 +138,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
 
         });
         setRandomWelcomeMessage();
+        setRandomLayoutForQuiz();
         addEvent();
         return view;
     }
@@ -167,6 +171,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         intermediateButton = view.findViewById(R.id.intermediateButton);
         proficientButton = view.findViewById(R.id.proficientButton);
         masterButton = view.findViewById(R.id.masterButton);
+        imgCuteAnimalRandom = view.findViewById(R.id.imgCuteAnimalRandom);
+        layoutHeader = view.findViewById(R.id.layoutHeader);
     }
     void addEvent()
     {
@@ -234,4 +240,45 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
 
         tvWelcomeText.setText(welcomeMessages.get(randomIndex));
     }
+
+    private void setRandomLayoutForQuiz() {
+        // Danh sách các hình ảnh khả dụng
+        int[] imageResources = {
+                R.drawable.cute_monkey_cartoon,
+                R.drawable.cute_mole_cartoon,
+                R.drawable.cute_sheep_cartoon
+        };
+
+        // Sử dụng Random để chọn ngẫu nhiên một hình ảnh
+        Random random = new Random();
+        int randomIndex = random.nextInt(imageResources.length);
+        int selectedImage = imageResources[randomIndex];
+
+        // Gán hình ảnh ngẫu nhiên cho imgCuteAnimalRandom
+        imgCuteAnimalRandom.setImageResource(selectedImage);
+
+        // Thiết lập màu sắc dựa trên hình ảnh được chọn
+        switch (selectedImage) {
+            case R.drawable.cute_monkey_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.lime));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.shape_green));
+                break;
+
+            case R.drawable.cute_mole_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.blue_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_word));
+                break;
+
+            case R.drawable.cute_sheep_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.red_background));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+                break;
+
+            default:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.lime));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.shape_green));
+                break;
+        }
+    }
+
 }
