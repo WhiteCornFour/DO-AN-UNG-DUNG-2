@@ -32,14 +32,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="7.5pt"
                     android:padding="10dp"
                     android:text="Correct"/>
+
                 <ImageView
                     android:id="@+id/imgCorAndWro"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:paddingEnd="7dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/correct_answer"/>
 
             </LinearLayout>
@@ -47,10 +50,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/star"/>
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/questioncontent"/>
+
                 <TextView
                     android:id="@+id/tvNoiDungCauHoi_TestDetail"
                     android:layout_width="match_parent"
@@ -68,7 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="45dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
@@ -86,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="45dp"
             android:orientation="horizontal">
 
             <TextView
