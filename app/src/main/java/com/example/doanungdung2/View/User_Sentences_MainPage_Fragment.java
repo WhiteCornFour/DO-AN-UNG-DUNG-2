@@ -44,6 +44,7 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
     ArrayList<TopicSentence> topicSentencesArrayList = new ArrayList<>();
     ArrayList<SampleSentence> sampleSentencesArrayList = new ArrayList<>();
     ListView lvTopic;
+//    ImageView book;
     TextToSpeech textToSpeech;
     ImageView imgSound;
     SampleSentenceHandler sampleSentenceHandler;
@@ -123,6 +124,7 @@ public class User_Sentences_MainPage_Fragment extends Fragment {
 
     void addControl(View view) {
         lvTopic = (ListView) view.findViewById(R.id.lvTopic);
+//        book = view.findViewById(R.id.imgHeaderGif);
     }
 
     void addEvent() {
