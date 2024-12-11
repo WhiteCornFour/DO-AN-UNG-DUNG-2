@@ -167,13 +167,6 @@ public class User_Profile extends AppCompatActivity {
                 editor.apply();
             }
         });
-//        //Set up gif sẽ động khi người dùng touching
-//        setupGifTouchControl(linearLayoutMoveToTestListResult, gifImageViewTestResult_User, R.drawable.complete);
-//        setupGifTouchControl(linearLayoutMoveToBookmarkWord, gifImageViewBookMark_User, R.drawable.bookmark);
-//        setupGifTouchControl(linearLayoutMoveToEditUserAccount, gifImageViewEdit_User, R.drawable.edituser);
-//        setupGifTouchControl(linearLayoutMoveToPrivacy, gifImageViewPrivacy_User, R.drawable.privacygif);
-//        setupGifTouchControl(linearLayoutMoveToReport, gifImageViewWarning_User, R.drawable.warning);
-//        setupGifTouchControl(linearLayoutLogOut, gifImageViewLogout_User, R.drawable.logoutgif);
     }
 
     private User getUserIntent() {
@@ -239,38 +232,4 @@ public class User_Profile extends AppCompatActivity {
         });
         return builder.create();
     }
-//    public void setupGifTouchControl(LinearLayout linearLayout, GifImageView gifImageView, int gifDrawableResId) {
-//        try {
-//            // Tạo GifDrawable từ tài nguyên
-//            GifDrawable gifDrawable = new GifDrawable(gifImageView.getResources(), gifDrawableResId);
-//
-//            // Đặt trạng thái mặc định là tạm dừng
-//            gifDrawable.pause();
-//
-//            // Thêm sự kiện touch cho GifImageView
-//            linearLayout.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    switch (event.getAction()) {
-//                        case MotionEvent.ACTION_DOWN: // Khi chạm vào
-//                            gifDrawable.start(); // Phát GIF
-//                            break;
-//
-//                        case MotionEvent.ACTION_UP: // Khi thả tay
-//                        case MotionEvent.ACTION_CANCEL: // Khi bị hủy
-//                            gifDrawable.pause(); // Dừng GIF
-//                            break;
-//                    }
-//                    return true; // Xử lý sự kiện
-//                }
-//            });
-//
-//            // Đặt GifDrawable cho ImageView
-//            gifImageView.setImageDrawable(gifDrawable);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }

@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.UserHandle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -83,6 +84,17 @@ public class User_Quiz_List extends AppCompatActivity {
     }
 
     void setupRecyclerView() {
+        String maNguoiDungRV = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+        if (maNguoiDungRV == null)
+        {
+            //lấy dữ liệu từ local lên để load thông tin cho người dùng
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            User user = userHandler.getUserInfo(userName, passWord);
+            maNguoiDungRV = user.getMaNguoiDung();
+        }
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(User_Quiz_List.this, RecyclerView.VERTICAL, false);
         recyclerViewQuizList.setLayoutManager(layoutManager);
         recyclerViewQuizList.setItemAnimator(new DefaultItemAnimator());
@@ -91,7 +103,8 @@ public class User_Quiz_List extends AppCompatActivity {
             public void onItemClick(Exercise exercise) {
                 showTakingQuizDialog(exercise);
             }
-        });
+
+        }, maNguoiDungRV);
         recyclerViewQuizList.setAdapter(user_quiz_list_custom_adapter_recycler_view);
     }
 

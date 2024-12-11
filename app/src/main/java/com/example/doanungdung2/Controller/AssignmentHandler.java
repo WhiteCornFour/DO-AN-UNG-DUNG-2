@@ -186,4 +186,21 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return assignment;
     }
+    public boolean updateStatusQuiz(String maNguoiDungInput, String maBaiTapInput)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String  query = "Select * from " + TABLE_NAME + " Where MaNguoiDung = ? AND MaBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maNguoiDungInput, maBaiTapInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return check;
+    }
 }
