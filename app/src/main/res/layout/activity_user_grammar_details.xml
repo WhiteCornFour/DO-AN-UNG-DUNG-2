@@ -154,7 +154,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-
                     android:fontFamily="@font/adlam_display"
                     android:inputType="textMultiLine"
                     android:padding="10dp"
