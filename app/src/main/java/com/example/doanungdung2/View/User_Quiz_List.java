@@ -161,7 +161,6 @@ public class User_Quiz_List extends AppCompatActivity {
                 intent.putExtra("exercise", exercise);
                 intent.putExtra("maBaiLam", maBaiLam);
                 startActivity(intent);
-                finish();
                 Toast.makeText(User_Quiz_List.this, "Start quiz !!!", Toast.LENGTH_SHORT).show();
             }
         });

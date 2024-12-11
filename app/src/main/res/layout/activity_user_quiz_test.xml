@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,10 +37,10 @@
                 android:textSize="20sp"
                 android:textColor="@color/brown"
                 android:textStyle="bold"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="Bài tập 1" />
+                android:text="Exercise 1" />
 
             <Space
                 android:layout_width="0dp"
@@ -56,6 +56,7 @@
                 android:drawablePadding="8dp"
                 android:layout_gravity="right|center"
                 android:gravity="center"
+                android:fontFamily="@font/adlam_display"
                 android:layout_marginRight="20dp"
                 android:text="00:00:00"
                 android:paddingRight="9dp"
@@ -72,23 +73,53 @@
             android:layout_height="match_parent"
             android:background="@drawable/backgr_user_radius_quiz_test"
             android:elevation="5dp"
-            android:padding="20dp"
+            android:paddingBottom="20dp"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCauHoiQuizTest"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:layout_margin="20dp"
                 android:scrollbars="horizontal"
                 android:layout_marginTop="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifTopLeft"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:rotation="30"
+                    android:src="@drawable/octopus_gif" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifTopRight"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:rotation="-50"
+                    android:layout_marginEnd="-20dp"
+                    android:src="@drawable/leaf_gif" />
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/frameLayoutQuizTest"
                 android:layout_width="match_parent"
-                android:layout_height="420dp"
-                android:padding="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="30dp">
 
@@ -96,25 +127,46 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_vertical"> <!-- Căn các phần tử theo chiều dọc -->
+
+                <!-- Cây xương rồng GIF, không chiếm không gian quá nhiều -->
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifBottomLeft"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:rotation="-5"
+                    android:layout_marginStart="-20dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/cactus_gif"/>
 
                 <Button
                     android:id="@+id/btnSubmitQuiz"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
                     android:padding="10dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:background="@drawable/backgr_button_brown_border"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:text="Submit Quiz"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/brown"
+                    android:layout_weight="0"/>
 
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifBottomRight"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:rotation="20"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/flower_pot_gif" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

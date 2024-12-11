@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Model.Question;
@@ -27,7 +29,8 @@ public class User_Quiz_Test_True_False_Fragment extends Fragment {
     SharedViewModel_Questions sharedViewModel_questions;
     SharedViewModel_AfterClickAnswer sharedViewModel_afterClickAnswer;
     TextView tvFrameLayoutNoiDungCauHoiTF;
-    CheckBox cbTrue_Essay_Quiz_User, cbFalse_Essay_Quiz_User;
+    RadioGroup rdgTrueFalse;
+    RadioButton rdbTrue,rdbFalse;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -82,10 +85,10 @@ public class User_Quiz_Test_True_False_Fragment extends Fragment {
         //lấy thông tin của đáp án được chọn từ những lần trước từ Activity để load lại câu trả lời trên Fragment
         sharedViewModel_afterClickAnswer.getSelectedAnswer().observe(getViewLifecycleOwner(), answer -> {
             if (answer != null && !answer.isEmpty()) {
-                resetCheckBoxs();
+                resetRadioButtons();
                 setAnswer(answer);
             } else {
-                resetCheckBoxs();
+                resetRadioButtons();
             }
         });
 
@@ -93,59 +96,60 @@ public class User_Quiz_Test_True_False_Fragment extends Fragment {
         return view;
     }
 
-    void addControl(View view)
-    {
+    void addControl(View view) {
         tvFrameLayoutNoiDungCauHoiTF = view.findViewById(R.id.tvFrameLayoutNoiDungCauHoiTF);
-        cbTrue_Essay_Quiz_User = view.findViewById(R.id.cbTrue_Essay_Quiz_User);
-        cbFalse_Essay_Quiz_User = view.findViewById(R.id.cbFalse_Essay_Quiz_User);
+        rdgTrueFalse = view.findViewById(R.id.rdgTrueFalse);
+        rdbTrue = view.findViewById(R.id.rdbTrue);
+        rdbFalse = view.findViewById(R.id.rdbFalse);
     }
 
     void addEvent() {
-        cbTrue_Essay_Quiz_User.setOnClickListener(new View.OnClickListener() {
+        rdgTrueFalse.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                handleCheckBoxClick(cbTrue_Essay_Quiz_User);
-                shareViewModelAnswer.setAnswer("True");
-            }
-        });
-        cbFalse_Essay_Quiz_User.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleCheckBoxClick(cbFalse_Essay_Quiz_User);
-                shareViewModelAnswer.setAnswer("False");
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rdbTrue:
+                        shareViewModelAnswer.setAnswer("True");
+                        break;
+                    case R.id.rdbFalse:
+                        shareViewModelAnswer.setAnswer("False");
+                        break;
+                }
             }
         });
     }
+
     //Hàm set up Data cho các câu hỏi, với câu hỏi được truyền về từ Fragment
     private void updateQuestionDetails(Question question) {
         if (question != null) {
             tvFrameLayoutNoiDungCauHoiTF.setText(question.getNoiDungCauHoi());
         }
     }
+
     //Hàm set up CheckBox để nó hiển thị 1 trong 2 CheckBox true false mà thôi
     //Đồng thời nhận đáp án và gửi lên Activity qua SharedViewModel
-    private void handleCheckBoxClick(CheckBox selectedCheckBox) {
-        resetCheckBoxs();
-        selectedCheckBox.setChecked(true);
-        shareViewModelAnswer.setAnswer(String.valueOf(selectedCheckBox.getText()));
+//    private void handleRadioButtonClick(RadioButton selectedButton) {
+//        resetRadioButtons();
+//        selectedButton.setChecked(true);
+//        shareViewModelAnswer.setAnswer(String.valueOf(selectedButton.getText()));
+//    }
+
+    private void resetRadioButtons() {
+        rdgTrueFalse.clearCheck(); // Bỏ chọn tất cả các RadioButton trong RadioGroup
     }
 
-    private void resetCheckBoxs() {
-        cbTrue_Essay_Quiz_User.setChecked(false);
-        cbFalse_Essay_Quiz_User.setChecked(false);
-    }
     //Hàm nhận đáp án từ SharedViewModel để set up CheckBox
     private void setAnswer(String answer) {
         if (answer.equals("True")) {
-            cbTrue_Essay_Quiz_User.setChecked(true);
-            cbFalse_Essay_Quiz_User.setChecked(false);
-            return;
+            rdbTrue.setChecked(true);
+            rdbFalse.setChecked(false);
         } else if (answer.equals("False")) {
-            cbFalse_Essay_Quiz_User.setChecked(true);
-            cbTrue_Essay_Quiz_User.setChecked(false);
+            rdbFalse.setChecked(true);
+            rdbTrue.setChecked(false);
         } else {
-            cbTrue_Essay_Quiz_User.setChecked(false);
-            cbFalse_Essay_Quiz_User.setChecked(false);
+            rdbTrue.setChecked(false);
+            rdbFalse.setChecked(false);
         }
     }
+
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".View.User_Quiz_Test_True_False_Fragment">
 
@@ -12,61 +13,50 @@
         android:layout_height="50dp"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:fontFamily="@font/alata"
-        android:textColor="@color/brown"
-        android:text="Quiz Question 1"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/cbTrue_Essay_Quiz_User"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-        <TextView
-            android:id="@+id/textView68"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="10.5pt"
-            android:textColor="@color/black"
-            android:textStyle="italic"
-            android:fontFamily="@font/alata"
-            android:layout_gravity="center"
-            android:text="True" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
+        android:fontFamily="@font/adlam_display"
+        android:textColor="@color/brown"
+        android:text="Question: "/>
+
+    <RadioGroup
+        android:id="@+id/rdgTrueFalse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/cbFalse_Essay_Quiz_User"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+        <RadioButton
+            android:id="@+id/rdbTrue"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/true_icon"
+            android:button="@android:color/transparent"
+            android:textAlignment="center"
+            android:textColor="@drawable/custom_true_false_text_color"
+            android:fontFamily="@font/adlam_display"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_marginRight="10dp"
+            android:text="True"
+            app:drawableTint="@drawable/custom_true_false_text_color"
+            android:background="@drawable/custom_true_false_background"/>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="10.5pt"
-            android:textColor="@color/black"
-            android:textStyle="italic"
-            android:fontFamily="@font/alata"
-            android:layout_gravity="center"
-            android:text="False" />
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/rdbFalse"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:drawableTop="@drawable/false_icon"
+            android:button="@android:color/transparent"
+            android:textAlignment="center"
+            android:textColor="@drawable/custom_true_false_text_color"
+            android:fontFamily="@font/adlam_display"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_marginLeft="10dp"
+            android:text="False"
+            app:drawableTint="@drawable/custom_true_false_text_color"
+            android:background="@drawable/custom_true_false_background"/>
+    </RadioGroup>
+
+
 </LinearLayout>

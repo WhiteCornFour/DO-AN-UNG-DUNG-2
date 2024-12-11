@@ -1,39 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".View.User_Quiz_Test_Essay_Fragment" >
-
+    tools:context=".View.User_Quiz_Test_Essay_Fragment">
 
     <TextView
         android:id="@+id/tvNDCH_Essay_Quiz_User"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="10.5pt"
-        android:textColor="@color/black"
-        android:fontFamily="@font/alata"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="40dp"
-        android:text="Nội dung câu hỏi: " />
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/adlam_display"
+        android:textColor="@color/brown"
+        android:text="Question: " />
 
-    <EditText
-        android:id="@+id/edtTLEssay_Quiz_User"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:background="@drawable/border_rounded_forgotpass"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="@color/black"
-        android:textSize="9pt"
-        android:fontFamily="@font/alata"
-        android:textStyle="normal"
-        android:paddingStart="20dp"
-        android:padding="30dp"
-        android:hint="Vui lòng điền đáp án tại đây..." />
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/shape_green"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeWidthFocused="2dp"
+        app:hintTextColor="@color/shape_green"
+        app:counterEnabled="true"
+        app:counterMaxLength="50"
+        app:backgroundTint="@color/shape_green"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtTLEssay_Quiz_User"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/adlam_display"
+            android:hint="Your answer"
+            android:textColor="@color/black"
+            android:inputType="textMultiLine"
+            android:gravity="top|left"
+            android:lines="5"
+            android:maxLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 </LinearLayout>

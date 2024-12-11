@@ -108,7 +108,6 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                     //Dữ liệu của user lấy từ bundle khác null
                     if (user != null) {
                         idMaNguoiDungStatic = user.getMaNguoiDung();
-                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
                         tvUserNameQuiz.setText(user.getTenNguoiDung());
                         // Lưu thông tin người dùng vào SharedPreferences
                         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -126,9 +125,10 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                     String userName = sharedPreferences.getString("userName", null);
                     String passWord = sharedPreferences.getString("passWord", null);
                     user = userHandler.getUserInfo(userName, passWord);
+                    Log.d("User Info", "Mã người dùng: " + user.getMaNguoiDung());
                     if (user != null) {
                         idMaNguoiDungStatic = user.getMaNguoiDung();
-                        Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
+                        Log.d("Ma Nguoi Dung Static", idMaNguoiDungStatic);
                         tvUserNameQuiz.setText(user.getTenNguoiDung());
                     } else {
                         Log.d("User Error", "Could not retrieve user from SharedPreferences.");
@@ -159,6 +159,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         }else {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);
+            idMaNguoiDungStatic = user.getMaNguoiDung();
+            Log.d("User Resume", "Mã người dùng: " + user.getMaNguoiDung());
             tvUserNameQuiz.setText(user.getTenNguoiDung());
         }
     }
@@ -246,7 +248,9 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         int[] imageResources = {
                 R.drawable.cute_monkey_cartoon,
                 R.drawable.cute_mole_cartoon,
-                R.drawable.cute_sheep_cartoon
+                R.drawable.cute_sheep_cartoon,
+                R.drawable.cute_fox_cartoon,
+                R.drawable.cute_penguin_cartoon
         };
 
         // Sử dụng Random để chọn ngẫu nhiên một hình ảnh
@@ -254,10 +258,8 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
         int randomIndex = random.nextInt(imageResources.length);
         int selectedImage = imageResources[randomIndex];
 
-        // Gán hình ảnh ngẫu nhiên cho imgCuteAnimalRandom
         imgCuteAnimalRandom.setImageResource(selectedImage);
 
-        // Thiết lập màu sắc dựa trên hình ảnh được chọn
         switch (selectedImage) {
             case R.drawable.cute_monkey_cartoon:
                 layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.lime));
@@ -272,6 +274,16 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             case R.drawable.cute_sheep_cartoon:
                 layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.red_background));
                 tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+                break;
+
+            case R.drawable.cute_fox_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.orange_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.orange));
+                break;
+
+            case R.drawable.cute_penguin_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.yellow_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.yellow));
                 break;
 
             default:

@@ -13,9 +13,10 @@
         android:layout_height="50dp"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:fontFamily="@font/alata"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/adlam_display"
         android:textColor="@color/brown"
-        android:text="Quiz Question 1"/>
+        android:text="Question: "/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_question_radio_button"
                 android:button="@android:color/transparent"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:text="A"
                 android:textAlignment="center"
                 android:textColor="@drawable/custom_question_text_view"
@@ -45,8 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/alata"
-                android:text="Nội dung câu A"
+                android:fontFamily="@font/adlam_display"
+                android:text="A Description"
                 android:textColor="@color/mist"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -63,7 +64,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_question_radio_button"
                 android:button="@android:color/transparent"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:text="B"
                 android:textAlignment="center"
                 android:textColor="@drawable/custom_question_text_view"
@@ -74,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/alata"
-                android:text="Nội dung câu B"
+                android:fontFamily="@font/adlam_display"
+                android:text="B Description"
                 android:textColor="@color/mist"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -92,7 +93,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_question_radio_button"
                 android:button="@android:color/transparent"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:text="C"
                 android:textAlignment="center"
                 android:textColor="@drawable/custom_question_text_view"
@@ -103,8 +104,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/alata"
-                android:text="Nội dung câu C"
+                android:fontFamily="@font/adlam_display"
+                android:text="C Description"
                 android:textColor="@color/mist"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -121,7 +122,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_question_radio_button"
                 android:button="@android:color/transparent"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:text="D"
                 android:textAlignment="center"
                 android:textColor="@drawable/custom_question_text_view"
@@ -132,8 +133,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/alata"
-                android:text="Nội dung câu D"
+                android:fontFamily="@font/adlam_display"
+                android:text="D Description"
                 android:textColor="@color/mist"
                 android:textSize="15sp" />
         </LinearLayout>

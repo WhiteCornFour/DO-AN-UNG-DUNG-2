@@ -89,7 +89,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         String query = "Update " + TABLE_NAME + " SET thoiGianKetThuc = ?, tongThoiGianLamBai = ?, soLuongCauDung = ?, diem = ? " +
                 "WHERE maBaiLam = ? AND maBaiTap = ? AND maNguoiDung = ?";
-        sqLiteDatabase.execSQL(query, new String[]{thoiGianKetThucInput,
+        sqLiteDatabase.execSQL(query, new Object[]{thoiGianKetThucInput,
                 tongThoiGianLamBaiInput, String.valueOf(soLuongCauDungInput), String.valueOf(diemInput),
         maBaiLamInput, maBaiTapInput, maNguoiDungInput});
         sqLiteDatabase.close();

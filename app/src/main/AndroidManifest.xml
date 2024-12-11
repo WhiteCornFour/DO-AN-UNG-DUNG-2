@@ -70,7 +70,7 @@
         <activity
             android:name=".View.User_Quiz_Test"
             android:exported="false"
-            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User" />
+            android:theme="@style/Theme.DoAnUngDung2.NoActionBar.User.MC" />
         <activity
             android:name=".View.User_Quiz_List"
             android:exported="false"
