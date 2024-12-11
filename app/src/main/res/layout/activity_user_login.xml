@@ -17,6 +17,7 @@
             android:layout_width="250dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             app:srcCompat="@drawable/logo_no_background" />
 
         <LinearLayout
@@ -62,8 +63,8 @@
                     android:drawableStart="@drawable/custom_account_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
                     android:hint="Account"
+                    android:fontFamily="@font/adlam_display"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -71,29 +72,29 @@
 
             </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/edtLoginPassword"
-                        android:layout_width="330dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/custom_edit_text"
-                        android:drawableStart="@drawable/custom_password_icon"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:fontFamily="@font/alata"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:textColor="@color/brown"
-                        android:nextFocusDown="@id/btnLoginUser" />
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/edtLoginPassword"
+                    android:layout_width="330dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_edit_text"
+                    android:drawableStart="@drawable/custom_password_icon"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:fontFamily="@font/adlam_display"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/brown"
+                    android:nextFocusDown="@id/btnLoginUser" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layoutSwitchVerification"
@@ -107,19 +108,20 @@
                     android:id="@+id/cbswitchStatusLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/brown"
                     android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/alata"
-                    android:text="Remember me?"
                     android:layout_gravity="center"
                     android:layout_marginRight="5dp"
-                    android:textStyle="italic"
-                    android:textColor="@color/black" />
+                    android:fontFamily="@font/adlam_display"
+                    android:text="Remember me"
+                    android:textColor="@color/brown"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -131,13 +133,11 @@
                         android:id="@+id/tvForgotyourpassword"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/alata"
-                        android:textColor="@color/brown"
-                        android:text="Forgot your password ?"
-                        android:textSize="7pt"
-                        android:layout_marginLeft="22dp"
+                        android:fontFamily="@font/adlam_display"
+                        android:text="Forgot password?"
+                        android:textSize="16dp"
+                        android:layout_marginLeft="26dp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
             </LinearLayout>
 
@@ -170,8 +170,7 @@
                     android:layout_height="wrap_content"
                     android:text="Don't have an account?"
                     android:textSize="16dp"
-                    android:fontFamily="@font/alata"
-                    android:textColor="@color/brown"
+                    android:fontFamily="@font/adlam_display"
                     android:textStyle="italic" />
 
                 <TextView
@@ -180,12 +179,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
                     android:text="Register Now !"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:textColor="@color/brown"
                     android:textSize="16dp"
                     android:textStyle="bold|italic" />
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tvLoginAD"
                 android:layout_width="wrap_content"
@@ -193,14 +191,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="80dp"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:textColor="@color/brown"
                 android:gravity="center"
                 android:text="Login with admin" />
-
-
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>
-

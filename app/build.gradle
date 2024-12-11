@@ -40,7 +40,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-core:17.3.0'
     implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:19.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
     implementation 'com.google.firebase:firebase-ml-natural-language-translate:22.0.1'
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.1'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'

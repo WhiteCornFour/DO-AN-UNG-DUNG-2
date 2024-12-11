@@ -21,14 +21,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <LinearLayout
         android:id="@+id/layoutChooseLanguage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/background_white_translate_language_bar"
+        android:elevation="20dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -36,29 +40,61 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTranslatorTitle"
         app:layout_constraintVertical_bias="0.04">
 
-        <Spinner
-            android:id="@+id/spinnerFromCountry"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="3dp" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgInputLanguage"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/usa_icon" />
+
+            <TextView
+                android:id="@+id/tvInputLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/adlam_display"
+                android:gravity="center"
+                android:text="English"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
 
         <ImageView
-            android:layout_width="0dp"
+            android:id="@+id/imgChangeLanguage"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:src="@drawable/baseline_arrow_right_alt_24"
-            app:tint="@color/shape_green"
-            android:layout_gravity="center"/>
+            app:tint="@color/shape_green" />
 
-        <Spinner
-            android:id="@+id/spinnerToCountry"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="3dp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvOutputLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/adlam_display"
+                android:gravity="center"
+                android:text="Vietnamese"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/imgOutputLanguage"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/vietnam_icon" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,6 +109,9 @@
         app:boxStrokeColor="@color/shape_green"
         app:counterEnabled="true"
         app:counterMaxLength="250"
+        app:endIconDrawable="@drawable/baseline_volume_up_24"
+        app:endIconMode="custom"
+        app:endIconTint="@color/shape_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutChooseLanguage">
@@ -83,7 +122,7 @@
             android:layout_height="170dp"
             android:fontFamily="@font/alata"
             android:gravity="top|left"
-            android:hint="Translation"
+            android:hint="English"
             android:inputType="textMultiLine"
             android:lines="5"
             android:maxLines="5"
@@ -91,76 +130,81 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvOr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/adlam_display"
-        android:text="Or"
-        android:textColor="@color/shape_green"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutInputContent"
-        app:layout_constraintVertical_bias="0.053" />
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifViewTranslateMic"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        app:tint="@color/shape_green"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:src="@drawable/mic_translate_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOr" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnTranslate"
+        app:layout_constraintTop_toBottomOf="@+id/layoutInputContent"
+        app:tint="@color/shape_green" />
 
-    <TextView
-        android:id="@+id/textView94"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/adlam_display"
-        android:gravity="center"
-        android:text="Say something"
-        android:textColor="@color/shape_green"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gifViewTranslateMic" />
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifCopyWordOutput"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/copy_word_icon"
+        app:layout_constraintEnd_toStartOf="@+id/gifViewTranslateMic"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnTranslate"
+        app:layout_constraintTop_toBottomOf="@+id/layoutInputContent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTranslate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:textAllCaps="false"
-        app:cornerRadius="10dp"
-        android:text="Translate"
-        app:backgroundTint="@color/shape_green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView94" />
-
-    <TextView
-        android:id="@+id/tvTextTranslate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/adlam_display"
-        android:gravity="center"
-        android:layout_marginTop="40dp"
+        android:text="Translate"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/shape_green"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@id/gifViewTranslateMic"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutInputContent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutOutputContent"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="100dp"
-        android:text="Text Translate"
-        android:textColor="@color/shape_green"
-        android:textSize="18sp"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/shape_green"
+        app:endIconDrawable="@drawable/baseline_volume_up_24"
+        app:endIconMode="custom"
+        app:endIconTint="@color/shape_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTranslate"
-        app:layout_constraintVertical_bias="0.262" />
+        app:layout_constraintTop_toBottomOf="@id/btnTranslate"
+        app:layout_constraintVertical_bias="0.123">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtOutputContent"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:enabled="false"
+            android:fontFamily="@font/alata"
+            android:gravity="top|left"
+            android:hint="Vietnamese"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxLines="5"
+            android:scrollbars="vertical" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

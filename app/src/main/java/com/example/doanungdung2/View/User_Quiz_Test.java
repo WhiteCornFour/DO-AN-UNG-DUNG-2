@@ -15,11 +15,14 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +37,16 @@ import com.example.doanungdung2.Model.SharedViewModel_Questions;
 import com.example.doanungdung2.Model.SharedViewModel_AfterClickAnswer;
 import com.example.doanungdung2.R;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class User_Quiz_Test extends AppCompatActivity {
     private static  final String DB_NAME = "AppHocTiengAnh";
@@ -50,6 +58,8 @@ public class User_Quiz_Test extends AppCompatActivity {
     TextView tvTenBaiTapQuizTest, tvThoiGianLamBai;
     RecyclerView rvCauHoiQuizTest;
     Button btnSubmitQuiz;
+    GifImageView gifTopLeft, gifTopRight, gifBottomLeft, gifBottomRight;
+    GifDrawable gifTopLeftDrawable, gifTopRightDrawable, gifBottomLeftDrawable, gifBottomRightDrawable;
     FrameLayout frameLayoutQuizTest;
     ArrayList<Question> questionArrayList = new ArrayList<>();
     User_Quiz_Test_Custom_Adapter user_quiz_test_custom_adapter;
@@ -60,6 +70,31 @@ public class User_Quiz_Test extends AppCompatActivity {
     CountDownTimer countDownTimer;
     AssignmentHandler assignmentHandler;
     AssignmentDetailHandler assignmentDetailHandler;
+    int[] gifTopLeftResources = {
+            R.drawable.octopus_gif,
+            R.drawable.koala_gif,
+            R.drawable.elephant_gif,
+            R.drawable.frog_gif,
+            R.drawable.jaguar_gif
+    };
+
+    int[] gifTopRightResources = {
+            R.drawable.leaf_gif,
+            R.drawable.leaves_gif,
+            R.drawable.curry_gif
+    };
+
+    int[] gifBottomLeftResources = {
+            R.drawable.cactus_gif,
+            R.drawable.flower_pot_gif,
+            R.drawable.mint_gif,
+
+    };
+
+    int[] gifBottomRightResources = {
+            R.drawable.agave_gif,
+            R.drawable.olives_gif
+    };
     String maCauHoiSelected = "";
     String maBaiLam = "";
     int tongSoCau = 0;
@@ -78,9 +113,11 @@ public class User_Quiz_Test extends AppCompatActivity {
         shareViewModelAnswer = new ViewModelProvider(this).get(SharedViewModel_Answer.class);
         sharedViewModel_afterClickAnswer = new ViewModelProvider(this).get(SharedViewModel_AfterClickAnswer.class);
         //Lấy câu trả lời từ fragment thông qua ShareViewModel để truyền về activity
+        Log.d("Answer", "Câu trả lời đã chọn: " + shareViewModelAnswer.getAnswer());
         if (shareViewModelAnswer.getAnswer() != null)
         {
             shareViewModelAnswer.getAnswer().observe(User_Quiz_Test.this, this::getAnswerFromQuizTest);
+            Log.d("Answer", "Câu trả lời đã chọn: " + shareViewModelAnswer.getAnswer());
         }
         //Nhận intent từ quiz list activity
         exercise = getIntentExercise();
@@ -107,8 +144,13 @@ public class User_Quiz_Test extends AppCompatActivity {
             assignmentDetailHandler.insertAssignmentDetail(assigmentDetail);
             Log.d("Thanh cong ", String.valueOf(i++));
         }
+        pauseGif();
         //Sự kiện
-        addEvent();
+        try {
+            addEvent();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     //Hàm truyeenf vào 1 list question sau đó chuyển sang 1 list string số thứ tự từ 1 đến độ dài list questions
     ArrayList<String> convertObjectToString (ArrayList<Question> questions) {
@@ -136,6 +178,14 @@ public class User_Quiz_Test extends AppCompatActivity {
         rvCauHoiQuizTest = findViewById(R.id.rvCauHoiQuizTest);
         btnSubmitQuiz = findViewById(R.id.btnSubmitQuiz);
         frameLayoutQuizTest = findViewById(R.id.frameLayoutQuizTest);
+        gifTopLeft = findViewById(R.id.gifTopLeft);
+        gifTopRight = findViewById(R.id.gifTopRight);
+        gifBottomLeft = findViewById(R.id.gifBottomLeft);
+        gifBottomRight = findViewById(R.id.gifBottomRight);
+        gifTopLeftDrawable = (GifDrawable) gifTopLeft.getDrawable();
+        gifTopRightDrawable = (GifDrawable) gifTopRight.getDrawable();
+        gifBottomLeftDrawable = (GifDrawable) gifBottomLeft.getDrawable();
+        gifBottomRightDrawable = (GifDrawable) gifBottomRight.getDrawable();
     }
     //Hàm nhận đáp án từ các fragment gửi qua ShareViewModel_Answer
     void getAnswerFromQuizTest(String dapan)
@@ -155,7 +205,7 @@ public class User_Quiz_Test extends AppCompatActivity {
             assignmentDetailHandler.upDateAssignmentDetail(maCauHoiSelected, maBaiLam, dapan, ketQuaCauTraLoi);
         }
     }
-    void addEvent() {
+    void addEvent() throws IOException {
         //Xử lý khi ng dùng thoát đột ngột
         imgBackToQuizFragment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +220,20 @@ public class User_Quiz_Test extends AppCompatActivity {
                 createAlertDialogSubmitTest().show();
             }
         });
+        applyRandomGif(gifTopLeft, gifTopLeftResources);
+        applyRandomGif(gifTopRight, gifTopRightResources);
+        applyRandomGif(gifBottomLeft,gifBottomLeftResources);
+        applyRandomGif(gifBottomRight, gifBottomRightResources);
+
+        applyTouchListener(gifTopLeft, gifTopLeftResources);
+        applyTouchListener(gifTopRight, gifTopRightResources);
+        applyTouchListener(gifBottomLeft, gifBottomLeftResources);
+        applyTouchListener(gifBottomRight, gifBottomRightResources);
+
+        startGifWithRandomInterval(gifTopLeft, gifTopLeftResources);
+        startGifWithRandomInterval(gifTopRight, gifTopRightResources);
+        startGifWithRandomInterval(gifBottomLeft, gifBottomLeftResources);
+        startGifWithRandomInterval(gifBottomRight, gifBottomRightResources);
     }
 
     //function count down time
@@ -215,6 +279,7 @@ public class User_Quiz_Test extends AppCompatActivity {
         tvTenBaiTapQuizTest.setText(exercise.getTenBaiTap());
         tvThoiGianLamBai.setText(exercise.getThoiGian());
         tongSoCau = exercise.getSoCau();
+        Log.d("Tong so cau ", String.valueOf(tongSoCau));
         String maDBT = exercise.getMaDangBaiTap();
 
         Log.d("DEBUG", "Ma dang bai tap: " + maDBT);
@@ -236,7 +301,11 @@ public class User_Quiz_Test extends AppCompatActivity {
         rvCauHoiQuizTest.setItemAnimator(new DefaultItemAnimator());
         user_quiz_test_custom_adapter = new User_Quiz_Test_Custom_Adapter(dataSource, questionArrayList ,new User_Quiz_Test_Custom_Adapter.ItemClickListener() {
             @Override
-            public void onItemClick(Question question) {
+            public void onItemClick(Question question) throws IOException {
+                applyRandomGif(gifTopLeft, gifTopLeftResources);
+                applyRandomGif(gifTopRight, gifTopRightResources);
+                applyRandomGif(gifBottomLeft,gifBottomLeftResources);
+                applyRandomGif(gifBottomRight, gifBottomRightResources);
                 Log.d("Quesiton: ", question.getNoiDungCauHoi());
                 maCauHoiSelected = question.getMaCauHoi();
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -269,6 +338,7 @@ public class User_Quiz_Test extends AppCompatActivity {
                     }
                 }
             }
+
         });
         rvCauHoiQuizTest.setAdapter(user_quiz_test_custom_adapter);
     }
@@ -323,22 +393,110 @@ public class User_Quiz_Test extends AppCompatActivity {
         String thoiGianKetThuc = String.valueOf(LocalDateTime.now());
         String thoiGianBatDau = User_Quiz_List.getThoiGianBatDau();
         String tongThoiGianLamBai = tinhTongThoiGian(thoiGianBatDau, thoiGianKetThuc);
+        Log.d("Tong thoi gian lam bai", tongThoiGianLamBai);
         int soLuongCauDung = assignmentDetailHandler.countRightAnswer(maBaiLam);
+        Log.d("So Luong Cau Dung", String.valueOf(soLuongCauDung));
         float diem = (soLuongCauDung * 10f) / tongSoCau;
+        Log.d("Diem", String.valueOf(diem));
         String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
-//        Log.d("thoiGianKetThuc: ", thoiGianKetThuc);
-//        Log.d("thoiGianBatDau", thoiGianBatDau);
-//        Log.d("tongThoiGianLamBai", tongThoiGianLamBai);
-//        Log.d("soLuongCauDung", String.valueOf(soLuongCauDung));
-//        Log.d("diem", String.valueOf(diem));
-//        Log.d("maNguoiDung", maNguoiDung);
-//        Log.d("maBaiTap", exercise.getMaBaiTap());
-//        Log.d("manguoiDung ", maBaiLam);
+        if (maNguoiDung != null) {
+            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung khong null", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung null", Toast.LENGTH_LONG).show();
+        }
+        Log.d("Ma Bai Lam", maBaiLam);
+        Log.d("Ma Bai Tap", exercise.getMaBaiTap());
         assignmentHandler.updateAssignmentPoint(thoiGianKetThuc, tongThoiGianLamBai, soLuongCauDung, diem,
                 maBaiLam, exercise.getMaBaiTap(), maNguoiDung);
         Intent intent = new Intent(User_Quiz_Test.this, User_Quiz_Result.class);
         intent.putExtra("maBaiLamTR", maBaiLam);
         startActivity(intent);
     }
+
+    private void pauseGif() {
+        if (gifTopLeftDrawable != null) gifTopLeftDrawable.stop();
+        if (gifTopRightDrawable != null) gifTopRightDrawable.stop();
+        if (gifBottomLeftDrawable != null) gifBottomLeftDrawable.stop();
+        if (gifBottomRightDrawable != null) gifBottomRightDrawable.stop();
+    }
+
+    private int getRandomGifResource(int[] gifResources) {
+        Random random = new Random();
+        return gifResources[random.nextInt(gifResources.length)];
+    }
+
+    private void applyRandomGif(final GifImageView gifImageView, final int[] gifResources) throws IOException {
+        int randomGifResource = getRandomGifResource(gifResources);
+        GifDrawable gifDrawable = new GifDrawable(getResources(), randomGifResource);
+        gifImageView.setImageDrawable(gifDrawable);
+
+        gifDrawable.pause();
+        gifImageView.setAlpha(1.0f);
+    }
+
+
+    //phat lai gif
+    private void applyTouchListener(final GifImageView gifImageView, final int[] gifResources) {
+        gifImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final GifDrawable gifDrawable = (GifDrawable) gifImageView.getDrawable();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        gifImageView.setAlpha(0.7f);
+                        if (gifDrawable != null) {
+                            gifDrawable.start();  //bat dau phat gif khi nhan
+                        }
+
+                        //tao handler dung gif sau 10s
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (gifDrawable != null) {
+                                    gifDrawable.stop();  //dung gif sau 10s
+                                }
+                            }
+                        }, 10000);
+
+                    case MotionEvent.ACTION_UP:
+                        gifImageView.setAlpha(1.0f);
+                        break;
+
+                    default:
+                        return false;
+                }
+                return true;
+            }
+        });
+    }
+
+
+
+    // khoi dong gif trong khaon thoi gian ngau nhien tu 20s toi 60s thi chay 1 lan
+    private void startGifWithRandomInterval(final GifImageView gifImageView, final int[] gifResources) {
+        final Random random = new Random();
+        int delayTime = 20000 + random.nextInt(40000);  //random trong khoang 20 tơi 60s
+        //tao handler chay lai gif
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                GifDrawable gifDrawable = (GifDrawable) gifImageView.getDrawable();
+
+                gifDrawable.start();
+
+                // tao handler de dung gif
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (gifDrawable != null) {
+                            gifDrawable.stop();  //dung gif sau 10s
+                        }
+                    }
+                }, 10000);
+            }
+        }, delayTime);
+    }
+
 
 }

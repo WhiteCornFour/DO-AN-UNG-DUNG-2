@@ -3,8 +3,12 @@ package com.example.doanungdung2.View;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +18,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +37,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
@@ -51,16 +58,16 @@ import pl.droidsonroids.gif.GifImageView;
 public class User_Translation_Fragment extends Fragment {
 
     private static int REQUEST_PERMISSION_CODE = 1;
-    Spinner spinnerFromCountry, spinnerToCountry;
-    TextInputEditText edtInputContent;
-    GifImageView gifViewTranslateMic;
+    TextInputLayout layoutInputContent, layoutOutputContent;
+    TextInputEditText edtInputContent, edtOutputContent;
+    ImageView imgChangeLanguage, imgInputLanguage, imgOutputLanguage;
+    GifImageView gifViewTranslateMic, gifCopyWordOutput;
     MaterialButton btnTranslate;
-    TextView tvTextTranslate;
-    ArrayAdapter<String> fromAdapter;
-    ArrayAdapter<String> toAdapter;
-    String[] fromLanguages = {"From", "English", "Vietnamese"};
-    String[] toLanguages = {"To", "English", "Vietnamese"};
-    int languageCode, fromLanguageCode, toLanguageCode = 0;
+    TextView tvInputLanguage, tvOutputLanguage;
+    int fromLanguageCode = 11;
+    int toLanguageCode = 57;
+
+    TextToSpeech textToSpeech;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -108,72 +115,98 @@ public class User_Translation_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user__translation_, container, false);
         addControl(view);
-        fromAdapter = new ArrayAdapter<>(getActivity(), R.layout.user_translation_fragment_custom_adapter_spinner, fromLanguages);
-        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerFromCountry.setAdapter(fromAdapter);
 
-        toAdapter = new ArrayAdapter<>(getActivity(), R.layout.user_translation_fragment_custom_adapter_spinner, toLanguages);
-        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerToCountry.setAdapter(toAdapter);
+        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US); // Mặc định
+                }
+            }
+        });
 
         addEvent();
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+
+        super.onDestroy();
+    }
+
     void addControl(View view) {
-        spinnerFromCountry = view.findViewById(R.id.spinnerFromCountry);
-        spinnerToCountry = view.findViewById(R.id.spinnerToCountry);
+        layoutInputContent = view.findViewById(R.id.layoutInputContent);
+        layoutOutputContent = view.findViewById(R.id.layoutOutputContent);
         edtInputContent = view.findViewById(R.id.edtInputContent);
+        edtOutputContent = view.findViewById(R.id.edtOutputContent);
         gifViewTranslateMic = view.findViewById(R.id.gifViewTranslateMic);
+        gifCopyWordOutput = view.findViewById(R.id.gifCopyWordOutput);
         btnTranslate = view.findViewById(R.id.btnTranslate);
-        tvTextTranslate = view.findViewById(R.id.tvTextTranslate);
+        imgChangeLanguage = view.findViewById(R.id.imgChangeLanguage);
+        imgInputLanguage = view.findViewById(R.id.imgInputLanguage);
+        imgOutputLanguage = view.findViewById(R.id.imgOutputLanguage);
+        tvInputLanguage = view.findViewById(R.id.tvInputLanguage);
+        tvOutputLanguage = view.findViewById(R.id.tvOutputLanguage);
     }
 
     void addEvent() {
-        spinnerFromCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        imgChangeLanguage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                fromLanguageCode = getLanguageCode(fromLanguages[position]);
-            }
+            public void onClick(View v) {
+                Drawable inputImageDrawable = imgInputLanguage.getDrawable();
+                Drawable outputImageDrawable = imgOutputLanguage.getDrawable();
+                imgInputLanguage.setImageDrawable(outputImageDrawable);
+                imgOutputLanguage.setImageDrawable(inputImageDrawable);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                String inputLanguageText = tvInputLanguage.getText().toString();
+                String outputLanguageText = tvOutputLanguage.getText().toString();
+                tvInputLanguage.setText(outputLanguageText);
+                tvOutputLanguage.setText(inputLanguageText);
 
+                layoutInputContent.setHint(outputLanguageText);
+                layoutOutputContent.setHint(inputLanguageText);
+
+                fromLanguageCode = getLanguageCode(tvInputLanguage.getText().toString());
+                toLanguageCode = getLanguageCode(tvOutputLanguage.getText().toString());
+
+                Log.d("LanguageSwitch", "From Code: " + fromLanguageCode + ", To Code: " + toLanguageCode);
             }
         });
 
-        spinnerToCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        layoutInputContent.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                toLanguageCode = getLanguageCode(toLanguages[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Locale inputLocale = getLocaleFromLanguageCode(fromLanguageCode);
+                speakText(edtInputContent.getText().toString().trim(), inputLocale);
             }
         });
+
+        layoutOutputContent.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Locale outputLocale = getLocaleFromLanguageCode(toLanguageCode);
+                speakText(edtOutputContent.getText().toString().trim(), outputLocale);
+            }
+        });
+
 
         btnTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvTextTranslate.setText("");
+                edtOutputContent.setText("");
                 if(edtInputContent.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(),"Please enter your text to translate", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (fromLanguageCode == 0){
-                    Toast.makeText(getActivity(),"Please select source language", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (toLanguageCode == 0) {
-                    Toast.makeText(getActivity(),"Please select language to make translation", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     translateText(fromLanguageCode, toLanguageCode, edtInputContent.getText().toString());
                 }
             }
         });
-
-
 
         gifViewTranslateMic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +229,45 @@ public class User_Translation_Fragment extends Fragment {
             }
         });
 
+        gifCopyWordOutput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!edtOutputContent.getText().toString().isEmpty())
+                {
+                    ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clipData = ClipData.newPlainText("Copy: ", edtOutputContent.getText().toString().trim());
+                    clipboardManager.setPrimaryClip(clipData);
+
+                    clipData.getDescription();
+
+                    Toast.makeText(getActivity(), "Copy text successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "There is nothing to copy!!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    private void speakText(String text, Locale locale) {
+        if (textToSpeech != null) {
+            textToSpeech.setLanguage(locale);
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            Log.e("TextToSpeech", "TextToSpeech not initialized");
+        }
+    }
+
+
+    private Locale getLocaleFromLanguageCode(int languageCode) {
+        switch (languageCode) {
+            case 57: //tieng viet
+                return new Locale("vi");
+            case 11: //tieng anh
+                return Locale.US;
+            default:
+                return Locale.US; // Mặc định là tiếng Anh
+        }
     }
 
     @Override
@@ -243,7 +315,7 @@ public class User_Translation_Fragment extends Fragment {
     }
 
     private void translateText(int fromLanguageCode, int toLanguageCode, String source) {
-        tvTextTranslate.setText("Downloading model...");
+        edtOutputContent.setText("Downloading model...");
 
         FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                 .setSourceLanguage(fromLanguageCode)
@@ -260,11 +332,11 @@ public class User_Translation_Fragment extends Fragment {
         translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                tvTextTranslate.setText("Translating...");
+                edtOutputContent.setText("Translating...");
                 translator.translate(source).addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        tvTextTranslate.setText(s);
+                        edtOutputContent.setText(s);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
