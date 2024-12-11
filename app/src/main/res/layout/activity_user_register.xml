@@ -17,47 +17,37 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="250dp"
-            android:layout_height="175.27dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             app:srcCompat="@drawable/logo_no_background" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Master English, Master Your World!"
-            android:fontFamily="@font/alata"
-            android:textColor="@color/brown"
-            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/backgr_boder_nendam"
+            android:background="@drawable/backgr_lv_grammar_user"
             android:orientation="vertical">
 
-
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tvLoginTopic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="60dp"
-                android:layout_marginBottom="40dp"
-                android:background="@drawable/backgr_radius_chochu"
-                android:fontFamily="@font/alata"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:text="Register"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/adlam_display"
+                android:text="Let's get started!"
                 android:textColor="@color/brown"
-                android:textSize="15pt"
-                android:textStyle="bold" />
+                android:textSize="16.5pt"
+                android:textStyle="bold"
+                android:layout_marginLeft="42dp"/>
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:textSize="9pt"
+                android:layout_marginLeft="42dp"
+                android:layout_marginTop="5dp"
+                android:text="Create your new account" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,7 +64,7 @@
                     android:drawableStart="@drawable/custom_user_name_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="User name"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
@@ -97,7 +87,7 @@
                     android:drawableStart="@drawable/custom_account_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="Account"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
@@ -120,7 +110,7 @@
                     android:drawableStart="@drawable/custom_password_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="Password"
                     android:inputType="textPassword"
                     android:paddingStart="12dp"
@@ -143,7 +133,7 @@
                     android:drawableStart="@drawable/custom_rewrite_password_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="Confirm password"
                     android:inputType="textPassword"
                     android:paddingStart="12dp"
@@ -166,7 +156,7 @@
                     android:drawableStart="@drawable/custom_phone_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="Phone"
                     android:inputType="number"
                     android:paddingStart="12dp"
@@ -189,7 +179,7 @@
                     android:drawableStart="@drawable/custom_email_icon"
                     android:drawablePadding="12dp"
                     android:ems="10"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:hint="Email"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
@@ -205,7 +195,7 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="8pt"
                 android:backgroundTint="@color/brown"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:padding="10dp"
                 android:background="@drawable/backgr_button_green"
                 android:text="Get in study !"
@@ -223,19 +213,17 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/brown"
                     android:textStyle="italic"
                     android:layout_marginRight="5dp"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:text="Already have an account ?" />
 
                 <TextView
                     android:id="@+id/tvSignInRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/brown"
                     android:textStyle="italic|bold"
-                    android:fontFamily="@font/alata"
+                    android:fontFamily="@font/adlam_display"
                     android:text="Sign in !" />
             </LinearLayout>
         </LinearLayout>

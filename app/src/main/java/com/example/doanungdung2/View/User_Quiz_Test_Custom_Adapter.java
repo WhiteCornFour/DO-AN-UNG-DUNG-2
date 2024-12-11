@@ -17,6 +17,7 @@ import com.example.doanungdung2.Model.AssignmentDetail;
 import com.example.doanungdung2.Model.Question;
 import com.example.doanungdung2.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Quiz_Test_Custom_Adapter.MyViewHolder>{
@@ -48,7 +49,11 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
         //chon san cau so 1 moi khi hien vao 1 bai test
         if(selectedPosition == 0) {
             Question question1 = arrayListQuestion.get(0);
-            itemClickListener.onItemClick(question1);
+            try {
+                itemClickListener.onItemClick(question1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         Question question = arrayListQuestion.get(position);
@@ -67,7 +72,11 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
             notifyDataSetChanged();
             Log.d("Debug click", question.getNoiDungCauHoi());
             // Gọi sự kiện click từ giao diện
-            itemClickListener.onItemClick(question);
+            try {
+                itemClickListener.onItemClick(question);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
     }
@@ -109,6 +118,6 @@ public class User_Quiz_Test_Custom_Adapter extends RecyclerView.Adapter<User_Qui
     }
 
     public interface ItemClickListener {
-        void onItemClick(Question question);
+        void onItemClick(Question question) throws IOException;
     }
 }

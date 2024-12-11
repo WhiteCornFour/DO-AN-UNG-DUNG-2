@@ -9,7 +9,10 @@ public class User implements Serializable {
     String matKhau;
     String soDienThoai;
     String email;
+    String cheDoXacNhan;
+    String maXacNhan;
     byte[] anhNguoiDung;
+
     public String getMaNguoiDung() {
         return maNguoiDung;
     }
@@ -58,6 +61,22 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public String getCheDoXacNhan() {
+        return cheDoXacNhan;
+    }
+
+    public void setCheDoXacNhan(String cheDoXacNhan) {
+        this.cheDoXacNhan = cheDoXacNhan;
+    }
+
+    public String getMaXacNhan() {
+        return maXacNhan;
+    }
+
+    public void setMaXacNhan(String maXacNhan) {
+        this.maXacNhan = maXacNhan;
+    }
+
     public byte[] getAnhNguoiDung() {
         return anhNguoiDung;
     }
@@ -66,13 +85,15 @@ public class User implements Serializable {
         this.anhNguoiDung = anhNguoiDung;
     }
 
-    public User(String maNguoiDung, String tenNguoiDung, String taiKhoan, String matKhau, String soDienThoai, String email, byte[] anhNguoiDung) {
+    public User(String maNguoiDung, String tenNguoiDung, String taiKhoan, String matKhau, String soDienThoai, String email, String cheDoXacNhan, String maXacNhan, byte[] anhNguoiDung) {
         this.maNguoiDung = maNguoiDung;
         this.tenNguoiDung = tenNguoiDung;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
         this.soDienThoai = soDienThoai;
         this.email = email;
+        this.cheDoXacNhan = cheDoXacNhan;
+        this.maXacNhan = maXacNhan;
         this.anhNguoiDung = anhNguoiDung;
     }
 

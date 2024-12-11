@@ -15,126 +15,149 @@
         <ImageView
             android:id="@+id/imageViewContent"
             android:layout_width="250dp"
-            android:layout_height="175.27dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             app:srcCompat="@drawable/logo_no_background" />
 
-        <TextView
-            android:id="@+id/textViewContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:fontFamily="@font/alata"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Master English, Master Your World!" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgr_lv_grammar_user"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvLoginTopic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/adlam_display"
+                android:text="Login"
+                android:textColor="@color/brown"
+                android:textSize="18pt"
+                android:textStyle="bold"
+                android:layout_marginLeft="42dp"/>
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:textSize="9pt"
+                android:layout_marginLeft="42dp"
+                android:layout_marginTop="5dp"
+                android:text="Welcome Back" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/backgr_boder_nendam"
+                android:layout_height="55dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/edtLoginAccount"
+                    android:layout_width="330dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_edit_text"
+                    android:drawableStart="@drawable/custom_account_icon"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Account"
+                    android:fontFamily="@font/adlam_display"
+                    android:inputType="textPersonName"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/brown" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edtLoginPassword"
+                    android:layout_width="330dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/custom_edit_text"
+                    android:drawableStart="@drawable/custom_password_icon"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:fontFamily="@font/adlam_display"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textColor="@color/brown"
+                    android:nextFocusDown="@id/btnLoginUser" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutSwitchVerification"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbswitchStatusLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/brown"
+                    android:layout_gravity="center" />
 
                 <TextView
-                    android:id="@+id/tvLoginTopic"
+                    android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/backgr_radius_chochu"
-                    android:fontFamily="@font/alata"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="14dp"
-                    android:text="Login"
+                    android:layout_marginRight="5dp"
+                    android:fontFamily="@font/adlam_display"
+                    android:text="Remember me"
                     android:textColor="@color/brown"
-                    android:textSize="15pt"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/edtLoginAccount"
-                        android:layout_width="330dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/custom_edit_text"
-                        android:drawableStart="@drawable/custom_account_icon"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:fontFamily="@font/alata"
-                        android:hint="Account"
-                        android:inputType="textPersonName"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:textColor="@color/brown" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/edtLoginPassword"
-                        android:layout_width="330dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/custom_edit_text"
-                        android:drawableStart="@drawable/custom_password_icon"
-                        android:drawablePadding="12dp"
-                        android:ems="10"
-                        android:fontFamily="@font/alata"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:textColor="@color/brown"
-                        android:nextFocusDown="@id/btnLoginUser" />
-                </LinearLayout>
-
-                <TextView
-                android:id="@+id/tvForgotyourpassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="40dp"
-                android:gravity="right"
-                android:fontFamily="@font/alata"
-                android:textColor="@color/brown"
-                android:text="Forgot your password ?"
-                android:textSize="7pt"
-                android:textStyle="italic" />
-
-                <Button
-                    android:id="@+id/btnLoginUser"
-                    android:layout_width="275dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="25pt"
-                    android:backgroundTint="@color/brown"
-                    android:background="@drawable/backgr_button_green"
-                    android:fontFamily="@font/alata"
-                    android:padding="10dp"
-                    android:text="LOGIN"
-                    android:textColor="@color/white"
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvForgotyourpassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/adlam_display"
+                        android:text="Forgot password?"
+                        android:textSize="16dp"
+                        android:layout_marginLeft="26dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLoginUser"
+                android:layout_width="275dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="@color/brown"
+                android:background="@drawable/backgr_button_green"
+                android:fontFamily="@font/alata"
+                android:padding="10dp"
+                android:text="LOGIN"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -147,8 +170,7 @@
                     android:layout_height="wrap_content"
                     android:text="Don't have an account?"
                     android:textSize="16dp"
-                    android:fontFamily="@font/alata"
-                    android:textColor="@color/brown"
+                    android:fontFamily="@font/adlam_display"
                     android:textStyle="italic" />
 
                 <TextView
@@ -156,13 +178,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
-                    android:text="Register Now !!!"
-                    android:fontFamily="@font/alata"
+                    android:text="Register Now !"
+                    android:fontFamily="@font/adlam_display"
                     android:textColor="@color/brown"
                     android:textSize="16dp"
                     android:textStyle="bold|italic" />
             </LinearLayout>
-
             <TextView
                 android:id="@+id/tvLoginAD"
                 android:layout_width="wrap_content"
@@ -170,14 +191,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="80dp"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:textColor="@color/brown"
                 android:gravity="center"
                 android:text="Login with admin" />
-
-
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>
-

@@ -5,39 +5,57 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.HistoryHandler;
+import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
+
+import java.util.Locale;
 
 public class User_Dictionary_Details extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     TextView tvTuTiengAnhDictionary, tvTuTiengVietDictionary, tvLoaiTuDictionary, tvGioiTuDictionary, tvCachPhatAmDictionary, tvNguCanhDictionary, tvNguCanhTVDictionary;
-    ImageView imgBackToDictionaryFragment, imgTuVung, imgBookMark;
+    ImageView imgBackToDictionaryFragment, imgTuVung, imgBookMark, imgTuVungSpeaker;
     HistoryHandler historyHandler;
     String maNguoiDung = "";
     String maTuVung= "";
     boolean isBookmarked = false;
-
+    TextToSpeech textToSpeech;
+    Dictionary dictionary;
+    UserHandler userHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dictionary_details);
         addControl();
         historyHandler = new HistoryHandler(User_Dictionary_Details.this, DB_NAME, null, DB_VERSION);
+        userHandler = new UserHandler(User_Dictionary_Details.this, DB_NAME, null, DB_VERSION);
         Intent intent = getIntent();
-        Dictionary dictionary = (Dictionary) intent.getSerializableExtra("dictionary");
+        dictionary = (Dictionary) intent.getSerializableExtra("dictionary");
 
         maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
+        if (maNguoiDung == null)
+        {
+            //lấy dữ liệu từ local lên để load thông tin cho người dùng
+            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+            String userName = sharedPreferences.getString("userName", null);
+            String passWord = sharedPreferences.getString("passWord", null);
+            User user = userHandler.getUserInfo(userName, passWord);
+            maNguoiDung = user.getMaNguoiDung();
+        }
         maTuVung = dictionary.getMaTuVung();
         checkBookmarkStatus();
         setUpTextView(dictionary);
@@ -48,6 +66,7 @@ public class User_Dictionary_Details extends AppCompatActivity {
         imgBackToDictionaryFragment = findViewById(R.id.imgBackToDictionaryFragment);
         imgTuVung = findViewById(R.id.imgTuVung);
         imgBookMark = findViewById(R.id.imgBookMark);
+        imgTuVungSpeaker = findViewById(R.id.imgTuVungSpeaker);
         tvTuTiengAnhDictionary = findViewById(R.id.tvTuTiengAnhDictionary);
         tvTuTiengVietDictionary = findViewById(R.id.tvTuTiengVietDictionary);
         tvLoaiTuDictionary = findViewById(R.id.tvLoaiTuDictionary);
@@ -95,8 +114,30 @@ public class User_Dictionary_Details extends AppCompatActivity {
             }
         });
 
+        textToSpeech = new TextToSpeech(User_Dictionary_Details.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.US); // ngon ngu chon la US
+                }
+            }
+        });
 
+        imgTuVungSpeaker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speakText(dictionary.getTuTiengAnh());
+            }
+        });
 
+    }
+
+    private void speakText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+            //TextToSpeech.QUEUE_FLUSH:Cách thức xử lý hàng đợi của các lệnh phát âm.
+            //QUEUE_FLUSH có nghĩa là xóa hết các văn bản đang chờ trong hàng đợi và phát âm văn bản mới ngay lập tức.
+        }
     }
 
     void setUpTextView(Dictionary dictionary) {

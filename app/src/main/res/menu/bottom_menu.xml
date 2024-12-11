@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/quiz"
+        android:title="Quiz"
+        android:icon="@drawable/custom_quiz_icon"/>
+
+    <item
+        android:id="@+id/dictionary"
+        android:title="Dictionary"
+        android:icon="@drawable/custom_dictionary_icon"/>
+
+    <item
+        android:id="@+id/fab"
+        android:title=""
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/grammar"
+        android:title="Grammar"
+        android:icon="@drawable/custom_grammar_icon"/>
+
+    <item
+        android:id="@+id/sentences"
+        android:title="Sentences"
+        android:icon="@drawable/custom_sentence_icon"/>
+</menu>

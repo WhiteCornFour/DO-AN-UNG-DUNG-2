@@ -89,7 +89,7 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
         String query = "Update " + TABLE_NAME + " SET thoiGianKetThuc = ?, tongThoiGianLamBai = ?, soLuongCauDung = ?, diem = ? " +
                 "WHERE maBaiLam = ? AND maBaiTap = ? AND maNguoiDung = ?";
-        sqLiteDatabase.execSQL(query, new String[]{thoiGianKetThucInput,
+        sqLiteDatabase.execSQL(query, new Object[]{thoiGianKetThucInput,
                 tongThoiGianLamBaiInput, String.valueOf(soLuongCauDungInput), String.valueOf(diemInput),
         maBaiLamInput, maBaiTapInput, maNguoiDungInput});
         sqLiteDatabase.close();
@@ -185,5 +185,22 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         }
         sqLiteDatabase.close();
         return assignment;
+    }
+    public boolean updateStatusQuiz(String maNguoiDungInput, String maBaiTapInput)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READWRITE);
+        String  query = "Select * from " + TABLE_NAME + " Where MaNguoiDung = ? AND MaBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maNguoiDungInput, maBaiTapInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+            cursor.close();
+        }
+        sqLiteDatabase.close();
+        return check;
     }
 }

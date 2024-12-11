@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289901518060",
+    "project_id": "fir-translator-b7f30",
+    "storage_bucket": "fir-translator-b7f30.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289901518060:android:d74ae7fdf336377a3259c9",
+        "android_client_info": {
+          "package_name": "com.example.doanungdung2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR-AEoTn3Oww8q21lw6MFzPPG9hpfdRNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

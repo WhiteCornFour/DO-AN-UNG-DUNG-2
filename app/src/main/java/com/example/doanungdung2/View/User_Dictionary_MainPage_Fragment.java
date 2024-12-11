@@ -1,9 +1,13 @@
 package com.example.doanungdung2.View;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanungdung2.Controller.DictionaryHandler;
@@ -25,6 +30,8 @@ import com.example.doanungdung2.Controller.HistoryHandler;
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.Dictionary;
 import com.example.doanungdung2.Model.History;
+import com.example.doanungdung2.Model.SharedViewModel_User;
+import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
 
 import java.util.ArrayList;
@@ -37,17 +44,8 @@ import java.util.Random;
  * create an instance of this fragment.
  */
 public class User_Dictionary_MainPage_Fragment extends Fragment {
-    private static final String DB_NAME = "AppHocTiengAnh";
-    private static final int DB_VERSION = 1;
-    RecyclerView rvSearchHistory;
-    AutoCompleteTextView autoCompleteSearchTV;
-    HistoryHandler historyHandler;
-    UserHandler userHandler;
-    DictionaryHandler dictionaryHandler;
-    ArrayList<Dictionary> dictionaryArrayList = new ArrayList<>();
-    ArrayList<Dictionary> filteredDictionaryList = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-    User_History_CustomAdapter_RecyclerView user_history_custom_adapter_recycler_view;
+
+    TextView tvDictionaryChoose, tvTranslationChoose, tvDictionaryTitle;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,139 +94,56 @@ public class User_Dictionary_MainPage_Fragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment__dictionary, container, false);
         addControl(view);
 
-        historyHandler = new HistoryHandler(getActivity(), DB_NAME, null, DB_VERSION);
-        userHandler = new UserHandler(getActivity(), DB_NAME, null, DB_VERSION);
-        dictionaryHandler = new DictionaryHandler(getActivity(), DB_NAME, null, DB_VERSION);
+        if (savedInstanceState == null) {
+            replaceFragment(new User_Dictionary_Fragment());
+        }
 
-        dictionaryArrayList = dictionaryHandler.loadAllDataOfDictionary();
-        //set search goi y se hien ra khi chi moi danh 1 tu, mac dinh la 2
-        autoCompleteSearchTV.setThreshold(1);
-
-        setupRecyclerView();
-        loadAllHistory();
         addEvent();
         return view;
     }
 
     void addControl(View view) {
-        rvSearchHistory = view.findViewById(R.id.rvSearchHistory);
-        autoCompleteSearchTV = view.findViewById(R.id.autoCompleteSearchTV);
+        tvDictionaryChoose = view.findViewById(R.id.tvDictionaryChoose);
+        tvTranslationChoose = view.findViewById(R.id.tvTranslationChoose);
+        tvDictionaryTitle = view.findViewById(R.id.tvDictionaryTitle);
     }
 
     void addEvent() {
-        autoCompleteSearchTV.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        autoCompleteSearchTV.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                // Lấy gợi ý đầu tiên từ adapter
-                if (adapter.getCount() > 0) {
-                    String searchText = autoCompleteSearchTV.getText().toString().trim();
-
-                    // Thực hiện tìm kiếm với gợi ý đã chọn
-                    Dictionary dictionaryResult = dictionaryHandler.searchDictionary(searchText);
-
-                    if (dictionaryResult != null) {
-                        Toast.makeText(getActivity(), "Tu duoc Search " + dictionaryResult.getTuTiengAnh(), Toast.LENGTH_SHORT).show();
-                        String maTuVung = dictionaryResult.getMaTuVung();
-                        String maLichSu = createAutoHistoryCode("LS");
-                        String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
-                        String uaThich = historyHandler.getDictionaryBookmarkStatus(maTuVung, maNguoiDung);
-//                        Log.d("uaThich", uaThich);
-
-                        //them lich su tim kiem
-                        History history = new History(maLichSu, maTuVung, maNguoiDung, uaThich);
-                        //xoa lich su cu them lich su moi
-                        historyHandler.deleteHistory(maTuVung, maNguoiDung);
-                        historyHandler.insertHistory(history);
-
-                        //set up lai danh sach trong recycler view
-                        setupRecyclerView();
-                        loadAllHistory();
-
-                        Dictionary d = new Dictionary();
-                        d = dictionaryHandler.getDetailDictionary(maTuVung);
-                        //truyen du lieu qua trang detail dictionary
-                        Intent intent = new Intent(getActivity(), User_Dictionary_Details.class);
-                        intent.putExtra("dictionary", d);
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(getActivity(), "No results found for: " + searchText, Toast.LENGTH_SHORT).show();
-                    }
-                    autoCompleteSearchTV.setText("");
-                }
-                return true;
-            }
-            return false;
-        });
-
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, new ArrayList<>());
-        autoCompleteSearchTV.setAdapter(adapter);
-
-        autoCompleteSearchTV.addTextChangedListener(new TextWatcher() {
+        tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button);
+        tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
+        tvDictionaryChoose.setTextColor(getContext().getColor(R.color.white));
+        tvTranslationChoose.setTextColor(getContext().getColor(R.color.shape_green));
+        tvDictionaryTitle.setText("Dictionary");
+        tvDictionaryChoose.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keyword = s.toString();
-                ArrayList<String> suggestions = dictionaryHandler.getSuggestions(keyword);
-
-                // Giới hạn số lượng gợi ý tối đa là 5
-                if (suggestions.size() > 5) {
-                    suggestions = new ArrayList<>(suggestions.subList(0, 5));
-                }
-
-                adapter.clear();
-                adapter.addAll(suggestions);
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-    }
-
-    public static String createAutoHistoryCode(String kyTuDau)
-    {
-        Random random = new Random();
-        // Tạo chuỗi số ngẫu nhiên 9 chữ số
-        StringBuilder code = new StringBuilder(kyTuDau);
-        for (int i = 0; i < 9; i++) {
-            int digit = random.nextInt(10); // Tạo số ngẫu nhiên từ 0 đến 9
-            code.append(digit);
-        }
-        return code.toString();
-    }
-
-    void loadAllHistory() {
-        filteredDictionaryList.clear();
-        String maNguoiDungInput = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
-        ArrayList<History> historyList = historyHandler.loadAllDataOfHistory(maNguoiDungInput);
-        for (History history : historyList) {
-            for (Dictionary dictionary : dictionaryArrayList) {
-                if (dictionary.getMaTuVung().equals(history.getMaTuVung())) {
-                    filteredDictionaryList.add(dictionary);
-                    break;
-                }
-            }
-        }
-        Collections.reverse(filteredDictionaryList);
-        user_history_custom_adapter_recycler_view.setHistoryList(filteredDictionaryList);
-    }
-
-
-    void setupRecyclerView() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        rvSearchHistory.setLayoutManager(layoutManager);
-        rvSearchHistory.setItemAnimator(new DefaultItemAnimator());
-        user_history_custom_adapter_recycler_view = new User_History_CustomAdapter_RecyclerView(dictionaryArrayList, new User_History_CustomAdapter_RecyclerView.ItemClickListener() {
-            @Override
-            public void onItemClick(Dictionary dictionary) {
-                Intent intent = new Intent(getActivity(), User_Dictionary_Details.class);
-                intent.putExtra("dictionary", dictionary);
-                startActivity(intent);
+            public void onClick(View v) {
+                tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button);
+                tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
+                tvDictionaryChoose.setTextColor(getContext().getColor(R.color.white));
+                tvTranslationChoose.setTextColor(getContext().getColor(R.color.shape_green));
+                tvDictionaryTitle.setText("Dictionary");
+                replaceFragment(new User_Dictionary_Fragment());
             }
         });
-        rvSearchHistory.setAdapter(user_history_custom_adapter_recycler_view);
-    }
 
+        // Handle tvTranslationChoose click event
+        tvTranslationChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvTranslationChoose.setBackgroundResource(R.drawable.tab_bar_button);
+                tvDictionaryChoose.setBackgroundResource(R.drawable.tab_bar_button_default);
+                tvDictionaryChoose.setTextColor(getContext().getColor(R.color.shape_green));
+                tvTranslationChoose.setTextColor(getContext().getColor(R.color.white));
+                tvDictionaryTitle.setText("Translation");
+                replaceFragment(new User_Translation_Fragment());
+            }
+        });
+    }
+  
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayoutDictionaryFragment, fragment);
+        fragmentTransaction.commit();
+    }
 }

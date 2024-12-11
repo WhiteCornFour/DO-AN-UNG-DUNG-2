@@ -102,11 +102,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alata"
-            android:textSize="15sp"
-            android:text="Off" />
+            android:showText="false"
+
+            android:text="Off"
+            android:textAllCaps="false"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutEditVerificationCode"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

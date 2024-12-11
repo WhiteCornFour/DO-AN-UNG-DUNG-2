@@ -17,7 +17,7 @@
     <color name="yellow">#AE7E0F</color>
     <color name="yellow_pastel">#FAF1C0</color>
     <color name="purple">#5B37B7</color>
-    <color name="red">#FF0000</color>
+    <color name="red">#E6F30000</color>
     <color name="transparent">#00000000</color>
     <color name="fade_brown">#A9463838</color>
     <color name="fade_green">#B2B5EABD</color>
@@ -28,4 +28,8 @@
     <color name="pastelBackground">#F8F5F1</color>
     <color name="textDark">#333333</color>
     <color name="textLight">#666666</color>
+    <color name="blue_word">#4872C6</color>
+    <color name="orange_pastel">#F8C5B6</color>
+    <color name="orange">#FF5722</color>
+    <color name="red_background">#D7F69794</color>
 </resources>

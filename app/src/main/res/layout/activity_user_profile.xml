@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.User_Profile"
-    android:background="@color/white">
+    android:background="#EAF1F3">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMother_User"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -115,14 +116,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView16"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewTestResult_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_test_result_list_icon" />
+                    android:src="@drawable/complete" />
 
                 <TextView
                     android:id="@+id/tvMoveToTestListResult"
@@ -144,14 +145,14 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView17"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewBookMark_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_bookmark_word_icon" />
+                    android:src="@drawable/bookmark" />
 
                 <TextView
                     android:id="@+id/tvMoveToWordBookMark"
@@ -204,14 +205,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView18"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewEdit_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="2dp"
+                    android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_user_account" />
+                    android:src="@drawable/edituser" />
 
                 <TextView
                     android:id="@+id/tvMoveToEditUserAccount"
@@ -233,14 +234,14 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView19"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewPrivacy_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="2dp"
+                    android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_security" />
+                    android:src="@drawable/privacygif" />
 
                 <TextView
                     android:id="@+id/tvMoveToPrivacy"
@@ -292,13 +293,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView20"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewWarning_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_report_icon" />
+                    android:src="@drawable/warning" />
 
                 <TextView
                     android:id="@+id/tvMoveToReport"
@@ -320,14 +322,14 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView21"
-                    android:padding="5dp"
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gifImageViewLogout_User"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:padding="4dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="40dp"
-                    app:srcCompat="@drawable/profile_log_out_icon" />
+                    android:src="@drawable/logoutgif" />
 
                 <TextView
                     android:id="@+id/tvLogOut"

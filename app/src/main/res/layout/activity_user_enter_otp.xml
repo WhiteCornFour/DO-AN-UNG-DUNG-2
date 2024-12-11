@@ -11,47 +11,41 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="250dp"
-        android:layout_height="175.27dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
         app:srcCompat="@drawable/logo_no_background" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Master English, Master Your World!" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/backgr_boder_nendam"
-
+        android:background="@drawable/backgr_lv_grammar_user"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="60dp"
-            android:text="OTP SMS"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            android:background="@drawable/backgr_radius_chochu"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/adlam_display"
+            android:text="Verification"
+            android:textColor="@color/brown"
+            android:textSize="18pt"
+            android:textStyle="bold"
+            android:layout_marginLeft="35dp"/>
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:textSize="8pt"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/brown"
+            android:text="Enter the 5 digits code that you received on your sms." />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="70dp"
             android:background="@drawable/border_rounded_forgotpass"
@@ -63,21 +57,22 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/otp" />
 
             <EditText
                 android:id="@+id/edtEnterOTP"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:background="@null"
                 android:ems="10"
-                android:hint="Enter OTP..."
+                android:hint="* * * * *"
                 android:inputType="textPersonName"
                 android:textSize="20dp"
                 android:textStyle="italic"
@@ -88,35 +83,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnBackToForgotPass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:background="@drawable/boder_round_btn_forgotpass"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:fontFamily="@font/alata"
-                android:text="Back" />
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btnComfirmOTP"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@drawable/boder_round_btn_forgotpass"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:fontFamily="@font/alata"
                 android:text="Comfirm" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBackToForgotPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="7.5pt"
+            android:layout_gravity="center"
+            android:textColor="@color/brown"
+            android:layout_marginTop="40dp"
+            android:textStyle="italic"
+            android:text="Back to Forgot Password !" />
 
     </LinearLayout>
 

@@ -87,7 +87,7 @@ public class User_Quiz_Result extends AppCompatActivity {
         }
         exercise = exerciseHandler.convertCodeToExercise(assignment.getMaBaiTap());
         tvAssignmentName.setText(exercise.getTenBaiTap());
-        tvAssignmentTotalRightAnswer.setText(String.valueOf(assignment.getDiem() + "/" + exercise.getSoCau()));
+        tvAssignmentTotalRightAnswer.setText(String.valueOf(assignment.getSoLuongCauDung() + "/" + exercise.getSoCau()));
         tvTotalTimeSpending.setText(assignment.getTongThoiGianLamBai());
         tvAttempt.setText(String.valueOf(assignment.getLanLam()));
     }

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -19,11 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.doanungdung2.Controller.UserHandler;
 import com.example.doanungdung2.Model.User;
 import com.example.doanungdung2.R;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,12 +39,12 @@ import com.example.doanungdung2.R;
 public class User_Quiz_MainPage_Fragment extends Fragment {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
-    TextView tvUserName;
-    ImageView imgUserAccount;
-    Button btnBeginnerQuiz, btnStarterQuiz, btnIntermediateQuiz ,btnProficientQuiz ,btnMasterQuiz;
+    TextView tvUserNameQuiz, tvWelcomeText;
+    ImageView imgCuteAnimalRandom;
+    LinearLayout layoutHeader;
+    LinearLayout beginnerButton, starterButton, intermediateButton ,proficientButton ,masterButton;
     UserHandler userHandler;
     User user;
-  
     public static String idMaNguoiDungStatic;
     String tk = "";
     String mk = "";
@@ -95,26 +101,44 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                user = (User) result.getSerializable("user");
-                idMaNguoiDungStatic = user.getMaNguoiDung();
-                Log.d("Ma Nguoi Dung", idMaNguoiDungStatic);
-                tvUserName.setText("Hi, " + user.getTenNguoiDung());
-              
-                byte[] anhNguoiDung = user.getAnhNguoiDung();
-                if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                    imgUserAccount.setImageResource(R.drawable.avt);
+                //Thông tin của user sẽ nhận từ bundle được gửi từ User_MainPage
+                //Trường hợp có dữ liệu
+                if (result != null) {
+                    user = (User) result.getSerializable("user");
+                    //Dữ liệu của user lấy từ bundle khác null
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
+                        // Lưu thông tin người dùng vào SharedPreferences
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("tk", user.getTaiKhoan());
+                        editor.putString("mk", user.getMatKhau());
+                        editor.apply();
+                    } else {
+                        Log.d("User Error", "User object is null");
+                    }
+                //Trường hợp không có dữ liệu
                 } else {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                    imgUserAccount.setImageBitmap(bitmap);
+                    //lấy dữ liệu từ local lên để load thông tin cho người dùng
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                    String userName = sharedPreferences.getString("userName", null);
+                    String passWord = sharedPreferences.getString("passWord", null);
+                    user = userHandler.getUserInfo(userName, passWord);
+                    Log.d("User Info", "Mã người dùng: " + user.getMaNguoiDung());
+                    if (user != null) {
+                        idMaNguoiDungStatic = user.getMaNguoiDung();
+                        Log.d("Ma Nguoi Dung Static", idMaNguoiDungStatic);
+                        tvUserNameQuiz.setText(user.getTenNguoiDung());
+                    } else {
+                        Log.d("User Error", "Could not retrieve user from SharedPreferences.");
+                    }
                 }
-
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("tk", user.getTaiKhoan());
-                editor.putString("mk", user.getMatKhau());
-                editor.apply();
             }
+
         });
+        setRandomWelcomeMessage();
+        setRandomLayoutForQuiz();
         addEvent();
         return view;
     }
@@ -126,50 +150,35 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("User", Context.MODE_PRIVATE);
-        tk = sharedPreferences.getString("tk", null);
-        mk =  sharedPreferences.getString("mk", null);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+        tk = sharedPreferences.getString("userName", null);
+        mk =  sharedPreferences.getString("passWord", null);
         if (tk == null || mk == null)
         {
-            Log.d("Tk && MK", tk + mk);
+            Log.d("User Quiz Mainpage on Resume Tk && MK", tk + mk);
         }else {
             user = new User();
             user = userHandler.getUserInfo(tk, mk);
-            tvUserName.setText("Hi, " + user.getTenNguoiDung());
-            byte[] anhNguoiDung = user.getAnhNguoiDung();
-            if (anhNguoiDung == null || anhNguoiDung.length == 0) {
-                imgUserAccount.setImageResource(R.drawable.avt);
-            } else {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(anhNguoiDung, 0, anhNguoiDung.length);
-                imgUserAccount.setImageBitmap(bitmap);
-            }
+            idMaNguoiDungStatic = user.getMaNguoiDung();
+            Log.d("User Resume", "Mã người dùng: " + user.getMaNguoiDung());
+            tvUserNameQuiz.setText(user.getTenNguoiDung());
         }
     }
 
     void addControl(View view) {
-        tvUserName = view.findViewById(R.id.tvUserName);
-        imgUserAccount = view.findViewById(R.id.imgUserAccount);
-        btnBeginnerQuiz = view.findViewById(R.id.btnBeginnerQuiz);
-        btnStarterQuiz = view.findViewById(R.id.btnStarterQuiz);
-        btnIntermediateQuiz = view.findViewById(R.id.btnIntermediateQuiz);
-        btnProficientQuiz = view.findViewById(R.id.btnProficientQuiz);
-        btnMasterQuiz = view.findViewById(R.id.btnMasterQuiz);
+        tvWelcomeText = view.findViewById(R.id.tvWelcomeText);
+        tvUserNameQuiz = view.findViewById(R.id.tvUserNameQuiz);
+        beginnerButton = view.findViewById(R.id.beginnerButton);
+        starterButton = view.findViewById(R.id.starterButton);
+        intermediateButton = view.findViewById(R.id.intermediateButton);
+        proficientButton = view.findViewById(R.id.proficientButton);
+        masterButton = view.findViewById(R.id.masterButton);
+        imgCuteAnimalRandom = view.findViewById(R.id.imgCuteAnimalRandom);
+        layoutHeader = view.findViewById(R.id.layoutHeader);
     }
     void addEvent()
     {
-        imgUserAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), User_Profile.class);
-                intent.putExtra("tkFromQuizToProfile", tk);
-                intent.putExtra("mkFromQuizToProfile", mk);
-                Log.d("tkFromQuizToDetail: ",tk);
-                Log.d("mkFromQuizToDetail: ",mk);
-                startActivity(intent);
-            }
-        });
-
-        btnBeginnerQuiz.setOnClickListener(new View.OnClickListener() {
+        beginnerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -178,7 +187,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnStarterQuiz.setOnClickListener(new View.OnClickListener() {
+        starterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -187,7 +196,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnIntermediateQuiz.setOnClickListener(new View.OnClickListener() {
+        intermediateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -196,7 +205,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnProficientQuiz.setOnClickListener(new View.OnClickListener() {
+        proficientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -205,7 +214,7 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
             }
         });
 
-        btnMasterQuiz.setOnClickListener(new View.OnClickListener() {
+        masterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), User_Quiz_List.class);
@@ -213,7 +222,75 @@ public class User_Quiz_MainPage_Fragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
     }
+
+    private void setRandomWelcomeMessage() {
+        List<String> welcomeMessages = new ArrayList<>();
+        welcomeMessages.add("It's a great day to start learning English!");
+        welcomeMessages.add("Let’s make today the best day to learn English!");
+        welcomeMessages.add("Every day is a new opportunity to learn English!");
+        welcomeMessages.add("It’s a beautiful day to improve your English skills!");
+        welcomeMessages.add("Learning English is fun – let’s enjoy today’s lesson!");
+        welcomeMessages.add("Today is a perfect day to practice English!");
+        welcomeMessages.add("Let’s take another step toward mastering English today!");
+        welcomeMessages.add("A bright day ahead for improving your English!");
+        welcomeMessages.add("Time to learn and grow – let’s start with English!");
+        welcomeMessages.add("Today is another chance to speak English confidently!");
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(welcomeMessages.size());
+
+        tvWelcomeText.setText(welcomeMessages.get(randomIndex));
+    }
+
+    private void setRandomLayoutForQuiz() {
+        // Danh sách các hình ảnh khả dụng
+        int[] imageResources = {
+                R.drawable.cute_monkey_cartoon,
+                R.drawable.cute_mole_cartoon,
+                R.drawable.cute_sheep_cartoon,
+                R.drawable.cute_fox_cartoon,
+                R.drawable.cute_penguin_cartoon
+        };
+
+        // Sử dụng Random để chọn ngẫu nhiên một hình ảnh
+        Random random = new Random();
+        int randomIndex = random.nextInt(imageResources.length);
+        int selectedImage = imageResources[randomIndex];
+
+        imgCuteAnimalRandom.setImageResource(selectedImage);
+
+        switch (selectedImage) {
+            case R.drawable.cute_monkey_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.lime));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.shape_green));
+                break;
+
+            case R.drawable.cute_mole_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.blue_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_word));
+                break;
+
+            case R.drawable.cute_sheep_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.red_background));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.red));
+                break;
+
+            case R.drawable.cute_fox_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.orange_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.orange));
+                break;
+
+            case R.drawable.cute_penguin_cartoon:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.yellow_pastel));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.yellow));
+                break;
+
+            default:
+                layoutHeader.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.lime));
+                tvUserNameQuiz.setTextColor(ContextCompat.getColor(getActivity(), R.color.shape_green));
+                break;
+        }
+    }
+
 }
