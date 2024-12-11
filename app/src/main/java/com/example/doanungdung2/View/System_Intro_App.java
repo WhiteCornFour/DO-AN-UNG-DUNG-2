@@ -2,12 +2,18 @@ package com.example.doanungdung2.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.doanungdung2.Model.FileManager;
 import com.example.doanungdung2.R;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class System_Intro_App extends AppCompatActivity {
 
@@ -20,6 +26,9 @@ public class System_Intro_App extends AppCompatActivity {
         //Kiểm tra status của tài khoản nếu 1 là chưa đăng xuất
         //Ngước lại 0 là đã đăng xuất
         String status = FileManager.readAccountStatusFile(this, "AccountStatus.txt");
+
+        File filesDir = getFilesDir();
+        File file = new File(filesDir, "AccountStatus.txt");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -38,6 +47,20 @@ public class System_Intro_App extends AppCompatActivity {
                     {
                         startActivity(new Intent(System_Intro_App.this, User_MainPage.class));
                         finish();
+                    }else
+                    {
+                        try {
+                            file.createNewFile();
+                            //Không phải là lần đâu tiên khi người dùng mở app thì chạy intro kèm trang chọn login or register
+                            startActivity(new Intent(System_Intro_App.this, User_Login.class));
+                            finish();
+                            SharedPreferences sharedPreferences = getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }

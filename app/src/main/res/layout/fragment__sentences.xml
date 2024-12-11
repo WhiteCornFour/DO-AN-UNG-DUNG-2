@@ -34,19 +34,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/custom_vienden_green"
+        android:layout_marginBottom="80dp"
+        android:padding="10dp"
         android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lvTopic"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp"
-                android:padding="15dp" />
+        <ListView
+            android:id="@+id/lvTopic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
         </LinearLayout>
 
     </LinearLayout>

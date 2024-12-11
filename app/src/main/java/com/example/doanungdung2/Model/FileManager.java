@@ -1,6 +1,7 @@
 package com.example.doanungdung2.Model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -50,6 +51,10 @@ public class FileManager {
                             }
                         }
                     }
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("ThongTinKhachHang", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
