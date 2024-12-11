@@ -2,69 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="#9b6246"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/backgr_user_lime"
+        android:layout_height="680dp"
+        android:background="@drawable/monkey_hhi"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp">
             <TextView
                 android:id="@+id/textView66"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="17pt"
-                android:gravity="center"
-                android:text="Hi There!" />
+                android:gravity="right"
+                android:layout_marginRight="18dp"
+                android:textSize="16pt"
+                android:fontFamily="@font/adlam_display"
+                android:textColor="@color/shape_green"
+                android:text="Getting started!"
+                android:textStyle="bold"/>
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imglogo"
-            android:layout_width="216dp"
-            android:layout_height="147dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/logo_no_background" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:textColor="@color/black"
-        android:background="@drawable/custom_edt_white"
-        android:text="I have an account"
-        android:textAllCaps="false" />
+        android:layout_height="100dp"
+        android:layout_margin="15dp"
+        android:padding="10dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_relative_layout"
+        android:elevation="10dp">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:background="@drawable/custom_edt_white"
-        android:text="Create an account"
-        android:textColor="@color/black"
-        android:textAllCaps="false" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    <ImageView
-        android:id="@+id/imgMonkey"
-        android:layout_width="270dp"
-        android:layout_height="147dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/english" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_choose_login_1"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="11pt"
+                android:textAllCaps="false" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_choose_login_2"
+                android:text="Register"
+                android:textColor="#3c7962"
+                android:textStyle="bold"
+                android:textSize="11pt"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </RelativeLayout>
+
 
 </LinearLayout>

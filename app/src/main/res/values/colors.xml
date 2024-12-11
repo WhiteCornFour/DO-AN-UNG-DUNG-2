@@ -25,4 +25,7 @@
     <color name="red_pastel">#FF7974</color>
     <color name="gray">#19242760</color>
     <color name="blue_pastel">#DAF0F7</color>
+    <color name="pastelBackground">#F8F5F1</color>
+    <color name="textDark">#333333</color>
+    <color name="textLight">#666666</color>
 </resources>
