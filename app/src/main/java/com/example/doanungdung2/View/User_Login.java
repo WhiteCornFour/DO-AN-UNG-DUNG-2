@@ -204,11 +204,11 @@ public class User_Login extends AppCompatActivity {
                         edtThirdNumber.getText().toString().trim() +
                         edtFourthNumber.getText().toString().trim() +
                         edtFifthNumber.getText().toString().trim();
-                if (verificationCode.isEmpty())
+                if (verificationCode.length() != 5)
                 {
-                    Toast.makeText(User_Login.this, "Please enter code!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(User_Login.this, "Please enter all 5 digits of the verification code!", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (maXacNhan == null & !maXacNhan.equals(verificationCode)) {
+                } else if (maXacNhan == null || !maXacNhan.equals(verificationCode)) {
                     Toast.makeText(User_Login.this, "Verification code is not valid!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
