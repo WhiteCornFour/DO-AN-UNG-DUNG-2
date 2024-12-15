@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:layout_marginTop="3.5dp"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/boder_item_lv_grammar"
         android:backgroundTint="@color/green"
-        android:layout_marginLeft="30dp">
+        android:layout_marginLeft="20dp">
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -20,12 +23,13 @@
             android:id="@+id/tvTNP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="8.5pt"
+            android:textSize="8pt"
             android:textColor="@color/black"
             android:fontFamily="@font/alata"
             android:layout_gravity="center"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
+            android:textStyle="bold"
             android:text="Tên ngữ pháp" />
     </LinearLayout>
 </LinearLayout>

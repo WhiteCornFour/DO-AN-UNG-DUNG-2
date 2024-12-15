@@ -27,7 +27,7 @@
                 android:textSize="9pt"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:fontFamily="@font/alata"
+                android:fontFamily="@font/adlam_display"
                 android:paddingStart="30dp"
                 android:layout_gravity="center"
                 android:layout_weight="1.5"

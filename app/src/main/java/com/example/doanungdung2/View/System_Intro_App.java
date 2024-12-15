@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.doanungdung2.Model.DatabaseHelper;
 import com.example.doanungdung2.Model.FileManager;
 import com.example.doanungdung2.R;
 
@@ -21,6 +22,10 @@ public class System_Intro_App extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_intro_app);
+        //Tạo database cho ứng dụng khi chạy lần đầu
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
+        databaseHelper.copyDatabaseIfNeeded();
+
         //Tạo file theo PATH data/data/files để quản lý đăng nhập và lần đầu mở app
         boolean check = FileManager.checkAndCreateFiles(this);
         //Kiểm tra status của tài khoản nếu 1 là chưa đăng xuất
