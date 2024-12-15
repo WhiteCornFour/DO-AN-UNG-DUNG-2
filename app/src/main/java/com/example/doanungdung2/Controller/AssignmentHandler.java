@@ -203,4 +203,19 @@ public class AssignmentHandler extends SQLiteOpenHelper {
         sqLiteDatabase.close();
         return check;
     }
+    public boolean checkExistedOfExerciseCode(String maBaiTapInput)
+    {
+        boolean check = false;
+        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.OPEN_READONLY);
+        String query = "Select * from " + TABLE_NAME + " WHere maBaiTap = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{maBaiTapInput});
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                check = true;
+            }
+        }
+        return check;
+    }
 }

@@ -111,26 +111,32 @@ public class User_Test_Details_CustomAdapter_RecylerView extends
     }
     private String setNoiDunDapAnDaChon(Question question, String cauTraLoi) {
         String noiDungCauTraLoi = "";
-        if (cauTraLoi.equals("A"))
+        if (cauTraLoi == null || cauTraLoi.isEmpty())
         {
-            noiDungCauTraLoi = question.getCauA();
-        }else if (cauTraLoi.equals("B"))
-        {
-            noiDungCauTraLoi = question.getCauB();
-        }else if (cauTraLoi.equals("C"))
-        {
-            noiDungCauTraLoi = question.getCauC();
-        }else if (cauTraLoi.equals("D"))
-        {
-            noiDungCauTraLoi = question.getCauD();
-        }else if (cauTraLoi.equals("True")) {
-            noiDungCauTraLoi = "";
-        }else if (cauTraLoi.equals("False"))
-        {
-            noiDungCauTraLoi = "";
+            noiDungCauTraLoi = "(Bỏ trống)";
         }else
         {
-            noiDungCauTraLoi = question.getDapAn();
+            if (cauTraLoi.equals("A"))
+            {
+                noiDungCauTraLoi = question.getCauA();
+            }else if (cauTraLoi.equals("B"))
+            {
+                noiDungCauTraLoi = question.getCauB();
+            }else if (cauTraLoi.equals("C"))
+            {
+                noiDungCauTraLoi = question.getCauC();
+            }else if (cauTraLoi.equals("D"))
+            {
+                noiDungCauTraLoi = question.getCauD();
+            }else if (cauTraLoi.equals("True")) {
+                noiDungCauTraLoi = "";
+            }else if (cauTraLoi.equals("False"))
+            {
+                noiDungCauTraLoi = "";
+            }else
+            {
+                noiDungCauTraLoi = question.getDapAn();
+            }
         }
         return noiDungCauTraLoi;
     }

@@ -65,9 +65,9 @@ public class User_Quiz_Test extends AppCompatActivity {
     User_Quiz_Test_Custom_Adapter user_quiz_test_custom_adapter;
     ArrayList<String> dataSource = new ArrayList<>();
     ArrayList<AssignmentDetail> assigmentDetailArrayList = new ArrayList<>();
+    CountDownTimer countDownTimer;
     QuestionHandler questionHandler;
     Exercise exercise = new Exercise();
-    CountDownTimer countDownTimer;
     AssignmentHandler assignmentHandler;
     AssignmentDetailHandler assignmentDetailHandler;
     int[] gifTopLeftResources = {
@@ -375,7 +375,14 @@ public class User_Quiz_Test extends AppCompatActivity {
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                //Lưu lại điểm
                 updateTestPoint();
+                //Đóng bộ đếm giờ
+                countDownTimer.cancel();
+                //Phát nhạc kết thúc làm bài
+                MediaPlayer mediaPlayer = MediaPlayer.create(User_Quiz_Test.this, R.raw.success);
+                mediaPlayer.start();
+
                 dialogInterface.dismiss();
                 finish();
             }
@@ -393,19 +400,19 @@ public class User_Quiz_Test extends AppCompatActivity {
         String thoiGianKetThuc = String.valueOf(LocalDateTime.now());
         String thoiGianBatDau = User_Quiz_List.getThoiGianBatDau();
         String tongThoiGianLamBai = tinhTongThoiGian(thoiGianBatDau, thoiGianKetThuc);
-        Log.d("Tong thoi gian lam bai", tongThoiGianLamBai);
+//        Log.d("Tong thoi gian lam bai", tongThoiGianLamBai);
         int soLuongCauDung = assignmentDetailHandler.countRightAnswer(maBaiLam);
-        Log.d("So Luong Cau Dung", String.valueOf(soLuongCauDung));
+//        Log.d("So Luong Cau Dung", String.valueOf(soLuongCauDung));
         float diem = (soLuongCauDung * 10f) / tongSoCau;
-        Log.d("Diem", String.valueOf(diem));
+//        Log.d("Diem", String.valueOf(diem));
         String maNguoiDung = User_Quiz_MainPage_Fragment.getIdMaNguoiDungStatic();
-        if (maNguoiDung != null) {
-            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung khong null", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung null", Toast.LENGTH_LONG).show();
-        }
-        Log.d("Ma Bai Lam", maBaiLam);
-        Log.d("Ma Bai Tap", exercise.getMaBaiTap());
+//        if (maNguoiDung != null) {
+//            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung khong null", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(User_Quiz_Test.this, "Ma Nguoi Dung null", Toast.LENGTH_LONG).show();
+//        }
+//        Log.d("Ma Bai Lam", maBaiLam);
+//        Log.d("Ma Bai Tap", exercise.getMaBaiTap());
         assignmentHandler.updateAssignmentPoint(thoiGianKetThuc, tongThoiGianLamBai, soLuongCauDung, diem,
                 maBaiLam, exercise.getMaBaiTap(), maNguoiDung);
         Intent intent = new Intent(User_Quiz_Test.this, User_Quiz_Result.class);
@@ -471,8 +478,6 @@ public class User_Quiz_Test extends AppCompatActivity {
         });
     }
 
-
-
     // khoi dong gif trong khaon thoi gian ngau nhien tu 20s toi 60s thi chay 1 lan
     private void startGifWithRandomInterval(final GifImageView gifImageView, final int[] gifResources) {
         final Random random = new Random();
@@ -497,6 +502,4 @@ public class User_Quiz_Test extends AppCompatActivity {
             }
         }, delayTime);
     }
-
-
 }
