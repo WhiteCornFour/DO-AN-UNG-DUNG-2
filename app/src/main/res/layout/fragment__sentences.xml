@@ -15,6 +15,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textSize="28sp"
+        android:fontFamily="@font/adlam_display"
         android:textColor="@color/shape_green"
         android:layout_marginBottom="5dp"/>
 

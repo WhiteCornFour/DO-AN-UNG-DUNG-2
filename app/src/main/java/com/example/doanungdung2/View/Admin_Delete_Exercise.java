@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.doanungdung2.Controller.AssignmentHandler;
 import com.example.doanungdung2.Controller.ExerciseHandler;
 import com.example.doanungdung2.Model.Exercise;
 import com.example.doanungdung2.Model.ExercisesCategory;
@@ -28,6 +29,7 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
     private static final String DB_NAME = "AppHocTiengAnh";
     private static final int DB_VERSION = 1;
     ExerciseHandler exerciseHandler;
+    AssignmentHandler assignmentHandler;
     ArrayList<Exercise> exerciseArrayList = new ArrayList<>();
     ArrayList<Exercise> dataOfSearch = new ArrayList<>();
     Admin_Delete_Exercise_CustomAdapter_LV adapter_lv;
@@ -45,6 +47,8 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
         setContentView(R.layout.activity_admin_delete_exercise);
         addControl();
         exerciseHandler = new ExerciseHandler(Admin_Delete_Exercise.this, DB_NAME, null,
+                DB_VERSION);
+        assignmentHandler = new AssignmentHandler(Admin_Delete_Exercise.this, DB_NAME, null,
                 DB_VERSION);
         //Kiểm tra có intent nào được gửi từ activity xóa dạng bài tập hay không
         //Nếu có Mã Dạng BT được gửi thì tìm kiếm theo MaDBT đó, và load đúng dữ liệu
@@ -120,7 +124,16 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
                     exercise = dataOfSearch.get(i);
                 }
                 String maBT = exercise.getMaBaiTap();
-                createDialog(maBT);
+                boolean kiemTraKhoaNgoaiTrogBaiLam = assignmentHandler.checkExistedOfExerciseCode(maBT);
+                if (!kiemTraKhoaNgoaiTrogBaiLam)
+                {
+                    createDialog(maBT);
+                }else {
+                    Toast.makeText(Admin_Delete_Exercise.this,
+                            "Không thể xóa mã bài tập: " + maBT +
+                                    " \nBởi vì mã này đang tồn tại với vai trò là khóa ngoại của bảng bài làm. \nVui lòng kiểm tra lại các thông tin có liên quan đến bài tập này!",
+                            Toast.LENGTH_LONG).show();
+                }
                 return true;
             }
         });
@@ -246,8 +259,19 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
             }
         }
         for (Exercise ex : exerToDelete) {
-            exerciseHandler.deleteExerciseByCode(ex.getMaBaiTap());
-            exerciseArrayList.remove(ex);
+            boolean check = assignmentHandler.checkExistedOfExerciseCode(ex.getMaBaiTap());
+            if (!check)
+            {
+                exerciseHandler.deleteExerciseByCode(ex.getMaBaiTap());
+                exerciseArrayList.remove(ex);
+                Toast.makeText(this, "Xóa bài tập thành công!", Toast.LENGTH_SHORT).show();
+            }else
+            {
+                Toast.makeText(Admin_Delete_Exercise.this,
+                        "Không thể xóa mã bài tập: " + ex.getMaBaiTap() +
+                                " \nBởi vì mã này đang tồn tại với vai trò là khóa ngoại của bảng bài làm. \nVui lòng kiểm tra lại các thông tin có liên quan đến bài tập này!",
+                        Toast.LENGTH_LONG).show();
+            }
         }
         if (exerciseArrayList.size() != 0)
         {
@@ -257,7 +281,6 @@ public class Admin_Delete_Exercise extends AppCompatActivity {
         {
             loadDataForSearch(maDBT);
         }
-        Toast.makeText(this, "Xóa bài tập thành công!", Toast.LENGTH_SHORT).show();
         adapter_lv.notifyDataSetChanged();
     }
 }
