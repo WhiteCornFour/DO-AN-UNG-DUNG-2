@@ -36,6 +36,7 @@ public class User_Privacy extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
     }

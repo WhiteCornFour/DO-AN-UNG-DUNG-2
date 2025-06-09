@@ -56,6 +56,7 @@ public class Admin_Add_Grammar_Category extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
+        super.onBackPressed();
     }
     void addControl()
     {

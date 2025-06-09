@@ -70,6 +70,7 @@ public class Admin_Edit_Dictionary extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(); // Quay lại Fragment trước đó
     }

@@ -69,6 +69,7 @@ public class Admin_Questions_Exercises extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(); // Quay lại Fragment trước đó
     }

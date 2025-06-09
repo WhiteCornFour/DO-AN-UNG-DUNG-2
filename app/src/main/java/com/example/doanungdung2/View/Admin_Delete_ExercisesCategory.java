@@ -68,6 +68,7 @@ public class Admin_Delete_ExercisesCategory extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(); // Quay lại Fragment trước đó
     }

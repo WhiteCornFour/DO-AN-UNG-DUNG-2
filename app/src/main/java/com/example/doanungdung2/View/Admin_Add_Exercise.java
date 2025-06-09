@@ -81,6 +81,7 @@ public class Admin_Add_Exercise extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
+        super.onBackPressed();
     }
     void addControl()
     {
