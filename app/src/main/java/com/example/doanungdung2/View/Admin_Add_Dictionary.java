@@ -78,6 +78,7 @@ public class Admin_Add_Dictionary extends AppCompatActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(); // Quay lại Fragment trước đó
+        super.onBackPressed();
     }
 
     @Override
